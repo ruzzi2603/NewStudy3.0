@@ -20,5 +20,25 @@
     font-family: inherit;
   }
 }
+p{
+  color: rgb(128, 0, 255);
+}
+#btnt{
+  background-color: rgb(193, 112, 255);
+}
+#link-processor-panel{
+  background: linear-gradient(to right, #b604f7, #90ffda);
+}
+#importer-description{
+  color: rgb(255, 255, 255);
+}
+#url-input{
+background-color: rgb(213, 165, 247);
+}
+#topic-input{
+background-color: rgb(213, 165, 247);
 
-
+}
+#cdc{
+  background: linear-gradient(to right,#f9f9f9,#f9f9f9,#f9f9f9, #a4fff4);
+}

@@ -127,16 +127,16 @@ export default function Dashboard({
         <div>
           <h2 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
             <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
-            <span>Importar Aula do YouTube</span>
+            <span id="importer-description">Importar Aula do YouTube</span>
           </h2>
-          <p className="text-xs text-neutral-450 dark:text-neutral-500 mt-1 font-sans">
+          <p className="text-xs text-neutral-450 dark:text-neutral-500 mt-1 font-sans" id="importer-description">
             Processamento didático em linguagem natural (PT-BR).
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
+            <label id="importer-description" className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
               LINK DO VÍDEO DO YOUTUBE
             </label>
             <input
@@ -144,13 +144,13 @@ export default function Dashboard({
               placeholder="https://www.youtube.com/watch?v=..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#A78BFA] font-sans transition-all"
+              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#ffffff] font-sans transition-all"
               id="url-input"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
+            <label id="importer-description" className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
               ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
             </label>
             <input
@@ -158,7 +158,7 @@ export default function Dashboard({
               placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
-              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#A78BFA] font-sans transition-all"
+              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#ffffff] font-sans transition-all"
               id="topic-input"
             />
           </div>
@@ -206,7 +206,9 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400">Módulos Ativos no Deck</span>
+              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+                Módulos Ativos no Deck
+              </span>
               <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
                 {usageStats ? `${usageStats.lectures.current} / ${usageStats.lectures.limit}` : "0 / 15"}
               </span>
@@ -225,7 +227,9 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400">Gerações por IA (Últimas 24h)</span>
+              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+                Gerações por IA (Últimas 24h)
+              </span>
               <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
                 {usageStats ? `${usageStats.generations.current} / ${usageStats.generations.limit}` : "0 / 5"}
               </span>
@@ -244,7 +248,9 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400">Perguntas ao Tutor (Últimas 24h)</span>
+              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+                Perguntas ao Tutor (Últimas 24h)
+              </span>
               <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
                 {usageStats ? `${usageStats.chatQuestions.current} / ${usageStats.chatQuestions.limit}` : "0 / 30"}
               </span>
@@ -356,7 +362,7 @@ export default function Dashboard({
         <motion.div
           initial={{ opacity: 0, x: -15 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-5"
+          className="lg:col-span-5" id="linkhero"
         >
           {renderImporterCard(false)}
         </motion.div>
@@ -471,9 +477,9 @@ export default function Dashboard({
                         mass: 0.8
                       }}
                       className="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-850 hover:border-neutral-350 dark:hover:border-neutral-750 rounded-2xl p-6 transition-all flex flex-col gap-3 relative cursor-pointer shadow-xs"
-                      id={`lecture-card-${lecture.id}`}
+                   id="cdc"
                     >
-                      <div className="flex justify-between items-start gap-4">
+                      <div className="flex justify-between items-start gap-4" >
                         <div className="flex flex-col gap-1 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="text-[10px] font-sans font-bold tracking-wider uppercase text-neutral-450 dark:text-neutral-500">

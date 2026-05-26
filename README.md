@@ -1,6 +1,6 @@
-# Lumina Study 📚✨
+# NewStudy 📚✨
 
-Lumina Study é uma plataforma de estudos inteligente baseada em Inteligência Artificial que transforma vídeos educativos, seminários acadêmicos e links de aulas gravadas do YouTube em **pacotes completos de aprendizado ativo com alta taxa de retenção**. 
+NewStudy é uma plataforma de estudos inteligente baseada em Inteligência Artificial que transforma vídeos educativos, seminários acadêmicos e links de aulas gravadas do YouTube em **pacotes completos de aprendizado ativo com alta taxa de retenção**. 
 
 Alimentada pelo modelo de ponta **Gemini-3.5-Flash** através do SDK nativo do Google, a plataforma analisa o conteúdo em áudio, extrai os conceitos chave e as formulações científicas com alto rigor matemático e pedagógico.
 
@@ -40,8 +40,8 @@ Para rodar este projeto localmente na sua máquina ou implantá-lo em seu própr
 
 ### 1. Clonar o Repositório
 ```bash
-git clone https://github.com/seu-usuario/lumina-study.git
-cd lumina-study
+git clone https://github.com/seu-usuario/NewStudy3.0.git
+cd newstudy3.0
 ```
 
 ### 2. Instalar as Dependências do Projeto
@@ -92,6 +92,18 @@ Agora, abra o seu navegador e acesse: **`http://localhost:3000`**.
   ```bash
   npm run clean
   ```
+## Acessar backend
+ A sequência é: (python -m venv venv
+venv\Scripts\activate) - (pip install -r requirements.txt) - (python manage.py migrate) - (python manage.py createsuperuser) - (python manage.py runserver) - acessse (http://127.0.0.1:8000/admin/)
+
+Quando for adicionar funcionalidades ao backend:
+ Crie as estruturas de migração das 11 tabelas adicionais:
+  
+    python manage.py makemigrations api
+
+Aplique as migrações ao seu arquivo de banco:
+
+     python manage.py migrate
 
 ---
 
@@ -123,3 +135,37 @@ Agora, abra o seu navegador e acesse: **`http://localhost:3000`**.
 ## 📜 Licença
 
 Este software é disponibilizado sob a licença **Apache License 2.0**. Sinta-se à vontade para utilizar, modificar e redistribuir conforme as diretrizes documentadas no arquivo `LICENSE`.
+## Sobre funcionalidades:
+1. Cadastro de Alunos (User)
+O que faz: Exibe a listagem de todos os estudantes que se registraram pela tela de cadastro da plataforma.
+Utilidade: Permite ao Admin gerenciar contas de usuários, alterar dados cadastrais esquecidos, verificar e-mails e auditar a segurança.
+2. Módulos de Estudo (AI) (Lecture)
+O que faz: Monitora todos os materiais sintetizados por inteligência artificial até hoje (slides, resumos, etc.).
+Utilidade: Permite ao Admin ver o que os alunos estão estudando, analisar o formato do JSON gerado e auditar/excluir conteúdo impróprio ou módulos órfãos.
+3. Categorias de Estudo (StudyCategory)
+O que faz: Gerencia as disciplinas temáticas que organizam os estudos no site (ex: "Programação", "Biologia", "Física").
+Utilidade: O Admin pode criar ou mudar ícones (utilizando classes do Lucide) e desativar temporariamente pastas de matérias que o site não deve exibir.
+4. Flashcards de Professores (FlashCardManual)
+O que faz: Um banco de dados de flashcards criados manualmente pela coordenação pedagógica ou professores.
+Utilidade: Permite inserir baralhos acadêmicos prontos de alta qualidade para que o estudante não dependa exclusivamente de flashcards gerados pela IA.
+5. Configurações Globais (SystemSettings)
+O que faz: Controla o comportamento do sistema e as chamadas da IA sem que você precise abrir ou alterar o código-fonte.
+Utilidade: Permite mudar dinamicamente o modelo de IA que o site utilizará (ex: trocar de gemini-1.5-flash para gemini-2.0-flash), ajustar a criatividade da IA ("temperature") e até mesmo ligar ou desligar um Modo Manutenção global.
+6. Feedbacks & Avaliações (StudentFeedback)
+O que faz: Centraliza sugestões, depoimentos, elogios ou bugs que os estudantes enviarem pelo frontend.
+Utilidade: Funciona como um painel de suporte onde o administrador atribui estrelas para o feedback e marca mensagens como "Resolvida/Lida".
+7. Informativos & Banners (SystemAnnouncement)
+O que faz: Modera os banners rotativos de aviso que aparecem na interface do estudante.
+Utilidade: Permite ao Admin postar novidades, datas de provas, promoções acadêmicas e ajustar a cor de destaque do card direto pelo painel de controle.
+8. Cupons de Desconto (AcademicCoupon)
+O que faz: Cria cupons promocionais ou códigos de acesso VIP.
+Utilidade: Permite simular campanhas de liberação de planos premium, gerando códigos reutilizáveis, definindo datas de expiração e limite máximo de resgates.
+9. FAQ & Ajuda (FAQItem)
+O que faz: Gerencia a base de conhecimento e perguntas frequentes do site.
+Utilidade: O administrador pode inserir e ordenar pares de "Pergunta e Resposta" para guiar o estudante que está usando o NewStudy pela primeira vez.
+10. Engenharia de Prompts (AIPromptTemplate)
+O que faz: Guarda as diretrizes (prompts de sistema) utilizadas para conversar com a inteligência artificial do Gemini.
+Utilidade: Permite ao admin alterar o tom, as regras de formatação e os limites éticos das respostas inteligentes fornecidas no chat ou nos slides sem mexer no código python.
+11. Métricas de Estudo (StudentStudySession)
+O que faz: Audita as estatísticas de estudo reais coletadas dos alunos da plataforma (Ex: "Leitura de Slides por 15 minutos" ou "Resolução de Quizzes por 20 minutos").
+Utilidade: Coleta dados analíticos essenciais para que pedagogos entendam o tempo médio gasto e quais matérias engajam mais os alunos no site.

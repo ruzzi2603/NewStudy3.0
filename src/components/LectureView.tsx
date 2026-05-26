@@ -115,7 +115,7 @@ ${formulas}
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-brand-blue dark:text-brand-mint bg-brand-blue/10 border border-brand-blue/20 px-2 py-0.5 rounded uppercase">
+              <span className="text-xs  text-brand-blue dark:text-brand-mint bg-brand-blue/10 border border-brand-blue/20 px-2 py-0.5 rounded uppercase">
                 {lecture.category}
               </span>
               <span className="text-neutral-300 dark:text-neutral-755 text-xs">•</span>
@@ -202,7 +202,7 @@ ${formulas}
             <h4 className="text-sm font-bold text-neutral-950 dark:text-neutral-150">
               {lecture.keyConcept.title}
             </h4>
-            <p className="text-xs text-neutral-505 dark:text-neutral-400 font-sans leading-relaxed">
+            <p className="text-xs text-neutral-505 dark:text-neutral-400 font-sans leading-relaxed" id="key-concept">
               {lecture.keyConcept.body}
             </p>
           </div>
@@ -502,7 +502,7 @@ ${formulas}
                                     setUserAnswers({ ...userAnswers, [q.id]: optIdx });
                                   }}
                                   className={`w-full py-2.5 px-3 rounded-lg border text-left text-xs font-medium cursor-pointer transition-all ${btnStyle}`}
-                                >
+                               id="btnt" >
                                   {option}
                                 </button>
                               );

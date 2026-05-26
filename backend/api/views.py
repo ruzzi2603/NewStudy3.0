@@ -455,3 +455,362 @@ def ask_question(request, pk):
             {"error": f"Falha na resposta inteligente com o assistente: {str(err)}"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+
+from django.http import HttpResponse
+
+@csrf_exempt
+@api_view(['POST'])
+def add_custom_slide_note(request, pk):
+    """
+    1. Adiciona ou atualiza uma anotação de texto personalizada enviada pelo estudante em um slide específico.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+    
+    slide_index = request.data.get('slideIndex')
+    note_text = request.data.get('note', '').strip()
+    
+    if slide_index is None:
+        return Response({"error": "Índice do slide é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    try:
+        slide_index = int(slide_index)
+    except ValueError:
+        return Response({"error": "Índice inválido"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    lecture_data = lecture.data
+    slides = lecture_data.get('slides', [])
+    if slide_index < 0 or slide_index >= len(slides):
+        return Response({"error": "Índice do slide fora dos limites"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    slides[slide_index]['customNote'] = note_text
+    lecture_data['slides'] = slides
+    lecture.data = lecture_data
+    lecture.save()
+    return Response({"success": True, "lecture": lecture_data})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def update_study_progress(request, pk):
+    """
+    2. Atualiza de forma persistente a porcentagem de progresso de estudo concluída do material.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    progress = request.data.get('progress')
+    if progress is None:
+        return Response({"error": "Porcentagem de progresso é obrigatória"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    try:
+        progress = int(progress)
+        if progress < 0 or progress > 100:
+            raise ValueError()
+    except ValueError:
+        return Response({"error": "O progresso deve ser um número inteiro de 0 a 100"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    lecture_data = lecture.data
+    lecture_data['progress'] = progress
+    lecture.data = lecture_data
+    lecture.save()
+    return Response({"success": True, "progress": progress})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def toggle_favorite(request, pk):
+    """
+    3. Alterna a marcação de favorito ('favorite') do módulo de estudos.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    lecture_data = lecture.data
+    is_favorite = lecture_data.get('favorite', False)
+    lecture_data['favorite'] = not is_favorite
+    lecture.data = lecture_data
+    lecture.save()
+    return Response({"success": True, "favorite": lecture_data['favorite']})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def register_quiz_score(request, pk):
+    """
+    4. Registra e computa estatísticas das respostas do quiz realizadas pelo estudante.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    correct = request.data.get('correct')
+    total = request.data.get('total')
+    
+    if correct is None or total is None:
+        return Response({"error": "Dados 'correct' e 'total' do quiz são obrigatórios"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    try:
+        correct = int(correct)
+        total = int(total)
+    except ValueError:
+        return Response({"error": "Pontuação deve ser um número inteiro válido"}, status=status.HTTP_400_BAD_REQUEST)
+
+    lecture_data = lecture.data
+    quiz_stats = lecture_data.get('quizStats')
+    if not isinstance(quiz_stats, dict):
+        quiz_stats = {"attempts": 0, "bestScore": 0, "lastScore": 0}
+    
+    quiz_stats['attempts'] = quiz_stats.get('attempts', 0) + 1
+    quiz_stats['lastScore'] = correct
+    if correct > quiz_stats.get('bestScore', 0):
+        quiz_stats['bestScore'] = correct
+    quiz_stats['totalQuestions'] = total
+    
+    lecture_data['quizStats'] = quiz_stats
+    lecture.data = lecture_data
+    lecture.save()
+    
+    return Response({"success": True, "quizStats": quiz_stats})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def reset_study_data(request, pk):
+    """
+    5. Reseta inteiramente o progresso do módulo de estudos (chat, flashcards, progresso).
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    lecture_data = lecture.data
+    lecture_data['progress'] = 0
+    lecture_data['chatHistory'] = []
+    
+    # Reseta flashcards
+    flashcards = lecture_data.get('flashcards', [])
+    for fc in flashcards:
+        if isinstance(fc, dict):
+            fc['difficulty'] = None
+            fc['reviewState'] = None
+        
+    # Reseta quizStats
+    lecture_data['quizStats'] = {"attempts": 0, "bestScore": 0, "lastScore": 0}
+    
+    lecture.data = lecture_data
+    lecture.save()
+    return Response({"success": True, "lecture": lecture_data})
+
+
+@csrf_exempt
+@api_view(['GET'])
+def export_lecture_markdown(request, pk):
+    """
+    6. Exporta todo o material sintetizado em formato Markdown (.md) para download.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    data = lecture.data
+    title = data.get('title', 'Material de Estudos')
+    summary = data.get('summaryFull', 'Sem resumo disponível.')
+    key_concept = data.get('keyConcept', {})
+    concept_title = key_concept.get('title', 'Conceito Chave') if isinstance(key_concept, dict) else 'Conceito Chave'
+    concept_desc = key_concept.get('description', '') if isinstance(key_concept, dict) else ''
+    
+    markdown_content = f"# {title}\n\n"
+    markdown_content += f"## Resumo Completo\n{summary}\n\n"
+    markdown_content += f"## {concept_title}\n{concept_desc}\n\n"
+    
+    markdown_content += "## Slides de Estudo\n"
+    for idx, slide in enumerate(data.get('slides', [])):
+        if isinstance(slide, dict):
+            markdown_content += f"### Slide {idx+1}: {slide.get('title', '')}\n"
+            markdown_content += f"{slide.get('content', '')}\n"
+            if slide.get('customNote'):
+                markdown_content += f"*Nota do Aluno:* {slide['customNote']}\n"
+            markdown_content += "\n"
+        
+    markdown_content += "## Flashcards de Revisão\n"
+    for idx, fc in enumerate(data.get('flashcards', [])):
+        if isinstance(fc, dict):
+            markdown_content += f"**P:** {fc.get('front', '')}\n"
+            markdown_content += f"**R:** {fc.get('back', '')}\n\n"
+        
+    response = HttpResponse(markdown_content, content_type='text/markdown')
+    response['Content-Disposition'] = f'attachment; filename="newstudy-lecture-{pk}.md"'
+    return response
+
+
+@csrf_exempt
+@api_view(['POST'])
+def add_custom_flashcard(request, pk):
+    """
+    7. Permite ao estudante criar manualmente novos flashcards de fixação personalizados.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    front = request.data.get('front', '').strip()
+    back = request.data.get('back', '').strip()
+    
+    if not front or not back:
+        return Response({"error": "Os campos Frente (pergunta) e Verso (resposta) são obrigatórios"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    lecture_data = lecture.data
+    flashcards = lecture_data.get('flashcards', [])
+    if not isinstance(flashcards, list):
+        flashcards = []
+    
+    new_fc = {
+        "id": f"manual-fc-{int(time.time())}-{uuid.uuid4().hex[:4]}",
+        "front": front,
+        "back": back,
+        "difficulty": None,
+        "reviewState": None
+    }
+    
+    flashcards.append(new_fc)
+    lecture_data['flashcards'] = flashcards
+    lecture.data = lecture_data
+    lecture.save()
+    
+    return Response({"success": True, "flashcard": new_fc, "lecture": lecture_data})
+
+
+@csrf_exempt
+@api_view(['POST', 'DELETE'])
+def delete_flashcard(request, pk):
+    """
+    8. Exclui um flashcard específico do acervo de revisão do material.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    fc_id = request.data.get('flashcardId') or request.query_params.get('flashcardId')
+    if not fc_id:
+        return Response({"error": "O campo 'flashcardId' é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    lecture_data = lecture.data
+    flashcards = lecture_data.get('flashcards', [])
+    if not isinstance(flashcards, list):
+        return Response({"error": "Não há flashcards para excluir"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    initial_length = len(flashcards)
+    flashcards = [fc for fc in flashcards if isinstance(fc, dict) and fc.get('id') != fc_id]
+    
+    if len(flashcards) == initial_length:
+        return Response({"error": "Flashcard com o ID especificado não foi localizado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    lecture_data['flashcards'] = flashcards
+    lecture.data = lecture_data
+    lecture.save()
+    
+    return Response({"success": True, "lecture": lecture_data})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def assign_collection_folder(request, pk):
+    """
+    9. Organiza o módulo em coleções temáticas ou pastas virtuais (ex: "Física", "Programação").
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    category = request.data.get('category', '').strip()
+    
+    lecture_data = lecture.data
+    lecture_data['category'] = category or None
+    lecture.data = lecture_data
+    lecture.save()
+    
+    return Response({"success": True, "category": category})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def rename_lecture(request, pk):
+    """
+    10. Altera o título formal ou descrição do material de estudo gerado.
+    """
+    try:
+        lecture = Lecture.objects.get(id=pk)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+    title = request.data.get('title', '').strip()
+    summary_short = request.data.get('summaryShort', '').strip()
+    
+    if not title:
+        return Response({"error": "O novo título não pode estar vazio"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    lecture_data = lecture.data
+    lecture_data['title'] = title
+    if summary_short:
+        lecture_data['summaryShort'] = summary_short
+        
+    lecture.data = lecture_data
+    lecture.save()
+    
+    return Response({"success": True, "lecture": lecture_data})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def update_user_settings(request):
+    """
+    11. Permite ao usuário logado atualizar seus dados cadastrais e senha de acesso.
+    """
+    session_id = request.COOKIES.get('newstudy_session')
+    if not session_id:
+        return Response({"error": "Sessão expirada ou não autenticada"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    try:
+        user = User.objects.get(id=session_id)
+    except User.DoesNotExist:
+        return Response({"error": "Usuário correspondente não foi localizado"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+    name = request.data.get('name', '').strip()
+    email = request.data.get('email', '').strip().lower()
+    new_password = request.data.get('newPassword', '')
+    
+    if name:
+        user.name = name
+    if email:
+        if email != user.email and User.objects.filter(email=email).exists():
+            return Response({"error": "Este email já está sendo utilizado por outro cadastro"}, status=status.HTTP_409_CONFLICT)
+        user.email = email
+        
+    if new_password:
+        if len(new_password) < 6:
+            return Response({"error": "A senha de acesso deve possuir o tamanho mínimo de 6 caracteres"}, status=status.HTTP_400_BAD_REQUEST)
+        user.password_hash = hash_password(new_password)
+        
+    user.save()
+    return Response({
+        "success": True,
+        "user": {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email
+        }
+    })
