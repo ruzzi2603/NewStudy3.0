@@ -1,0 +1,6 @@
+{
+  "name": "NewStudy",
+  "description": "Uma plataforma inteligente que transforma vídeos educativos em materiais de estudo estruturados, com resumos, fórmulas, flashcards Leitner, quizzes interativos e chat com IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
