@@ -1,6 +1,6 @@
-# Lumina Study 📚✨
+# NewSTudy 📚✨
 
-Lumina Study é uma plataforma de estudos inteligente baseada em Inteligência Artificial que transforma vídeos educativos, seminários acadêmicos e links de aulas gravadas do YouTube em **pacotes completos de aprendizado ativo com alta taxa de retenção**. 
+NewSTudy é uma plataforma de estudos inteligente baseada em Inteligência Artificial que transforma vídeos educativos, seminários acadêmicos e links de aulas gravadas do YouTube em **pacotes completos de aprendizado ativo com alta taxa de retenção**. 
 
 Alimentada pelo modelo de ponta **Gemini-3.5-Flash** através do SDK nativo do Google, a plataforma analisa o conteúdo em áudio, extrai os conceitos chave e as formulações científicas com alto rigor matemático e pedagógico.
 
