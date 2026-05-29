@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.urls import reverse
 from .models import (
     User,
     Lecture,
@@ -13,6 +15,7 @@ from .models import (
     StudentStudySession,
 )
 
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'created_at', 'id')
@@ -24,13 +27,14 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Lecture)
 class LectureAdmin(admin.ModelAdmin):
     list_display = ('get_title', 'user_id', 'created_at', 'id')
-    search_fields = ('id', 'user_id')
+    search_fields = ('id', 'user_id')  # Se 'user' for ForeignKey, prefira 'user__name'
     list_filter = ('created_at',)
     ordering = ('-created_at',)
 
     def get_title(self, obj):
         try:
-            return obj.data.get('title', 'Sem Título')
+            # Boa prática: previne quebras caso 'data' seja None ou não seja um dicionário
+            return obj.data.get('title', 'Sem Título') if obj.data else 'Sem Título'
         except Exception:
             return "Módulo sem Título"
     get_title.short_description = "Título do Material"
@@ -50,6 +54,8 @@ class FlashCardManualAdmin(admin.ModelAdmin):
     list_filter = ('difficulty_rating', 'category', 'created_at')
     search_fields = ('front', 'back')
     ordering = ('-created_at',)
+    # Otimiza o carregamento da categoria via JOIN no banco de dados
+    list_select_related = ('category',)
 
     def get_short_front(self, obj):
         return obj.front[:60] + "..." if len(obj.front) > 60 else obj.front
@@ -73,10 +79,33 @@ class StudentFeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(SystemAnnouncement)
 class SystemAnnouncementAdmin(admin.ModelAdmin):
-    list_display = ('priority', 'title', 'badge_text', 'is_visible', 'accent_color')
+    # 'delete_button' adicionado ao list_display para que o botão apareça na tabela
+    list_display = ('priority', 'title', 'badge_text', 'is_visible', 'accent_color', 'delete_button')
     list_filter = ('is_visible',)
     search_fields = ('title', 'subtitle', 'badge_text')
     ordering = ('priority',)
+
+    def delete_button(self, obj):
+        """Gera um botão estilizado de exclusão direta na linha do registro."""
+        # Dinâmico: funciona independente do nome que você deu ao seu app no Django
+        app_label = obj._meta.app_label
+        model_name = obj._meta.model_name
+        delete_url = reverse(f'admin:{app_label}_{model_name}_delete', args=[obj.pk])
+        
+        return format_html(
+            '<a class="deletelink" href="{}" style="'
+            'color: white; '
+            'background-color: #ef4444; '
+            'padding: 4px 10px; '
+            'border-radius: 4px; '
+            'font-weight: 500; '
+            'font-size: 11px; '
+            'text-decoration: none; '
+            'display: inline-block;'
+            '">Excluir</a>',
+            delete_url
+        )
+    delete_button.short_description = "Ações Rápidas"
 
 
 @admin.register(AcademicCoupon)

@@ -814,3 +814,27 @@ def update_user_settings(request):
             "email": user.email
         }
     })
+from .models import SystemAnnouncement
+
+@csrf_exempt
+@api_view(['GET'])
+def list_announcements(request):
+    """
+    Retorna a lista de informativos/banners ativos para exibição no Carrossel do Frontend.
+    """
+    # Filtra apenas os visíveis, ordenados pela prioridade definida pelo administrador
+    banners = SystemAnnouncement.objects.filter(is_visible=True).order_by('priority')
+    
+    # Monta a estrutura JSON correspondente
+    data = []
+    for item in banners:
+        data.append({
+            "id": item.id,
+            "title": item.title,
+            "subtitle": item.subtitle or "",
+            "badge_text": item.badge_text,
+            "accent_color": item.accent_color,
+            "priority": item.priority,
+        })
+        
+    return Response(data)

@@ -27,4 +27,5 @@ urlpatterns = [
     path('lectures/<str:pk>/collection', views.assign_collection_folder, name='assign_collection_folder'),
     path('lectures/<str:pk>/rename', views.rename_lecture, name='rename_lecture'),
     path('users/settings', views.update_user_settings, name='update_user_settings'),
+    path('announcements/', views.list_announcements, name='list_announcements'),
 ]

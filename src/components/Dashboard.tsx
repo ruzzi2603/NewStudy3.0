@@ -4,6 +4,8 @@
  */
 
 import React, { useState, useEffect } from "react";
+import ScrollDown from "../components/ScrollDown";
+import PromoCarousel from "./PromoCarousel";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Youtube,
@@ -286,7 +288,7 @@ export default function Dashboard({
     <div className="max-w-7xl mx-auto px-4 py-10 lg:py-16 font-sans flex flex-col gap-10 lg:gap-14" id="dashboard-container">
       
       {/* SEÇÃO HERO CONSTANTE NO TOPO (Padrão Estético Elevado) */}
-      <div className="text-center flex flex-col justify-center items-center">
+      <div className="text-center flex flex-col justify-center items-center" id="hero">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -353,6 +355,10 @@ export default function Dashboard({
         >
           Cole aulas gravadas, seminários científicos ou lives acadêmicas do YouTube para convertê-los em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes em segundos.
         </motion.p>
+        <ScrollDown />
+        <div className="w-full">
+        <PromoCarousel />
+      </div>
       </div>
 
       {/* ÁREA DE PRODUTIVIDADE EM GRID DE DOIS PAINÉIS */}

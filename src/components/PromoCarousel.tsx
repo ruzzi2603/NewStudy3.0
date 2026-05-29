@@ -1,72 +1,105 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronLeft, ChevronRight, Sparkles, BookOpen, Clock, Lightbulb } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 
 interface Slide {
   id: number;
-  image: string;
   badge: string;
   title: string;
   description: string;
   color: string;
+  image: string; // Você pode colocar uma imagem padrão ou ilustrações
   accentIcon: React.ReactNode;
 }
 
 export default function PromoCarousel() {
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [loading, setLoading] = useState(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const slides: Slide[] = [
-    {
-      id: 1,
-      image: "/src/assets/images/ai_workspace_hero_1779742602115.png",
-      badge: "INTELIGÊNCIA ARTIFICIAL",
-      title: "Sintetize Vídeos em Apostilas Completas",
-      description: "Nossa IA avançada extrai automaticamente fórmulas, conceitos teóricos estruturados e descrições profundas de qualquer vídeo do YouTube em poucos segundos.",
-      color: "from-blue-600/90 to-neutral-900/40",
-      accentIcon: <Sparkles className="h-4 w-4 text-brand-mint" />,
-    },
-    {
-      id: 2,
-      image: "/src/assets/images/concept_microlearning_1779742615958.png",
-      badge: "REPETIÇÃO ESPAÇADA",
-      title: "Fixação Ativa com Flashcards Dinâmicos",
-      description: "Gere flashcards automaticamente com base no conteúdo assistido. Utilize o controle de dificuldade inteligente para otimizar o seu tempo de revisão acadêmica.",
-      color: "from-emerald-600/90 to-neutral-900/40",
-      accentIcon: <BookOpen className="h-4 w-4 text-emerald-400" />,
-    },
-    {
-      id: 3,
-      image: "/src/assets/images/interactive_study_1779742630029.png",
-      badge: "SUPABASE & PERSISTÊNCIA",
-      title: "Seu Histórico na Nuvem Permanente",
-      description: "Todos os seus materiais, resumos e progressos são salvos com segurança utilizando o Supabase PostgreSQL. Estude em qualquer aparelho com total fluidez.",
-      color: "from-indigo-600/90 to-neutral-900/40",
-      accentIcon: <Lightbulb className="h-4 w-4 text-amber-400" />,
+  // Ícones de fallback aleatórios ou mapeados para deixar o visual bonito
+  const getIcon = (badge: string) => {
+    const b = badge.toLowerCase();
+    if (b.includes("ia") || b.includes("artificil") || b.includes("novidade")) {
+      return <Sparkles className="h-4 w-4 text-brand-mint" />;
     }
-  ];
+    if (b.includes("estudo") || b.includes("livro") || b.includes("manual")) {
+      return <BookOpen className="h-4 w-4 text-emerald-400" />;
+    }
+    return <Lightbulb className="h-4 w-4 text-amber-400" />;
+  };
+
+  // Mapeamento visual das imagens de fundo para garantir que fiquem profissionais
+  const getFallbackImage = (index: number) => {
+    const images = [
+      "/src/assets/images/ai_workspace_hero_1779742602115.png",
+      "/src/assets/images/concept_microlearning_1779742615958.png",
+      "/src/assets/images/interactive_study_1779742630029.png"
+    ];
+    return images[index % images.length];
+  };
+
+  useEffect(() => {
+    // 1. Busca os anúncios vindos do Django API
+    fetch("http://127.0.0.1:8000/api/announcements/") // coloque a URL correspondente do seu Django local/produção
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao carregar anúncios");
+        return res.json();
+      })
+      .then((data) => {
+        // 2. Mapeia o JSON retornado para a estrutura que o Carrossel usa
+        const formatted: Slide[] = data.map((item: any, idx: number) => ({
+          id: item.id,
+          badge: item.badge_text.toUpperCase(),
+          title: item.title,
+          description: item.subtitle,
+          image: getFallbackImage(idx), // Fornece uma ilustração profissional de fundo
+          color: "from-neutral-900/90 to-neutral-900/40", // Ou use item.accent_color dinâmico
+          accentIcon: getIcon(item.badge_text),
+        }));
+
+        if (formatted.length > 0) {
+          setSlides(formatted);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Erro na integração com Django:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const nextSlide = () => {
+    if (slides.length === 0) return;
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
 
   const prevSlide = () => {
+    if (slides.length === 0) return;
     setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
   };
 
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && slides.length > 0) {
       timeoutRef.current = setTimeout(() => {
         nextSlide();
       }, 6000);
     }
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [currentIndex, isPlaying]);
+  }, [currentIndex, isPlaying, slides]);
+
+  // Se estiver carregando ou não houver nada no Django, podemos exibir fallback ou ficar invisível
+  if (loading || slides.length === 0) {
+    return (
+      <div className="w-full h-44 flex items-center justify-center bg-neutral-900/10 dark:bg-neutral-900 rounded-2xl animate-pulse text-xs text-neutral-400">
+        Iniciando painel de novidades integrado...
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -75,7 +108,6 @@ export default function PromoCarousel() {
       onMouseLeave={() => setIsPlaying(true)}
       id="promo-carousel"
     >
-      {/* Imagem + Overlay de Conteúdo */}
       <div className="relative aspect-[16/9] sm:aspect-[16/7] w-full overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
@@ -86,18 +118,15 @@ export default function PromoCarousel() {
             transition={{ duration: 0.5 }}
             className="absolute inset-0 w-full h-full"
           >
-            {/* Imagem de Fundo Gerada */}
             <img 
               src={slides[currentIndex].image} 
               alt={slides[currentIndex].title}
               className="w-full h-full object-cover select-none pointer-events-none"
               referrerPolicy="no-referrer"
             />
-            {/* Gradiente de Mascaramento para alto contraste de texto em qualquer tema */}
             <div className={`absolute inset-0 bg-gradient-to-r ${slides[currentIndex].color} via-neutral-950/70 to-transparent mix-blend-multiply`} />
             <div className="absolute inset-0 bg-neutral-950/20" />
             
-            {/* Informações Textuais (Responsivas, posicionadas na esquerda) */}
             <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-10 lg:p-12 text-white max-w-xl md:max-w-2xl">
               <motion.div 
                 initial={{ y: 10, opacity: 0 }}
@@ -132,11 +161,9 @@ export default function PromoCarousel() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Sliders de Controles Manuais */}
         <button
           onClick={prevSlide}
           className="absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 cursor-pointer z-10"
-          aria-label="Slide anterior"
         >
           <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
@@ -144,13 +171,11 @@ export default function PromoCarousel() {
         <button
           onClick={nextSlide}
           className="absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 cursor-pointer z-10"
-          aria-label="Próximo slide"
         >
           <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
       </div>
 
-      {/* Paginação de Barra Fluida / Indicador de bolinhas */}
       <div className="absolute bottom-4 right-6 flex items-center gap-1.5 z-10">
         {slides.map((slide, index) => (
           <button
@@ -159,7 +184,6 @@ export default function PromoCarousel() {
             className={`h-1.5 rounded-full transition-all duration-300 ${
               currentIndex === index ? "w-6 bg-white" : "w-1.5 bg-white/45 hover:bg-white/70"
             }`}
-            aria-label={`Ir para slide ${index + 1}`}
           />
         ))}
       </div>

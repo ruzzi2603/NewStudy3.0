@@ -27,7 +27,8 @@ p{
   background-color: rgb(193, 112, 255);
 }
 #link-processor-panel{
-  background: linear-gradient(to right, #b604f7, #90ffda);
+  background: linear-gradient(to right, #bc03ff, #201288);
+  border: none;
 }
 #importer-description{
   color: rgb(255, 255, 255);
@@ -39,6 +40,64 @@ background-color: rgb(213, 165, 247);
 background-color: rgb(213, 165, 247);
 
 }
+#hero{
+ margin-top: 8%;
+  
+}
 #cdc{
-  background: linear-gradient(to right,#f9f9f9,#f9f9f9,#f9f9f9, #a4fff4);
+  border: none;
+}
+#promo-carousel{
+width: 50%;
+margin-top: 10%;
+}
+/* ScrollDown.css */
+
+.scroll-down-btn {
+  margin-top: 40px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0);
+  border: 1px solid rgba(23, 6, 52, 0);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-down-btn:hover {
+  transform: translateY(4px) scale(1.05);
+  background: rgba(124, 58, 237, 0.18);
+  box-shadow: 0 0 25px rgba(124, 58, 237, 0.25);
+}
+
+.scroll-down-btn span {
+  width: 14px;
+  height: 14px;
+  border-right: 2px solid #7c3aed;
+  border-bottom: 2px solid #7c3aed;
+  transform: rotate(45deg);
+  animation: scrollArrow 1.5s infinite;
+}
+
+@keyframes scrollArrow {
+  0% {
+    transform: rotate(45deg) translate(-2px, -2px);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(45deg) translate(3px, 3px);
+    opacity: 0;
+  }
 }
