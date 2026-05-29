@@ -33,6 +33,36 @@ import {
 import dotenv from "dotenv";
 dotenv.config();
 
+const SESSION_COOKIE = "newstudy_session";
+const GUEST_COOKIE = "newstudy_guest";
+const DEFAULT_SESSION_SECRET = "newstudy-dev-session-secret";
+const SESSION_SECRET =
+  process.env.SESSION_SECRET ||
+  process.env.DJANGO_SECRET_KEY ||
+  DEFAULT_SESSION_SECRET;
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const PASSWORD_ALGORITHM = "pbkdf2_sha512";
+const PASSWORD_ITERATIONS = 210_000;
+
+type SessionPayload = {
+  type: "user" | "guest";
+  sub: string;
+  iat: number;
+};
+
+type RequestActor = {
+  userId: string;
+  identifier: string;
+  ip: string;
+  authenticated: boolean;
+};
+
+if (IS_PRODUCTION && SESSION_SECRET === DEFAULT_SESSION_SECRET) {
+  console.warn(
+    "[NewStudy Security] SESSION_SECRET nao foi definido. Configure um segredo forte antes de producao."
+  );
+}
+
 // Helper to parse cookies from document or request headers
 function parseCookies(cookieHeader?: string): Record<string, string> {
   const list: Record<string, string> = {};
@@ -41,39 +71,180 @@ function parseCookies(cookieHeader?: string): Record<string, string> {
     const parts = cookie.split("=");
     const name = parts.shift()?.trim();
     if (name) {
-      list[name] = decodeURIComponent(parts.join("="));
+      try {
+        list[name] = decodeURIComponent(parts.join("="));
+      } catch {
+        list[name] = parts.join("=");
+      }
     }
   });
   return list;
 }
 
-function getSessionIdentifier(req: Request): { identifier: string; ip: string; sessionId: string | null } {
-  const ip = req.ip || req.headers["x-forwarded-for"]?.toString() || "unknown-ip";
+function getRequestIp(req: Request): string {
+  const forwardedFor = req.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.length > 0) {
+    return forwardedFor.split(",")[0].trim();
+  }
+  if (Array.isArray(forwardedFor) && forwardedFor.length > 0) {
+    return forwardedFor[0].split(",")[0].trim();
+  }
+  return req.ip || req.socket.remoteAddress || "unknown-ip";
+}
+
+function timingSafeEqualString(a: string, b: string): boolean {
+  const aBuffer = Buffer.from(a);
+  const bBuffer = Buffer.from(b);
+  return aBuffer.length === bBuffer.length && crypto.timingSafeEqual(aBuffer, bBuffer);
+}
+
+function signPayload(payload: string): string {
+  return crypto.createHmac("sha256", SESSION_SECRET).update(payload).digest("base64url");
+}
+
+function createSignedToken(payload: Omit<SessionPayload, "iat">): string {
+  const encodedPayload = Buffer.from(
+    JSON.stringify({ ...payload, iat: Date.now() })
+  ).toString("base64url");
+  return `${encodedPayload}.${signPayload(encodedPayload)}`;
+}
+
+function verifySignedToken(token: string | undefined): SessionPayload | null {
+  if (!token || !token.includes(".")) return null;
+  const [encodedPayload, signature] = token.split(".");
+  if (!encodedPayload || !signature) return null;
+
+  const expectedSignature = signPayload(encodedPayload);
+  if (!timingSafeEqualString(signature, expectedSignature)) return null;
+
+  try {
+    const parsed = JSON.parse(Buffer.from(encodedPayload, "base64url").toString("utf-8"));
+    if (
+      (parsed.type === "user" || parsed.type === "guest") &&
+      typeof parsed.sub === "string" &&
+      parsed.sub.length > 0
+    ) {
+      return parsed as SessionPayload;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function serializeCookie(name: string, value: string, maxAgeSeconds: number): string {
+  const sameSite = IS_PRODUCTION ? "None" : "Lax";
+  const secure = IS_PRODUCTION ? "; Secure" : "";
+  return `${name}=${encodeURIComponent(value)}; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=${maxAgeSeconds}${secure}`;
+}
+
+function serializeExpiredCookie(name: string): string {
+  const sameSite = IS_PRODUCTION ? "None" : "Lax";
+  const secure = IS_PRODUCTION ? "; Secure" : "";
+  return `${name}=; Path=/; HttpOnly; SameSite=${sameSite}; Expires=Thu, 01 Jan 1970 00:00:00 GMT${secure}`;
+}
+
+function appendCookie(res: Response, cookie: string): void {
+  const current = res.getHeader("Set-Cookie");
+  if (!current) {
+    res.setHeader("Set-Cookie", cookie);
+  } else if (Array.isArray(current)) {
+    res.setHeader("Set-Cookie", [...current.map(String), cookie]);
+  } else {
+    res.setHeader("Set-Cookie", [String(current), cookie]);
+  }
+}
+
+function getSignedUserId(req: Request): string | null {
   const cookies = parseCookies(req.headers.cookie);
-  const sessionId = cookies["newstudy_session"] || null;
+  const session = verifySignedToken(cookies[SESSION_COOKIE]);
+  return session?.type === "user" ? session.sub : null;
+}
+
+function getActor(req: Request, res?: Response, issueGuest = false): RequestActor {
+  const ip = getRequestIp(req);
+  const cookies = parseCookies(req.headers.cookie);
+
+  const session = verifySignedToken(cookies[SESSION_COOKIE]);
+  if (session?.type === "user") {
+    return {
+      userId: session.sub,
+      identifier: session.sub,
+      ip,
+      authenticated: true,
+    };
+  }
+
+  let guest = verifySignedToken(cookies[GUEST_COOKIE]);
+  if (!guest && issueGuest && res) {
+    guest = {
+      type: "guest",
+      sub: `guest-${crypto.randomBytes(12).toString("hex")}`,
+      iat: Date.now(),
+    };
+    appendCookie(
+      res,
+      serializeCookie(
+        GUEST_COOKIE,
+        createSignedToken({ type: "guest", sub: guest.sub }),
+        60 * 60 * 24 * 30
+      )
+    );
+  }
+
+  if (guest?.type === "guest") {
+    return {
+      userId: guest.sub,
+      identifier: guest.sub,
+      ip,
+      authenticated: false,
+    };
+  }
+
   return {
-    identifier: sessionId || `ip-${ip}`,
+    userId: "system",
+    identifier: `ip-${ip}`,
     ip,
-    sessionId,
+    authenticated: false,
   };
+}
+
+function canReadLecture(actor: RequestActor, lecture: Lecture): boolean {
+  return lecture.userId === "system" || lecture.userId === actor.userId;
+}
+
+function canMutateLecture(actor: RequestActor, lecture: Lecture): boolean {
+  return lecture.userId === actor.userId && lecture.userId !== "system";
 }
 
 // Helper to hash passwords securely using PBKDF2 with dynamic salting (Criptografia de senhas)
 function hashPassword(password: string): string {
   const salt = crypto.randomBytes(16).toString("hex");
-  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return `${salt}:${hash}`;
+  const hash = crypto
+    .pbkdf2Sync(password, salt, PASSWORD_ITERATIONS, 64, "sha512")
+    .toString("hex");
+  return `${PASSWORD_ALGORITHM}$${PASSWORD_ITERATIONS}$${salt}$${hash}`;
 }
 
 // Verify salted secure hash or legacy plain SHA256 hashes for backward compatibility
 function verifyPassword(password: string, storedHash: string): boolean {
+  if (storedHash.startsWith(`${PASSWORD_ALGORITHM}$`)) {
+    const [, iterationsRaw, salt, hashValue] = storedHash.split("$");
+    const iterations = Number(iterationsRaw);
+    if (!Number.isFinite(iterations) || !salt || !hashValue) return false;
+    const testHash = crypto
+      .pbkdf2Sync(password, salt, iterations, 64, "sha512")
+      .toString("hex");
+    return timingSafeEqualString(testHash, hashValue);
+  }
+
   if (!storedHash.includes(":")) {
     const legacyHash = crypto.createHash("sha256").update(password).digest("hex");
-    return storedHash === legacyHash;
+    return timingSafeEqualString(storedHash, legacyHash);
   }
   const [salt, hashValue] = storedHash.split(":");
   const testHash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return testHash === hashValue;
+  return timingSafeEqualString(testHash, hashValue);
 }
 
 // Custom in-memory sliding-window rate limiter builder
@@ -81,7 +252,7 @@ function rateLimiter(limitPerMinute = 60, customMessage?: string) {
   const ipTracker = new Map<string, { count: number; resetTime: number }>();
   
   return (req: Request, res: Response, next: NextFunction) => {
-    const ip = req.ip || req.headers["x-forwarded-for"]?.toString() || "unknown-ip";
+    const ip = getRequestIp(req);
     const now = Date.now();
     const entry = ipTracker.get(ip);
 
@@ -127,13 +298,12 @@ async function startServer() {
   // Recover active session from cookies
   app.get("/api/auth/me", async (req: Request, res: Response) => {
     try {
-      const cookies = parseCookies(req.headers.cookie);
-      const sessionId = cookies["newstudy_session"];
-      if (!sessionId) {
+      const sessionUserId = getSignedUserId(req);
+      if (!sessionUserId) {
         return res.status(401).json({ error: "Sessão expirada ou não autenticada por cookies." });
       }
 
-      const user = await getUserById(sessionId);
+      const user = await getUserById(sessionUserId);
       if (!user) {
         return res.status(401).json({ error: "Usuário da sessão não foi localizado." });
       }
@@ -155,7 +325,7 @@ async function startServer() {
   app.post("/api/auth/register", async (req: Request, res: Response) => {
     try {
       const { name, email, password } = req.body;
-      const { ip } = getSessionIdentifier(req);
+      const { ip } = getActor(req);
 
       const regLimit = checkRegistrationLimit(ip);
       if (!regLimit.allowed) {
@@ -188,10 +358,13 @@ async function startServer() {
       await createNewUser(newUser);
       incrementRegistration(ip);
 
-      // Save session inside browser cookies (with SameSite=None; Secure in case of iframe development context)
-      res.setHeader(
-        "Set-Cookie",
-        `newstudy_session=${newUser.id}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=31536000`
+      appendCookie(
+        res,
+        serializeCookie(
+          SESSION_COOKIE,
+          createSignedToken({ type: "user", sub: newUser.id }),
+          60 * 60 * 24 * 365
+        )
       );
 
       // Return user context safely (excluding hash)
@@ -226,10 +399,13 @@ async function startServer() {
         return res.status(401).json({ error: "As credenciais inseridas estão incorretas ou não cadastradas." });
       }
 
-      // Save session inside browser cookies (SameSite=None; Secure for secure cross-site delivery in iframe)
-      res.setHeader(
-        "Set-Cookie",
-        `newstudy_session=${user.id}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=31536000`
+      appendCookie(
+        res,
+        serializeCookie(
+          SESSION_COOKIE,
+          createSignedToken({ type: "user", sub: user.id }),
+          60 * 60 * 24 * 365
+        )
       );
 
       res.json({
@@ -247,10 +423,7 @@ async function startServer() {
 
   // User Logout Endpoint (clearing cookies)
   app.post("/api/auth/logout", async (req: Request, res: Response) => {
-    res.setHeader(
-      "Set-Cookie",
-      "newstudy_session=; Path=/; HttpOnly; Secure; SameSite=None; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
-    );
+    appendCookie(res, serializeExpiredCookie(SESSION_COOKIE));
     res.json({ success: true });
   });
 
@@ -259,10 +432,10 @@ async function startServer() {
   // Get active system quotas and statistics
   app.get("/api/usage/statistics", async (req: Request, res: Response) => {
     try {
-      const { identifier, ip, sessionId } = getSessionIdentifier(req);
-      const currentLectures = await getLectures(sessionId || "system");
-      const savedCount = currentLectures.filter(l => l.userId !== "system").length;
-      const summary = getUsageSummary(identifier, ip, savedCount);
+      const actor = getActor(req, res, true);
+      const currentLectures = await getLectures(actor.userId);
+      const savedCount = currentLectures.filter((l) => l.userId === actor.userId).length;
+      const summary = getUsageSummary(actor.identifier, actor.ip, savedCount);
       res.json(summary);
     } catch (err: any) {
       res.status(500).json({ error: "Erro ao carregar estatísticas e cotas: " + err.message });
@@ -272,8 +445,8 @@ async function startServer() {
   // Get all lectures
   app.get("/api/lectures", async (req: Request, res: Response) => {
     try {
-      const userId = req.query.userId?.toString();
-      const lectures = await getLectures(userId);
+      const actor = getActor(req, res, true);
+      const lectures = await getLectures(actor.userId);
       res.json(lectures);
     } catch (err: any) {
       res.status(500).json({ error: "Não foi possível recuperar a lista de módulos de estudo: " + err.message });
@@ -284,9 +457,13 @@ async function startServer() {
   app.get("/api/lectures/:id", async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      const actor = getActor(req, res, true);
       const lecture = await getLecture(id);
       if (!lecture) {
         return res.status(404).json({ error: "Módulo de estudo não encontrado." });
+      }
+      if (!canReadLecture(actor, lecture)) {
+        return res.status(403).json({ error: "Voce nao tem acesso a este modulo de estudo." });
       }
       res.json(lecture);
     } catch (err: any) {
@@ -298,6 +475,14 @@ async function startServer() {
   app.delete("/api/lectures/:id", async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
+      const actor = getActor(req, res, true);
+      const lecture = await getLecture(id);
+      if (!lecture) {
+        return res.status(404).json({ error: "Modulo de estudo nao encontrado." });
+      }
+      if (!canMutateLecture(actor, lecture)) {
+        return res.status(403).json({ error: "Voce so pode remover modulos do seu proprio deck." });
+      }
       await deleteLecture(id);
       res.json({ success: true });
     } catch (err: any) {
@@ -310,10 +495,15 @@ async function startServer() {
     try {
       const { id } = req.params;
       const { flashcardId, difficulty, reviewState } = req.body;
+      const actor = getActor(req, res, true);
 
       const lecture = await getLecture(id);
       if (!lecture) {
         return res.status(404).json({ error: "Módulo de estudo correspondente não encontrado." });
+      }
+
+      if (!canMutateLecture(actor, lecture)) {
+        return res.status(403).json({ error: "Revisoes persistentes so podem alterar modulos do seu proprio deck." });
       }
 
       const fcIdx = lecture.flashcards.findIndex((fc) => fc.id === flashcardId);
@@ -340,9 +530,9 @@ async function startServer() {
     try {
       const { id } = req.params;
       const { question } = req.body;
-      const { identifier } = getSessionIdentifier(req);
+      const actor = getActor(req, res, true);
 
-      const qstLimit = checkQuestionLimit(identifier);
+      const qstLimit = checkQuestionLimit(actor.identifier);
       if (!qstLimit.allowed) {
         return res.status(429).json({
           error: `Controle de Quota: Você atingiu o limite de ${qstLimit.limit} dúvidas diárias com o tutor Inteligente. Suas quotas serão renovadas em ${qstLimit.resetHours}h.`
@@ -358,6 +548,10 @@ async function startServer() {
         return res.status(404).json({ error: "Conteúdo acadêmico não identificado." });
       }
 
+      if (!canReadLecture(actor, lecture)) {
+        return res.status(403).json({ error: "Voce nao tem acesso a este modulo de estudo." });
+      }
+
       // Call Gemini API client to ask
       const answer = await askQuestionAboutLecture(lecture, question, lecture.chatHistory || []);
 
@@ -369,11 +563,13 @@ async function startServer() {
       if (!lecture.chatHistory) {
         lecture.chatHistory = [];
       }
-      lecture.chatHistory.push(userMsg, aiMsg);
-
-      await saveLecture(lecture);
-      incrementQuestion(identifier);
-      res.json({ answer, chatHistory: lecture.chatHistory });
+      const nextChatHistory = [...lecture.chatHistory, userMsg, aiMsg];
+      if (canMutateLecture(actor, lecture)) {
+        lecture.chatHistory = nextChatHistory;
+        await saveLecture(lecture);
+      }
+      incrementQuestion(actor.identifier);
+      res.json({ answer, chatHistory: nextChatHistory });
     } catch (err: any) {
       console.error("Q&A Error:", err);
       res.status(500).json({ error: "Falha na resposta do assistente: " + err.message });
@@ -383,12 +579,13 @@ async function startServer() {
   // Strict rate limit on expensive AI generation requests (capped at 5 per minute per IP)
   app.post("/api/lectures", rateLimiter(5, "Você atingiu o limite de geração de novos materiais (max 5/min). Por favor, aguarde alguns instantes."), async (req: Request, res: Response) => {
     try {
-      const { url, topicHint, userId } = req.body;
-      const { identifier, sessionId } = getSessionIdentifier(req);
+      const { url, topicHint } = req.body;
+      const actor = getActor(req, res, true);
+      const userId = actor.userId;
 
       // Check active deck space (max 15 elements to prevent database bloat)
-      const currentLectures = await getLectures(userId || sessionId || "system");
-      const savedCount = currentLectures.filter(l => l.userId !== "system").length;
+      const currentLectures = await getLectures(userId);
+      const savedCount = currentLectures.filter((l) => l.userId === userId).length;
       if (savedCount >= 15) {
         return res.status(403).json({
           error: "Limite de Segurança Excedido: Seu deck pessoal possui o limite máximo de 15 módulos de estudo carregados simultaneamente. Exclua um módulo antigo da sua biblioteca antes de gerar outro."
@@ -396,7 +593,7 @@ async function startServer() {
       }
 
       // Check day limit window
-      const genLimit = checkGenerationLimit(identifier);
+      const genLimit = checkGenerationLimit(actor.identifier);
       if (!genLimit.allowed) {
         return res.status(429).json({
           error: `Quota de Estudos Excedida: Limite diário de inteligência artificial atingido (${genLimit.limit} gerações/dia). Suas quotas serão limpas em ${genLimit.resetHours}h.`
@@ -408,13 +605,13 @@ async function startServer() {
       }
 
       // Register generation click
-      incrementGeneration(identifier);
+      incrementGeneration(actor.identifier);
 
       const newId = `lecture-${Date.now()}`;
       
       const newLecture: Lecture = {
         id: newId,
-        userId: userId || "system",
+        userId,
         title: topicHint || "Analisando Novo Conteúdo com Inteligência Artificial...",
         sourceUrl: url,
         category: "Processando...",

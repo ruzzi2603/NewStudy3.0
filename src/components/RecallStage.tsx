@@ -116,7 +116,7 @@ export default function RecallStage({
 
       {mode === "flashcards" ? (
         /* --- Fluxo de Flashcards ---- */
-        <div className="flex flex-col gap-6" id="flashcard-game-flow font-sans">
+        <div className="flex flex-col gap-6" id="flashcard-game-flow">
           {activeCards.length === 0 ? (
             <div className="text-center p-12 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl text-neutral-400">
               Nenhum flashcard processado para este material.
@@ -335,7 +335,7 @@ export default function RecallStage({
         </div>
       ) : (
         /* --- Fluxo de Quiz Ativo --- */
-        <div className="flex flex-col gap-6" id="quiz-recall-flow font-sans">
+        <div className="flex flex-col gap-6" id="quiz-recall-flow">
           {activeQuizzes.length === 0 ? (
             <p className="text-center p-12 text-neutral-400">
               Nenhum questionário diagnóstico disponível para este conteúdo.

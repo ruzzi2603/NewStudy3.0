@@ -20,37 +20,35 @@
     font-family: inherit;
   }
 }
-p{
-  color: rgb(128, 0, 255);
-}
-#btnt{
-  background-color: rgb(193, 112, 255);
-}
-#link-processor-panel{
-  background: linear-gradient(to right, #bc03ff, #201288);
-  border: none;
-}
-#importer-description{
-  color: rgb(255, 255, 255);
-}
-#url-input{
-background-color: rgb(213, 165, 247);
-}
-#topic-input{
-background-color: rgb(213, 165, 247);
 
+.newstudy-hero {
+  margin-top: clamp(2rem, 6vw, 5rem);
 }
-#hero{
- margin-top: 8%;
-  
+
+.newstudy-importer-panel {
+  background: linear-gradient(135deg, #7c3aed 0%, #1d2f6f 58%, #0f172a 100%);
+  border: 0;
+  color: #ffffff;
 }
-#cdc{
+
+.newstudy-importer-text {
+  color: #ffffff;
+}
+
+.newstudy-importer-input {
+  background-color: #efe1ff;
+  color: #171717;
+}
+
+.newstudy-lecture-card {
   border: none;
 }
-#promo-carousel{
-width: 50%;
-margin-top: 10%;
+
+.newstudy-promo-carousel {
+  width: min(100%, 760px);
+  margin: 2.5rem auto 0;
 }
+
 /* ScrollDown.css */
 
 .scroll-down-btn {

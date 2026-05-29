@@ -502,7 +502,7 @@ ${formulas}
                                     setUserAnswers({ ...userAnswers, [q.id]: optIdx });
                                   }}
                                   className={`w-full py-2.5 px-3 rounded-lg border text-left text-xs font-medium cursor-pointer transition-all ${btnStyle}`}
-                               id="btnt" >
+                                >
                                   {option}
                                 </button>
                               );

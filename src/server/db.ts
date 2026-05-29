@@ -6,7 +6,7 @@
 import fs from "fs";
 import path from "path";
 import pg from "pg";
-import { Lecture, User } from "../types.js";
+import { ChatMessage, Flashcard, Formula, Lecture, QuizQuestion, TranscriptSegment, User } from "../types.js";
 
 const DB_PATH = path.join(process.cwd(), "db.json");
 
@@ -95,6 +95,99 @@ const defaultLectures: Lecture[] = [
     createdAt: new Date().toISOString()
   }
 ];
+
+function asString(value: unknown, fallback = ""): string {
+  return typeof value === "string" && value.trim().length > 0 ? value : fallback;
+}
+
+function asStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function normalizeFlashcards(value: unknown, lectureId: string): Flashcard[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
+    .map((item, index) => {
+      const question = asString(item.question, asString(item.front));
+      const answer = asString(item.answer, asString(item.back));
+      return {
+        id: asString(item.id, `fc-${lectureId}-${index}`),
+        question,
+        answer,
+        difficulty:
+          item.difficulty === "easy" || item.difficulty === "good" || item.difficulty === "hard"
+            ? item.difficulty
+            : undefined,
+        reviewState: typeof item.reviewState === "boolean" ? item.reviewState : false,
+      };
+    })
+    .filter((item) => item.question.length > 0 || item.answer.length > 0);
+}
+
+function normalizeQuizzes(value: unknown, lectureId: string): QuizQuestion[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
+    .map((item, index) => {
+      const options = Array.isArray(item.options)
+        ? item.options.filter((option): option is string => typeof option === "string")
+        : [];
+      const correctAnswerIndex =
+        typeof item.correctAnswerIndex === "number" && Number.isFinite(item.correctAnswerIndex)
+          ? item.correctAnswerIndex
+          : 0;
+      return {
+        id: asString(item.id, `q-${lectureId}-${index}`),
+        question: asString(item.question),
+        options,
+        correctAnswerIndex,
+        explanation: asString(item.explanation),
+      };
+    })
+    .filter((item) => item.question.length > 0 && item.options.length > 0);
+}
+
+function normalizeLecture(raw: unknown): Lecture {
+  const input = (raw && typeof raw === "object" ? raw : {}) as Record<string, any>;
+  const id = asString(input.id, `lecture-${Date.now()}`);
+  const keyConcept = input.keyConcept && typeof input.keyConcept === "object" ? input.keyConcept : {};
+
+  return {
+    id,
+    userId: asString(input.userId, asString(input.user_id, "system")),
+    title: asString(input.title, "Material de estudo"),
+    sourceUrl: asString(input.sourceUrl, asString(input.source_url)),
+    category: asString(input.category, "Estudo Geral"),
+    moduleName: asString(input.moduleName, asString(input.module_name, "Geral")),
+    duration: asString(input.duration, "00:00"),
+    status: input.status === "ANALYZING" || input.status === "FAILED" ? input.status : "READY",
+    progress: typeof input.progress === "number" ? Math.max(0, Math.min(100, input.progress)) : 100,
+    summaryShort: asString(input.summaryShort, asString(input.summary_short)),
+    summaryFull: asString(input.summaryFull, asString(input.summary_full)),
+    learningObjectives: asStringArray(input.learningObjectives || input.learning_objectives),
+    keyConcept: {
+      title: asString(keyConcept.title, "Conceito chave"),
+      body: asString(keyConcept.body, asString(keyConcept.description)),
+    },
+    transcriptionSegments: Array.isArray(input.transcriptionSegments)
+      ? (input.transcriptionSegments as TranscriptSegment[])
+      : [],
+    formulas: Array.isArray(input.formulas) ? (input.formulas as Formula[]) : [],
+    flashcards: normalizeFlashcards(input.flashcards, id),
+    quizzes: normalizeQuizzes(input.quizzes, id),
+    chatHistory: Array.isArray(input.chatHistory) ? (input.chatHistory as ChatMessage[]) : [],
+    createdAt: asString(input.createdAt, asString(input.created_at, new Date().toISOString())),
+  };
+}
+
+function mergeWithDefaultLectures(lectures: Lecture[]): Lecture[] {
+  const lectureIds = new Set(lectures.map((lecture) => lecture.id));
+  const missingDefaults = defaultLectures
+    .map((lecture) => normalizeLecture(lecture))
+    .filter((lecture) => !lectureIds.has(lecture.id));
+  return [...lectures, ...missingDefaults];
+}
 
 // Database structure used for file-based fallback
 interface StorageSchema {
@@ -253,15 +346,14 @@ export async function getLectures(userId?: string): Promise<Lecture[]> {
   if (isPgConnected && pgPool) {
     try {
       const q = userId 
-        ? { text: "SELECT data FROM lectures WHERE user_id = $1 ORDER BY created_at DESC", values: [userId] }
+        ? { text: "SELECT data FROM lectures WHERE user_id = $1 OR user_id = 'system' ORDER BY created_at DESC", values: [userId] }
         : { text: "SELECT data FROM lectures ORDER BY created_at DESC", values: [] };
       
       const res = await pgPool.query(q.text, q.values);
-      const rows = res.rows.map((r) => r.data as Lecture);
+      const rows = res.rows.map((r) => normalizeLecture(r.data));
       
-      // If user specific and empty, append system default lectures so the dashboard has template materials
-      if (userId && rows.length === 0) {
-        return defaultLectures;
+      if (userId) {
+        return mergeWithDefaultLectures(rows);
       }
       return rows;
     } catch (err) {
@@ -271,11 +363,12 @@ export async function getLectures(userId?: string): Promise<Lecture[]> {
 
   // Fallback
   const db = readLocalDb();
+  const lectures = db.lectures.map((lecture) => normalizeLecture(lecture));
   if (userId) {
-    const userLectures = db.lectures.filter((l) => l.userId === userId || l.userId === "system");
-    return userLectures.length > 0 ? userLectures : db.lectures;
+    const userLectures = lectures.filter((l) => l.userId === userId || l.userId === "system");
+    return mergeWithDefaultLectures(userLectures);
   }
-  return db.lectures;
+  return lectures;
 }
 
 export async function getLecture(id: string): Promise<Lecture | null> {
@@ -283,7 +376,7 @@ export async function getLecture(id: string): Promise<Lecture | null> {
     try {
       const res = await pgPool.query("SELECT data FROM lectures WHERE id = $1", [id]);
       if (res.rows.length > 0) {
-        return res.rows[0].data as Lecture;
+        return normalizeLecture(res.rows[0].data);
       }
     } catch (err) {
       console.error("[Postgres] Erro em getLecture, usando fallback local.", err);
@@ -291,20 +384,30 @@ export async function getLecture(id: string): Promise<Lecture | null> {
   }
 
   const db = readLocalDb();
-  return db.lectures.find((l) => l.id === id) || null;
+  const lecture = db.lectures.find((l) => l.id === id);
+  return lecture ? normalizeLecture(lecture) : null;
 }
 
 export async function saveLecture(lecture: Lecture): Promise<void> {
-  const targetUserId = lecture.userId || "system";
+  const normalizedLecture = normalizeLecture(lecture);
+  const targetUserId = normalizedLecture.userId || "system";
   if (isPgConnected && pgPool) {
     try {
-      const exists = await pgPool.query("SELECT id FROM lectures WHERE id = $1", [lecture.id]);
+      const exists = await pgPool.query("SELECT id FROM lectures WHERE id = $1", [normalizedLecture.id]);
       if (exists.rows.length > 0) {
-        await pgPool.query("UPDATE lectures SET data = $1 WHERE id = $2", [JSON.stringify(lecture), lecture.id]);
+        await pgPool.query(
+          "UPDATE lectures SET user_id = $1, data = $2 WHERE id = $3",
+          [targetUserId, JSON.stringify(normalizedLecture), normalizedLecture.id]
+        );
       } else {
         await pgPool.query(
           "INSERT INTO lectures (id, user_id, data, created_at) VALUES ($1, $2, $3, $4)",
-          [lecture.id, targetUserId, JSON.stringify(lecture), lecture.createdAt || new Date().toISOString()]
+          [
+            normalizedLecture.id,
+            targetUserId,
+            JSON.stringify(normalizedLecture),
+            normalizedLecture.createdAt || new Date().toISOString()
+          ]
         );
       }
       return;
@@ -314,11 +417,11 @@ export async function saveLecture(lecture: Lecture): Promise<void> {
   }
 
   const db = readLocalDb();
-  const idx = db.lectures.findIndex((l) => l.id === lecture.id);
+  const idx = db.lectures.findIndex((l) => l.id === normalizedLecture.id);
   if (idx !== -1) {
-    db.lectures[idx] = lecture;
+    db.lectures[idx] = normalizedLecture;
   } else {
-    db.lectures.unshift(lecture);
+    db.lectures.unshift(normalizedLecture);
   }
   writeLocalDb(db);
 }

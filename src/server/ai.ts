@@ -6,6 +6,10 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Lecture } from "../types.js";
 
+function getGeminiModel(): string {
+  return process.env.GEMINI_MODEL || "gemini-2.5-flash";
+}
+
 function getAiClient(): GoogleGenAI {
   const apiKey = process.env.GEMINI_API_KEY;
   if (
@@ -81,7 +85,7 @@ export async function generateLectureStudyMaterial(
 
   const response = await withRetry(() =>
     client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: getGeminiModel(),
       contents: prompt,
       config: {
         systemInstruction: `Você é um renomado designer pedagógico e professor universitário sênio brasileiro. Seu objetivo é estruturar materiais de estudo excepcionais baseados nos dados fornecidos pelo aluno.
@@ -254,7 +258,7 @@ export async function askQuestionAboutLecture(
 
   const response = await withRetry(() =>
     client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: getGeminiModel(),
       contents: prompt,
       config: {
         systemInstruction: "Você é o assistente inteligente de estudos virtual do aplicativo NewStudy. Forneça respostas diretas, instrutivas, profissionais e estritamente formatadas com markdown baseadas exclusivamente no material didático disponível. Escreva sempre em pt-BR.",

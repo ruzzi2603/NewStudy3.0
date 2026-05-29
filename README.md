@@ -96,7 +96,11 @@ Agora, abra o seu navegador e acesse: **`http://localhost:3000`**.
   ```
 ## Acessar backend
  A sequência é: (python -m venv venv
-venv\Scripts\activate) - (pip install -r requirements.txt) - (python manage.py migrate) - (python manage.py createsuperuser) - (python manage.py runserver) - acessse (http://127.0.0.1:8000/admin/)
+venv\Scripts\activate) - (pip install -r requirements.txt) - (python manage.py migrate) - (python manage.py createsuperuser) - (python manage.py runserver) - acessse (http://127.0.0.1:8000/admin/) 
+
+Este comando encerra o ambiente virtual e retorna ao Python global.
+
+Digite (deactivate) no terminal
 
 Quando for adicionar funcionalidades ao backend:
  Crie as estruturas de migração das 11 tabelas adicionais:

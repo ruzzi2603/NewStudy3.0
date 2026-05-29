@@ -65,6 +65,9 @@ export default function App() {
             setUser(data.user);
             localStorage.setItem("newstudy_user", JSON.stringify(data.user));
           }
+        } else {
+          setUser(null);
+          localStorage.removeItem("newstudy_user");
         }
       } catch (err) {
         console.warn("Nenhum cookie de sessão ativo encontrado no carregamento.", err);
@@ -84,8 +87,7 @@ export default function App() {
   // Fetch all monographs (optionally scoped by current logged in user)
   const fetchLectures = async () => {
     try {
-      const url = user ? `/api/lectures?userId=${user.id}` : "/api/lectures";
-      const res = await fetch(url);
+      const res = await fetch("/api/lectures");
       if (res.ok) {
         const data = await res.json();
         setLectures(data);
@@ -125,8 +127,7 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           url: lectureUrl,
-          topicHint,
-          userId: user ? user.id : "anonymous"
+          topicHint
         }),
       });
 

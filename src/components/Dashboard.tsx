@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import ScrollDown from "../components/ScrollDown";
+import ScrollDown from "./ScrollDown";
 import PromoCarousel from "./PromoCarousel";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -123,22 +123,22 @@ export default function Dashboard({
       <div
         className={`${
           isCenteredWidth ? "max-w-2xl mx-auto w-full" : "w-full"
-        } bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-850 rounded-2xl p-6 lg:p-8 shadow-sm flex flex-col gap-6 text-left`}
+        } newstudy-importer-panel bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-850 rounded-2xl p-6 lg:p-8 shadow-sm flex flex-col gap-6 text-left`}
         id="link-processor-panel"
       >
         <div>
           <h2 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
             <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
-            <span id="importer-description">Importar Aula do YouTube</span>
+            <span className="newstudy-importer-text">Importar Aula do YouTube</span>
           </h2>
-          <p className="text-xs text-neutral-450 dark:text-neutral-500 mt-1 font-sans" id="importer-description">
+          <p className="newstudy-importer-text text-xs mt-1 font-sans opacity-85">
             Processamento didático em linguagem natural (PT-BR).
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label id="importer-description" className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
+            <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
               LINK DO VÍDEO DO YOUTUBE
             </label>
             <input
@@ -146,13 +146,13 @@ export default function Dashboard({
               placeholder="https://www.youtube.com/watch?v=..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#ffffff] font-sans transition-all"
+              className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
               id="url-input"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label id="importer-description" className="text-[10px] font-bold text-neutral-800 dark:text-neutral-400 font-sans tracking-wide uppercase">
+            <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
               ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
             </label>
             <input
@@ -160,7 +160,7 @@ export default function Dashboard({
               placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
-              className="w-full text-xs py-3 px-3.5 rounded-xl border border-neutral-250 dark:border-neutral-750 bg-neutral-50/50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#ffffff] font-sans transition-all"
+              className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
               id="topic-input"
             />
           </div>
@@ -202,16 +202,16 @@ export default function Dashboard({
 
         {/* CONTROLE DE COTAS DO SISTEMA */}
         <div className="border-t border-neutral-100 dark:border-neutral-850 pt-4 flex flex-col gap-3 font-sans">
-          <span className="font-bold text-neutral-800 dark:text-neutral-200 text-[10px] tracking-wide uppercase">
+          <span className="newstudy-importer-text font-bold text-[10px] tracking-wide uppercase">
             CONTROLE DE COTAS DO SISTEMA :
           </span>
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+              <span className="newstudy-importer-text opacity-80">
                 Módulos Ativos no Deck
               </span>
-              <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
+              <span className="newstudy-importer-text font-mono font-bold">
                 {usageStats ? `${usageStats.lectures.current} / ${usageStats.lectures.limit}` : "0 / 15"}
               </span>
             </div>
@@ -229,10 +229,10 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+              <span className="newstudy-importer-text opacity-80">
                 Gerações por IA (Últimas 24h)
               </span>
-              <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
+              <span className="newstudy-importer-text font-mono font-bold">
                 {usageStats ? `${usageStats.generations.current} / ${usageStats.generations.limit}` : "0 / 5"}
               </span>
             </div>
@@ -250,10 +250,10 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="text-neutral-500 dark:text-neutral-400" id="importer-description">
+              <span className="newstudy-importer-text opacity-80">
                 Perguntas ao Tutor (Últimas 24h)
               </span>
-              <span className="font-mono font-bold text-neutral-800 dark:text-neutral-200">
+              <span className="newstudy-importer-text font-mono font-bold">
                 {usageStats ? `${usageStats.chatQuestions.current} / ${usageStats.chatQuestions.limit}` : "0 / 30"}
               </span>
             </div>
@@ -288,7 +288,7 @@ export default function Dashboard({
     <div className="max-w-7xl mx-auto px-4 py-10 lg:py-16 font-sans flex flex-col gap-10 lg:gap-14" id="dashboard-container">
       
       {/* SEÇÃO HERO CONSTANTE NO TOPO (Padrão Estético Elevado) */}
-      <div className="text-center flex flex-col justify-center items-center" id="hero">
+      <div className="newstudy-hero text-center flex flex-col justify-center items-center">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -356,9 +356,9 @@ export default function Dashboard({
           Cole aulas gravadas, seminários científicos ou lives acadêmicas do YouTube para convertê-los em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes em segundos.
         </motion.p>
         <ScrollDown />
-        <div className="w-full">
-        <PromoCarousel />
-      </div>
+        <div className="newstudy-promo-carousel">
+          <PromoCarousel />
+        </div>
       </div>
 
       {/* ÁREA DE PRODUTIVIDADE EM GRID DE DOIS PAINÉIS */}
@@ -482,8 +482,7 @@ export default function Dashboard({
                         damping: 24,
                         mass: 0.8
                       }}
-                      className="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-850 hover:border-neutral-350 dark:hover:border-neutral-750 rounded-2xl p-6 transition-all flex flex-col gap-3 relative cursor-pointer shadow-xs"
-                   id="cdc"
+                      className="newstudy-lecture-card group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-850 hover:border-neutral-350 dark:hover:border-neutral-750 rounded-2xl p-6 transition-all flex flex-col gap-3 relative cursor-pointer shadow-xs"
                     >
                       <div className="flex justify-between items-start gap-4" >
                         <div className="flex flex-col gap-1 flex-1">
