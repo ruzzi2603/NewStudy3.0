@@ -525,6 +525,10 @@ export default function App() {
       
       {/* Redesenhado: Header de Alto Padrão em Violeta Sólido com Elementos de Vidro */}
       <header className="bg-brand-mint sticky top-0 z-30 transition-all shadow-md select-none bg-white dark:bg-neutral-900 border border-dashed border-neutral-200/80 dark:border-neutral-800">
+        <div className="BarraLateral">
+      
+
+        </div>
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           
           <div
@@ -647,6 +651,13 @@ export default function App() {
       <footer className="border-t border-neutral-200/60 dark:border-neutral-900 py-6 text-center text-xs text-neutral-450 dark:text-neutral-500 font-mono">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
           <span>&copy; 2026 Plataforma NewStudy. Todos os direitos reservados.</span>
+          <button
+                    type="button"
+                    onClick={() => openLegalSection("terms")}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl  py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors">
+                    <FileText className="h-4 w-4" />
+                    <span>Termos</span>
+                  </button>
           <span className="flex items-center gap-1 opacity-80">
             <Sparkles className="h-3 w-3 text-brand-mint" /> Desenvolvido por RuzziDev
           </span>
@@ -666,12 +677,18 @@ export default function App() {
               className="absolute inset-0 bg-neutral-950/40 backdrop-blur-sm"
             />
             
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 15 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 lg:p-8 w-full max-w-md shadow-2xl relative z-10 flex flex-col gap-6" id="form-all"
-            >
+           <motion.div
+  initial={{ scale: 0.95, opacity: 0, y: 15 }}
+  animate={{ scale: 1, opacity: 1, y: 0 }}
+  exit={{ scale: 0.95, opacity: 0, y: 15 }}
+  className="bg-white text-neutral-300 dark:text-neutral-800 dark:bg-neutral-900 
+             border border-neutral-200 dark:border-neutral-800 
+             rounded-3xl p-4 sm:p-6 lg:p-8 
+             w-full max-w-sm sm:max-w-md 
+             mx-4 sm:mx-auto 
+             shadow-2xl relative z-10 flex flex-col gap-6"
+  id="form-all"
+>
               <button
                 onClick={() => setIsAuthOpen(false)}
                 className="absolute right-4 top-4 p-1 rounded-full text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
@@ -683,10 +700,10 @@ export default function App() {
                 <div className="inline-flex items-center justify-center h-12 w-12 bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 rounded-2xl mb-3 shadow-md">
                   <User className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+                <h3 className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 ">
                   {authTab === "login" ? "Acesse sua conta estagiada" : "Crie seu deck acadêmico"}
                 </h3>
-                <p className="text-xs text-neutral-500 mt-1 font-light">
+                <p className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 ">
                   {authTab === "login"
                     ? "Conecte-se para puxar seus resumos de aulas salvos."
                     : "Guarde seus materiais individuais de forma privada."}
@@ -719,44 +736,7 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950/40 p-4 flex flex-col gap-3" id="cdfm">
-                <div className="flex items-start gap-3">
-                  <ShieldCheck className="h-5 w-5 text-emerald-500 mt-0.5 shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                      Termos, privacidade e cookies
-                    </p>
-                   
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => openLegalSection("terms")}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
-                  >
-                    <FileText className="h-4 w-4" />
-                    <span>Termos</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => openLegalSection("privacy")}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
-                  >
-                    <Database className="h-4 w-4" />
-                    <span>Dados</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => openLegalSection("cookies")}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
-                  >
-                    <Cookie className="h-4 w-4" />
-                    <span>Cookies</span>
-                  </button>
-                </div>
-              </div>
+             
 
               <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4" id="auth-form">
                 {authTab === "register" && (
@@ -824,10 +804,16 @@ export default function App() {
                       <span className="text-xs leading-5 text-neutral-600 dark:text-neutral-300">
                         Confirmo que li e concordo com os Termos de Uso, a Política de Privacidade e a Política de Cookies.
                       </span>
+                      <button
+                    type="button"
+                    onClick={() => openLegalSection("terms")}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>Termos</span>
+                  </button>
                     </label>
-                    <p className="mt-2 text-[11px] text-neutral-500 dark:text-neutral-400">
-                      O cadastro só prossegue depois desse aceite explícito.
-                    </p>
+                  
                   </div>
                 )}
 

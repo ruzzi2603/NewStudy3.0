@@ -129,18 +129,18 @@ export default function Dashboard({
         id="link-processor-panel"
       >
         <div>
-          <h2 className="text-lg font-bold tracking-tight text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+          <h2 className="text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
             <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
-            <span className="newstudy-importer-text">Importar Aula do YouTube</span>
+            <span className=" text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">Importar Aula do YouTube</span>
           </h2>
-          <p className="newstudy-importer-text text-xs mt-1 font-sans opacity-85">
+          <p className="text-[5px] font-bold  tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
             Processamento didático em linguagem natural (PT-BR).
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
+            <label className=" text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
               LINK DO VÍDEO DO YOUTUBE
             </label>
             <input
@@ -164,14 +164,14 @@ export default function Dashboard({
                 {urlValidation.message}
               </p>
             ) : (
-              <p className="text-[11px] text-white/70 leading-5">
+              <p className="text-[11px] tracking-tight text-neutral-900 dark:text-neutral-100 leading-5">
                 Aceitamos apenas vídeos do YouTube, como watch, youtu.be, shorts, live ou embed.
               </p>
             )}
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
+            <label className=" text-[10px] font-bold font-sans tracking-wide  text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
               ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
             </label>
             <input
@@ -221,13 +221,13 @@ export default function Dashboard({
 
         {/* CONTROLE DE COTAS DO SISTEMA */}
         <div className="border-t border-neutral-100 dark:border-neutral-850 pt-4 flex flex-col gap-3 font-sans">
-          <span className="newstudy-importer-text font-bold text-[10px] tracking-wide uppercase">
+          <span className=" font-sans  text-neutral-900 dark:text-neutral-100 opacity-90 font-bold text-[10px] tracking-wide uppercase">
             CONTROLE DE COTAS DO SISTEMA :
           </span>
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="newstudy-importer-text opacity-80">
+              <span className="  text-neutral-900 dark:text-neutral-100 opacity-80">
                 Módulos Ativos no Deck
               </span>
               <span className="newstudy-importer-text font-mono font-bold">
@@ -248,7 +248,7 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="newstudy-importer-text opacity-80">
+              <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
                 Gerações por IA (Últimas 24h)
               </span>
               <span className="newstudy-importer-text font-mono font-bold">
@@ -269,10 +269,10 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
-              <span className="newstudy-importer-text opacity-80">
+              <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
                 Perguntas ao Tutor (Últimas 24h)
               </span>
-              <span className="newstudy-importer-text font-mono font-bold">
+              <span className=" text-neutral-900 dark:text-neutral-100 font-mono font-bold">
                 {usageStats ? `${usageStats.chatQuestions.current} / ${usageStats.chatQuestions.limit}` : "0 / 30"}
               </span>
             </div>
@@ -291,12 +291,11 @@ export default function Dashboard({
 
         {/* Aviso de visitante opcional */}
         {!user && (
-          <div className="bg-neutral-50 dark:bg-neutral-905 border dark:border-neutral-800/80 p-3.5 rounded-xl flex items-start gap-2.5 text-xs text-neutral-500 dark:text-neutral-400 leading-normal">
+          <div className="dark:bg-neutral-905 border dark:border-neutral-800/80 p-3.5 rounded-xl flex items-start gap-2.5 text-xs text-neutral-500 dark:text-neutral-400 leading-normal">
             <UserCheck className="h-4 w-4 text-brand-mint shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-neutral-800 dark:text-neutral-200">Usando como visitante</p>
-              <p className="text-[11px] mt-0.5 opacity-90 leading-normal">Crie uma conta gratuita clicando no topo da página para salvar seus estudos permanentemente.</p>
-            </div>
+          </div>
           </div>
         )}
       </div>
@@ -346,7 +345,7 @@ export default function Dashboard({
           </motion.h1>
         
         </div>
-        
+       
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -356,6 +355,7 @@ export default function Dashboard({
           Converta vídeos do youtube em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes, questões e muito mais em segundos.
         </motion.p>
         <ScrollDown />
+         <div className="separator"></div>
         <div className="newstudy-promo-carousel">
           <PromoCarousel />
         </div>
@@ -382,7 +382,7 @@ export default function Dashboard({
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  flex items-center font-sans">
+              <h2 className="text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  flex items-center font-sans" id="ser">
                 <span>Seu Deck de Estudo</span>
                 <span className="text-xs border border-neutral-300 dark:border-neutral-700 h-6 w-6 inline-flex items-center justify-center rounded-full font-mono font-bold text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-850 ml-1.5 select-none font-sans">
                   {lectures.length}

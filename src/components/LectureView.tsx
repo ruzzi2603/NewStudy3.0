@@ -288,7 +288,7 @@ ${formulas}
                     </p>
                   </div>
 
-                  <p className="text-sm text-neutral-700 dark:text-neutral-350 leading-relaxed font-sans font-light bg-neutral-50 dark:bg-neutral-950/20 p-4 border dark:border-neutral-800 rounded-lg">
+                  <p className="text-sm text-neutral-900 dark:text-neutral-100 leading-relaxed font-sans font-light bg-neutral-50 dark:bg-neutral-950/20 p-4 border dark:border-neutral-800 rounded-lg">
                     {lecture.summaryFull}
                   </p>
 
