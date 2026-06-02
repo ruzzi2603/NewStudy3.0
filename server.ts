@@ -19,6 +19,7 @@ import {
 } from "./src/server/db.js";
 import { generateLectureStudyMaterial, askQuestionAboutLecture } from "./src/server/ai.js";
 import { Lecture, User } from "./src/types.js";
+import { validateYouTubeUrl } from "./src/utils/youtube.js";
 import {
   checkGenerationLimit,
   incrementGeneration,
@@ -300,12 +301,12 @@ async function startServer() {
     try {
       const sessionUserId = getSignedUserId(req);
       if (!sessionUserId) {
-        return res.status(401).json({ error: "Sessão expirada ou não autenticada por cookies." });
+        return res.json({ user: null });
       }
 
       const user = await getUserById(sessionUserId);
       if (!user) {
-        return res.status(401).json({ error: "Usuário da sessão não foi localizado." });
+        return res.json({ user: null });
       }
 
       res.json({
@@ -324,7 +325,13 @@ async function startServer() {
   // User Registration
   app.post("/api/auth/register", async (req: Request, res: Response) => {
     try {
-      const { name, email, password } = req.body;
+      const {
+        name,
+        email,
+        password,
+        acceptedTerms,
+        acceptedLegalVersion,
+      } = req.body;
       const { ip } = getActor(req);
 
       const regLimit = checkRegistrationLimit(ip);
@@ -342,6 +349,12 @@ async function startServer() {
         return res.status(400).json({ error: "A senha de acesso deve possuir o tamanho mínimo de 6 caracteres." });
       }
 
+      if (acceptedTerms !== true || typeof acceptedLegalVersion !== "string" || acceptedLegalVersion.trim().length === 0) {
+        return res.status(400).json({
+          error: "Para concluir o cadastro, confirme o aceite dos Termos de Uso, da Política de Privacidade e da Política de Cookies."
+        });
+      }
+
       const existingUser = await getUserByEmail(email);
       if (existingUser) {
         return res.status(409).json({ error: "Este endereço de email já está sendo utilizado por outro cadastro." });
@@ -352,7 +365,10 @@ async function startServer() {
         name: name.trim(),
         email: email.toLowerCase().trim(),
         passwordHash: hashPassword(password),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        acceptedTerms: true,
+        acceptedLegalVersion: acceptedLegalVersion.trim(),
+        acceptedLegalAt: new Date().toISOString(),
       };
 
       await createNewUser(newUser);
@@ -600,8 +616,9 @@ async function startServer() {
         });
       }
 
-      if (!url) {
-        return res.status(400).json({ error: "A URL oficial do vídeo/módulo é obrigatória para processamento quântico." });
+      const youtubeValidation = validateYouTubeUrl(typeof url === "string" ? url : "");
+      if (!youtubeValidation.valid || !youtubeValidation.normalizedUrl) {
+        return res.status(400).json({ error: youtubeValidation.message });
       }
 
       // Register generation click
@@ -613,7 +630,7 @@ async function startServer() {
         id: newId,
         userId,
         title: topicHint || "Analisando Novo Conteúdo com Inteligência Artificial...",
-        sourceUrl: url,
+        sourceUrl: youtubeValidation.normalizedUrl,
         category: "Processando...",
         moduleName: "Módulo Dinâmico",
         duration: "00:00",
@@ -658,7 +675,7 @@ async function startServer() {
           }
 
           // Trigger powerful AI translation & summary generation safely using @google/genai SDK
-          const generatedData = await generateLectureStudyMaterial(url, topicHint);
+          const generatedData = await generateLectureStudyMaterial(youtubeValidation.normalizedUrl, topicHint);
 
           currentLecture = await getLecture(newId);
           if (currentLecture && currentLecture.status === "ANALYZING") {

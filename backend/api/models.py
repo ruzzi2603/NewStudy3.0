@@ -9,6 +9,7 @@ class User(models.Model):
     email = models.EmailField(max_length=150, unique=True, verbose_name="E-mail Acadêmico")
     password_hash = models.TextField(verbose_name="Senha Hash")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Cadastrado em")
+    is_active = models.BooleanField(default=True, verbose_name="Ativo: ")
 
     class Meta:
         db_table = 'users'
@@ -66,6 +67,7 @@ class FlashCardManual(models.Model):
     back = models.TextField(verbose_name="Verso (Resposta Detalhada)")
     difficulty_rating = models.IntegerField(default=3, choices=[(1, 'Muito Fácil'), (2, 'Fácil'), (3, 'Médio'), (4, 'Difícil'), (5, 'Extremo')], verbose_name="Dificuldade Sugerida")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Inserido em")
+    is_active = models.BooleanField(default=True, verbose_name="Ativo: ")
 
     class Meta:
         verbose_name = 'Flashcard Manual'

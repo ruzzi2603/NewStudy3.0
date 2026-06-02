@@ -103,7 +103,7 @@ export default function PromoCarousel() {
 
   return (
     <div 
-      className="relative w-full overflow-hidden rounded-2xl border border-neutral-200/80 dark:border-neutral-850 bg-neutral-100 dark:bg-neutral-900 shadow-sm"
+      className="relative w-full overflow-hidden rounded-2xl   bg-neutral-100 dark:bg-neutral-900 shadow-sm"
       onMouseEnter={() => setIsPlaying(false)}
       onMouseLeave={() => setIsPlaying(true)}
       id="promo-carousel"
@@ -125,9 +125,9 @@ export default function PromoCarousel() {
               referrerPolicy="no-referrer"
             />
             <div className={`absolute inset-0 bg-gradient-to-r ${slides[currentIndex].color} via-neutral-950/70 to-transparent mix-blend-multiply`} />
-            <div className="absolute inset-0 bg-neutral-950/20" />
+            <div className="absolute inset-0 bg-neutral-950/20 flex items-center justify-center"  />
             
-            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-10 lg:p-12 text-white max-w-xl md:max-w-2xl">
+            <div className="absolute inset-0 flex flex-col justify-center items-center p-6 sm:p-8 md:p-10 lg:p-12 text-white max-w-xl md:max-w-2xl" id="expositivo">
               <motion.div 
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

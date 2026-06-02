@@ -5,6 +5,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 import { Lecture } from "../types.js";
+import { fetchYouTubeSourceContext } from "./youtube.js";
 
 function getGeminiModel(): string {
   return process.env.GEMINI_MODEL || "gemini-2.5-flash";
@@ -74,22 +75,111 @@ export async function generateLectureStudyMaterial(
   topicHint: string
 ): Promise<Partial<Lecture>> {
   const client = getAiClient();
+  const source = await fetchYouTubeSourceContext(url);
+
+  // =====================================
+  // DEBUG DA EXTRAÇÃO DO YOUTUBE
+  // =====================================
+
+  console.log("\n==============================");
+  console.log("[NEWSTUDY] DIAGNÓSTICO YOUTUBE");
+  console.log("==============================");
+
+  console.log("URL:", source.canonicalUrl);
+  console.log("VIDEO ID:", source.videoId);
+  console.log("TÍTULO:", source.title);
+  console.log("CANAL:", source.channelTitle);
+  console.log("DURAÇÃO:", source.duration);
+  console.log("IDIOMA DA TRANSCRIÇÃO:", source.transcriptLanguage);
+  console.log("POSSUI TRANSCRIÇÃO:", source.hasTranscript);
+
+  console.log(
+    "TOTAL DE SEGMENTOS:",
+    source.transcriptSegments?.length || 0
+  );
+
+  console.log(
+    "TOTAL DE CARACTERES DA TRANSCRIÇÃO:",
+    source.transcriptText?.length || 0
+  );
+
+  if (source.transcriptText) {
+    console.log("\n--- AMOSTRA DA TRANSCRIÇÃO ---");
+    console.log(source.transcriptText.slice(0, 1000));
+    console.log("--- FIM DA AMOSTRA ---\n");
+  } else {
+    console.warn(
+      "[NEWSTUDY] NENHUMA TRANSCRIÇÃO FOI EXTRAÍDA."
+    );
+  }
+
+  console.log("==============================\n");
+
+  const optionalTopicHint = topicHint.trim();
+
+  const topicContext =
+    optionalTopicHint.length > 0
+      ? optionalTopicHint
+      : "Nao informado";
+
+  // =====================================
+  // PROMPT
+  // =====================================
 
   const prompt = `
-    Analise os seguintes detalhes do vídeo/assunto educacional fornecido e gere um material de estudo completo, estruturado e didático.
-    URL do Conteúdo: ${url}
-    Ideia Central do Tema ou Título: ${topicHint || "Assunto Acadêmico Geral"}
+    A seguir estao os dados reais extraidos do video do YouTube. A transcricao e a fonte principal da analise.
 
-    Sua resposta DEVE ser estritamente em PORTUGUÊS DO BRASIL. Certifique-se de que os conceitos extraídos sejam densos, explicativos e acadêmicos. Fórmulas matemáticas devem usar a notação formal LaTeX sem delimitadores de cifrão externo nas descrições de blocos (ex: "E = mc^2" ou "\\Psi(x,t)").
+    URL canonica: ${source.canonicalUrl}
+    Titulo oficial: ${source.title}
+    Canal/autor: ${source.channelTitle || "Nao informado"}
+    Duracao: ${source.duration || "Nao informada"}
+    Descricao do video: ${source.description || "Nao informada"}
+
+    Transcricao extraida do video:
+    ${
+      source.transcriptText ||
+      "Nao ha transcricao automatica disponivel para este video."
+    }
+
+    Contexto adicional opcional fornecido pelo usuario:
+    ${topicContext}
+
+    Regras importantes:
+    - Use a transcricao e os metadados do video como fonte principal.
+    - O contexto adicional do usuario nao pode substituir o conteudo real do video.
+    - Se o contexto adicional estiver ausente, ignore-o completamente.
+    - Nao invente um assunto diferente do que aparece na transcricao e nos metadados.
+    - Se houver pouca informacao, seja explicito sobre as incertezas.
+
+    Sua resposta DEVE ser estritamente em PORTUGUES DO BRASIL.
   `;
 
+  console.log("\n==============================");
+  console.log("[NEWSTUDY] ENVIANDO PARA GEMINI");
+  console.log("==============================");
+
+  console.log("TAMANHO DO PROMPT:", prompt.length);
+
+  console.log(
+    "TRANSCRIÇÃO PRESENTE:",
+    source.transcriptText.length > 0
+  );
+
+  console.log(
+    "TEMA INFORMADO:",
+    topicHint || "(vazio)"
+  );
+
+  console.log("==============================\n");
+
+  // continua normalmente...
   const response = await withRetry(() =>
     client.models.generateContent({
       model: getGeminiModel(),
       contents: prompt,
       config: {
-        systemInstruction: `Você é um renomado designer pedagógico e professor universitário sênio brasileiro. Seu objetivo é estruturar materiais de estudo excepcionais baseados nos dados fornecidos pelo aluno.
-TODO O MATERIAL DEVE SER ESCRITO EM PORTUGUÊS DO BRASIL (pt-BR). Forneça explicações acadêmicas robustas, segmentos de transcrição didáticos com timestamps realistas (ex: "01:20"), fórmulas úteis com variáveis e aplicações práticas correspondentes, flashcards desafiadores e questionários de múltipla escolha diagnósticos com justificativas detalhadas para as opções certas e erradas. Forneça o resultado exclusivamente no formato do esquema JSON solicitado.`,
+        systemInstruction: `Você é um renomado designer pedagógico e professor universitário sênio brasileiro. Seu objetivo é estruturar materiais de estudo excepcionais baseados nos dados reais extraídos do video do YouTube.
+TODO O MATERIAL DEVE SER ESCRITO EM PORTUGUÊS DO BRASIL (pt-BR). Use a transcricao e os metadados como fonte principal, e trate qualquer contexto adicional do usuario apenas como auxiliar. Forneça explicações acadêmicas robustas, segmentos de transcrição didáticos com timestamps realistas (ex: "01:20"), fórmulas úteis com variáveis e aplicações práticas correspondentes, flashcards desafiadores e questionários de múltipla escolha diagnósticos com justificativas detalhadas para as opções certas e erradas. Forneça o resultado exclusivamente no formato do esquema JSON solicitado.`,
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,

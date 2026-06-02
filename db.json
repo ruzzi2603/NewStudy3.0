@@ -2,6 +2,339 @@
   "users": [],
   "lectures": [
     {
+      "id": "lecture-1780359324093",
+      "userId": "user-1780025716016-e4a425ee",
+      "title": "O Qubit: A Unidade Fundamental da Informação Quântica e Seus Princípios Operacionais",
+      "sourceUrl": "https://www.youtube.com/watch?v=x4k8950MVeg",
+      "category": "Computação Quântica",
+      "moduleName": "Fundamentos da Computação Quântica",
+      "duration": "10:48",
+      "status": "READY",
+      "progress": 100,
+      "summaryShort": "Qubits são a base da computação quântica, utilizando superposição e emaranhamento para processar informações de forma exponencialmente mais poderosa que bits clássicos.",
+      "summaryFull": "Este material explora detalhadamente o conceito de qubit, a unidade fundamental de informação na computação quântica. Diferente dos bits clássicos, que podem estar em um estado de 0 ou 1, os qubits aproveitam os princípios da mecânica quântica para existir em uma superposição de ambos os estados simultaneamente. Essa capacidade de superposição permite que um único qubit represente múltiplos valores ao mesmo tempo, escalando exponencialmente à medida que mais qubits são adicionados. Além da superposição, o material aborda o fenômeno do emaranhamento quântico, onde dois ou mais qubits se tornam intrinsecamente ligados, de forma que o estado de um influencia instantaneamente o estado do outro, independentemente da distância. A medição de um qubit em superposição ou emaranhamento é também discutida, explicando como essa ação força o colapso do estado quântico para um valor binário definido (0 ou 1), revelando apenas uma fração da informação armazenada quantum-mecanicamente. A combinação desses fenômenos é o que confere à computação quântica seu vasto potencial em resolver problemas complexos que estão além do alcance dos computadores clássicos, destacando a transição paradigmática da informação binária para a probabilística.",
+      "learningObjectives": [
+        "Diferenciar fundamentalmente um bit clássico de um qubit, identificando suas respectivas capacidades de representação de informação.",
+        "Explicar os fenômenos da superposição e emaranhamento quântico, detalhando como contribuem para a capacidade de processamento dos computadores quânticos.",
+        "Analisar o efeito da medição sobre um qubit, compreendendo o conceito de colapso da função de onda e a perda de superposição.",
+        "Relacionar os princípios dos qubits aos potenciais avanços e aplicações da computação quântica em diversas áreas científicas e tecnológicas."
+      ],
+      "keyConcept": {
+        "title": "O Qubit: A Unidade Fundamental da Informação Quântica",
+        "body": "Um qubit (quantum bit) é a menor unidade de informação na computação quântica, análoga ao bit binário dos computadores clássicos. No entanto, a distinção é crucial: enquanto um bit clássico pode assumir o valor 0 OU 1 em qualquer momento, um qubit pode existir em uma superposição de 0 E 1 simultaneamente. Este estado de superposição é uma combinação linear dos estados base |0⟩ e |1⟩, representado matematicamente por \\Psi = \\alpha|0⟩ + \\beta|1⟩, onde \\alpha e \\beta são amplitudes de probabilidade complexas. A probabilidade de encontrar o qubit no estado |0⟩ após a medição é |\\alpha|^2, e no estado |1⟩ é |\\beta|^2, com a condição de normalização |\\alpha|^2 + |\\beta|^2 = 1. A capacidade de um qubit de armazenar e processar múltiplos estados de uma vez, juntamente com o fenômeno do emaranhamento quântico, é o que confere à computação quântica seu poder exponencial, permitindo que ela lide com problemas de complexidade intratável para máquinas clássicas."
+      },
+      "transcriptionSegments": [
+        {
+          "time": "00:30",
+          "text": "Para entender o qubit, primeiro precisamos revisitar o bit clássico. Um bit é a unidade fundamental de informação em computadores que conhecemos. Ele pode estar em um estado de 0 ou de 1. É uma escolha binária simples, exclusiva."
+        },
+        {
+          "time": "01:45",
+          "text": "Agora, imagine algo que pode ser 0 e 1 ao mesmo tempo. É isso que um qubit faz! Graças a um princípio da mecânica quântica chamado superposição. Pense como uma moeda girando no ar: enquanto ela gira, não é cara nem coroa, mas uma mistura de ambos. Só quando ela cai e você a observa, ela assume um estado definido."
+        },
+        {
+          "time": "03:10",
+          "text": "Quando medimos um qubit, sua superposição 'colapsa' para um dos estados clássicos, 0 ou 1. É como se a própria observação forçasse o qubit a 'decidir' seu estado. Esse colapso é um conceito central e muitas vezes contraintuitivo da mecânica quântica."
+        },
+        {
+          "time": "05:20",
+          "text": "Além da superposição, temos o emaranhamento. Dois qubits emaranhados estão tão interligados que o estado de um instantaneamente influencia o estado do outro, não importa a distância. Se você sabe o estado de um, automaticamente sabe o do outro. É uma conexão profunda e não-local, que Einstein chamou de 'ação fantasmagórica à distância'."
+        },
+        {
+          "time": "07:05",
+          "text": "A mágica da computação quântica reside na combinação desses dois fenômenos. Com superposição e emaranhamento, computadores quânticos podem explorar múltiplos caminhos de cálculo simultaneamente, resolvendo problemas complexos de forma exponencialmente mais rápida do que qualquer máquina clássica jamais poderia fazer."
+        },
+        {
+          "time": "09:15",
+          "text": "É importante notar que a fragilidade desses estados quânticos, conhecida como decoerência, é um dos maiores desafios tecnológicos. Manter os qubits em estados de superposição e emaranhamento por tempo suficiente para realizar cálculos úteis exige ambientes extremamente controlados."
+        }
+      ],
+      "formulas": [
+        {
+          "title": "Estado Geral de um Qubit",
+          "latex": "\\Psi = \\alpha|0\\rangle + \\beta|1\\rangle",
+          "description": "Esta fórmula representa o estado de superposição de um qubit. \\Psi (psi) denota o estado quântico, \\alpha (alfa) e \\beta (beta) são amplitudes de probabilidade complexas, e |0\\rangle e |1\\rangle são os estados base (análogos aos 0 e 1 clássicos).",
+          "application": "É a representação matemática fundamental para descrever a capacidade de um qubit de existir em múltiplos estados simultaneamente. Essencial para entender como a informação é codificada e processada em sistemas quânticos, sendo a base para algoritmos quânticos que exploram a paralelização intrínseca.",
+          "variables": [
+            {
+              "name": "\\Psi",
+              "explanation": "O vetor de estado quântico do qubit, representando sua configuração total."
+            },
+            {
+              "name": "\\alpha",
+              "explanation": "A amplitude de probabilidade complexa associada ao estado |0\\rangle. O quadrado do seu módulo, |\\alpha|^2, representa a probabilidade de o qubit ser medido como 0."
+            },
+            {
+              "name": "\\beta",
+              "explanation": "A amplitude de probabilidade complexa associada ao estado |1\\rangle. O quadrado do seu módulo, |\\beta|^2, representa a probabilidade de o qubit ser medido como 1."
+            },
+            {
+              "name": "|0\\rangle",
+              "explanation": "Notação 'bra-ket' de Dirac para o estado base 'zero'."
+            },
+            {
+              "name": "|1\\rangle",
+              "explanation": "Notação 'bra-ket' de Dirac para o estado base 'um'."
+            }
+          ]
+        },
+        {
+          "title": "Condição de Normalização de um Qubit",
+          "latex": "|\\alpha|^2 + |\\beta|^2 = 1",
+          "description": "Esta equação estabelece que a soma das probabilidades de um qubit ser medido em qualquer um dos seus estados base possíveis deve ser igual a 1 (100%).",
+          "application": "Garante a consistência probabilística do estado de um qubit. É crucial para o projeto e análise de algoritmos quânticos, assegurando que o sistema quântico permaneça num estado fisicamente realizável e que as probabilidades se somem corretamente.",
+          "variables": [
+            {
+              "name": "|\\alpha|^2",
+              "explanation": "A probabilidade de o qubit ser medido no estado |0\\rangle."
+            },
+            {
+              "name": "|\\beta|^2",
+              "explanation": "A probabilidade de o qubit ser medido no estado |1\\rangle."
+            }
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "fc-lecture-1780359324093-0",
+          "question": "Qual a distinção fundamental entre um bit clássico e um qubit em termos de representação de informação?",
+          "answer": "Um bit clássico pode representar apenas um valor (0 ou 1) em um dado momento. Um qubit, graças ao princípio da superposição, pode representar 0, 1, ou uma combinação de ambos simultaneamente, permitindo-lhe codificar muito mais informação.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780359324093-1",
+          "question": "Explique o fenômeno da superposição quântica aplicado a um qubit.",
+          "answer": "A superposição é a capacidade de um sistema quântico, como um qubit, de existir em múltiplos estados simultaneamente. Matematicamente, é uma combinação linear dos estados base |0⟩ e |1⟩. Somente ao ser medido, o qubit 'colapsa' para um desses estados definidos, com uma probabilidade determinada pelas suas amplitudes.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780359324093-2",
+          "question": "Defina emaranhamento quântico e qual a sua relevância para a computação quântica.",
+          "answer": "Emaranhamento quântico é um fenômeno onde dois ou mais qubits se tornam intrinsecamente ligados de tal forma que o estado de um não pode ser descrito independentemente do estado do outro, mesmo que estejam fisicamente separados. Para a computação quântica, o emaranhamento é crucial porque permite a criação de correlações complexas entre qubits, habilitando a exploração de múltiplas soluções em paralelo e tornando possíveis algoritmos quânticos poderosos.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780359324093-3",
+          "question": "O que acontece com um qubit em superposição quando ele é medido?",
+          "answer": "Quando um qubit em superposição é medido, sua função de onda colapsa instantaneamente para um dos seus estados base (0 ou 1). A probabilidade de colapsar para 0 ou 1 é determinada pelas amplitudes de probabilidade associadas a cada estado antes da medição. Após a medição, o qubit permanece nesse estado clássico.",
+          "reviewState": false
+        }
+      ],
+      "quizzes": [
+        {
+          "id": "q-lecture-1780359324093-0",
+          "question": "Qual dos seguintes princípios é exclusivo dos qubits e permite que eles processem informações de uma maneira fundamentalmente diferente dos bits clássicos?",
+          "options": [
+            "Capacidade de armazenamento de dados binários (0 ou 1).",
+            "Existência em uma superposição de 0 e 1 simultaneamente.",
+            "Necessidade de um fluxo constante de energia para manter seu estado."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A superposição é o princípio chave que diferencia os qubits dos bits clássicos. Enquanto bits clássicos armazenam 0 ou 1, qubits podem existir em uma combinação de ambos simultaneamente, permitindo um processamento de informações exponencialmente mais eficiente. A primeira opção descreve os bits clássicos. A terceira opção é uma característica de componentes eletrônicos, mas não um princípio exclusivo de qubits em termos de sua representação de informação."
+        },
+        {
+          "id": "q-lecture-1780359324093-1",
+          "question": "Dois qubits estão emaranhados. Se o primeiro qubit for medido e seu estado for determinado como |0⟩, o que se pode inferir sobre o estado do segundo qubit (assumindo um par emaranhado simples como |00⟩ + |11⟩)?",
+          "options": [
+            "O segundo qubit também estará em superposição de |0⟩ e |1⟩.",
+            "O estado do segundo qubit será instantaneamente correlacionado com o primeiro, ou seja, |0⟩.",
+            "O estado do segundo qubit não pode ser determinado sem sua própria medição, devido à distância."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "No emaranhamento, os estados de qubits correlacionados estão intrinsecamente ligados. Se o par emaranhado for do tipo Bell state (|00⟩ + |11⟩), a medição de um qubit como |0⟩ implica que o outro também será |0⟩ instantaneamente, independentemente da distância. A primeira opção está incorreta, pois a medição de um já colapsou a superposição. A terceira está errada porque a correlação é instantânea e não-local no emaranhamento."
+        },
+        {
+          "id": "q-lecture-1780359324093-2",
+          "question": "A principal razão pela qual a computação quântica tem o potencial de resolver problemas complexos intratáveis para computadores clássicos reside na sua capacidade de:",
+          "options": [
+            "Armazenar grandes volumes de dados em estado sólido.",
+            "Executar cálculos em paralelo explorando superposição e emaranhamento.",
+            "Utilizar arquiteturas de processadores com bilhões de transistores."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A capacidade exponencial da computação quântica deriva diretamente da combinação da superposição e do emaranhamento. Esses fenômenos permitem que os computadores quânticos explorem múltiplos caminhos de cálculo simultaneamente, algo impossível para computadores clássicos. A primeira opção descreve uma vantagem de armazenamento, não de processamento fundamental. A terceira opção descreve avanços em computação clássica, não quântica."
+        },
+        {
+          "id": "q-lecture-1780359324093-3",
+          "question": "O que acontece com um qubit quando ele é medido?",
+          "options": [
+            "Ele entra em um estado de superposição mais estável.",
+            "Sua função de onda colapsa para um estado clássico definido (0 ou 1).",
+            "Ele se torna emaranhado com todos os outros qubits no sistema."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A medição de um qubit em superposição causa o colapso da sua função de onda, forçando-o a assumir um estado clássico definido (0 ou 1). Isso significa que a superposição é perdida no momento da observação. A primeira opção é o oposto do que ocorre. A terceira opção descreve um fenômeno diferente (emaranhamento) que não é uma consequência direta da medição de um único qubit, a menos que o sistema inteiro esteja sendo medido de forma específica para induzir emaranhamento com outros subsistemas, o que não é o conceito geral de medição de um qubit individual."
+        }
+      ],
+      "chatHistory": [],
+      "createdAt": "2026-06-02T00:15:24.093Z"
+    },
+    {
+      "id": "lecture-1780358378880",
+      "userId": "guest-c3bd9ea812356b3dde3f6d3a",
+      "title": "Fundamentos de Algoritmos: Conceituação, Propriedades e Análise de Complexidade",
+      "sourceUrl": "https://www.youtube.com/watch?v=r-Vuvb18kUk",
+      "category": "Ciência da Computação",
+      "moduleName": "Introdução à Algoritmos e Estruturas de Dados",
+      "duration": "42:30",
+      "status": "READY",
+      "progress": 100,
+      "summaryShort": "Este material explora a essência dos algoritmos, suas propriedades fundamentais e as bases da análise de complexidade para entender sua eficiência computacional.",
+      "summaryFull": "Este material didático aprofunda-se no conceito de algoritmo, uma sequência finita de instruções bem definidas e não ambíguas utilizada para resolver um problema ou realizar uma tarefa. Iniciamos com a definição formal e a contextualização histórica, destacando a relevância dos algoritmos na computação e em diversas áreas do conhecimento.\n\nEm seguida, detalhamos as propriedades essenciais que todo algoritmo deve possuir: finitude, clareza, entrada, saída e efetividade. Cada uma dessas características é explorada com exemplos práticos para solidificar a compreensão do estudante. Abordamos também as diferentes formas de representação, como pseudocódigo e fluxogramas, ferramentas cruciais para a comunicação e o desenvolvimento de soluções algorítmicas.\n\nFinalmente, introduzimos os princípios da análise de complexidade de algoritmos. Discutimos a importância de avaliar a eficiência de um algoritmo em termos de tempo de execução e uso de memória, apresentando a notação Big O como uma ferramenta fundamental para classificar o desempenho assintótico. Este estudo visa capacitar o aluno a não apenas conceber algoritmos, mas também a avaliar criticamente sua adequação para diferentes contextos computacionais.",
+      "learningObjectives": [
+        "Definir formalmente um algoritmo e listar suas cinco propriedades essenciais.",
+        "Compreender e aplicar diferentes formas de representação algorítmica, como pseudocódigo e fluxogramas.",
+        "Analisar a eficiência de algoritmos utilizando a notação Big O para tempo e espaço de execução.",
+        "Identificar a importância dos algoritmos na resolução de problemas computacionais e em aplicações do cotidiano."
+      ],
+      "keyConcept": {
+        "title": "O que é um Algoritmo?",
+        "body": "Um algoritmo é uma sequência finita e não ambígua de instruções bem definidas, executáveis em um número finito de passos, que, ao serem seguidas, levam à resolução de um problema ou à execução de uma tarefa específica. Em outras palavras, é uma 'receita' lógica e sistemática para alcançar um objetivo. A palavra 'algoritmo' deriva do matemático persa do século IX, Muhammad ibn Musa al-Khwarizmi, cujo trabalho com algarismos indo-arábicos e métodos de cálculo lançou as bases para o que hoje entendemos como processamento de dados e resolução de problemas computacionais. Os algoritmos são a espinha dorsal de todo o software e hardware modernos, desde um simples cálculo em uma calculadora até os sistemas complexos de inteligência artificial."
+      },
+      "transcriptionSegments": [
+        {
+          "time": "00:00",
+          "text": "Olá a todos e bem-vindos à nossa aula sobre Fundamentos de Algoritmos. Hoje, vamos desmistificar um dos conceitos mais centrais da ciência da computação e entender por que ele é tão crucial no mundo digital."
+        },
+        {
+          "time": "03:15",
+          "text": "Começamos com a definição formal. Um algoritmo é, essencialmente, uma sequência finita de instruções claras e precisas para resolver um problema. Pensem nele como uma receita de bolo: cada passo é uma instrução que, se seguida corretamente, leva ao resultado desejado, que é o bolo pronto."
+        },
+        {
+          "time": "08:40",
+          "text": "Quais são as propriedades fundamentais que todo algoritmo deve possuir? A finitude, que garante que ele sempre terminará; a clareza, onde cada instrução é inequívoca; a entrada e saída bem definidas; e a efetividade, que significa que cada passo pode ser executado e gera um resultado."
+        },
+        {
+          "time": "14:20",
+          "text": "Para representar algoritmos, temos ferramentas como o pseudocódigo, que é uma linguagem intermediária entre a linguagem natural e a linguagem de programação, e os fluxogramas, representações gráficas que ilustram o fluxo lógico do algoritmo de forma visual e intuitiva."
+        },
+        {
+          "time": "20:05",
+          "text": "Vamos agora aprofundar na análise de algoritmos. Não basta criar uma solução; precisamos saber quão boa ela é. Isso nos leva ao estudo da eficiência, que mede o consumo de recursos — tempo e espaço de memória — de um algoritmo em função do tamanho da entrada de dados."
+        },
+        {
+          "time": "26:30",
+          "text": "A Notação Big O é a ferramenta padrão para descrever a complexidade assintótica de um algoritmo. Ela nos permite classificar o comportamento de um algoritmo à medida que o tamanho da entrada cresce, ignorando constantes e termos de menor ordem para focar no seu crescimento dominante."
+        },
+        {
+          "time": "32:55",
+          "text": "Existem diversas classes de complexidade, como O(1) para tempo constante, O(log n) para logarítmico, O(n) para linear, O(n log n) para linearitmico, O(n^2) para quadrático e O(2^n) para exponencial. Cada uma delas tem implicações significativas na escalabilidade de um sistema."
+        },
+        {
+          "time": "38:10",
+          "text": "Entender algoritmos e sua análise é essencial não só para programadores, mas para qualquer profissional que lida com processamento de dados. Eles são a base para inovações em áreas como inteligência artificial, criptografia, otimização e processamento de grandes volumes de dados."
+        }
+      ],
+      "formulas": [
+        {
+          "title": "Função de Custo para Análise de Algoritmos",
+          "latex": "T(n) = c_1f_1(n) + c_2f_2(n) + \text{...} + c_kf_k(n)",
+          "description": "Esta fórmula representa a função de custo total, T(n), de um algoritmo, onde 'n' é o tamanho da entrada. Ela descreve o número de operações ou recursos (como tempo ou memória) consumidos pelo algoritmo. Cada c_i representa uma constante de tempo para uma operação específica, e f_i(n) é a frequência com que essa operação é executada, dependendo de 'n'.",
+          "application": "Utilizada para modelar o desempenho exato de um algoritmo em relação ao tamanho da entrada, permitindo uma análise detalhada antes de abstrações como a Notação Big O. É fundamental na fase inicial de projeto e otimização de algoritmos críticos.",
+          "variables": [
+            {
+              "name": "T(n)",
+              "explanation": "A função de custo total do algoritmo em relação ao tamanho da entrada 'n'."
+            },
+            {
+              "name": "n",
+              "explanation": "O tamanho da entrada de dados para o algoritmo."
+            },
+            {
+              "name": "c_i",
+              "explanation": "Uma constante que representa o custo de tempo ou espaço de uma operação básica específica."
+            },
+            {
+              "name": "f_i(n)",
+              "explanation": "Uma função que descreve a frequência com que a i-ésima operação é executada em relação ao tamanho da entrada 'n'."
+            }
+          ]
+        },
+        {
+          "title": "Notação Big O (Limite Superior Assintótico)",
+          "latex": "f(n) \text{ é } O(g(n)) \text{ se existem constantes } c > 0 \text{ e } n_0 \\ge 0 \\text{ tais que } 0 \\le f(n) \\le c \\cdot g(n) \\text{ para todo } n \\ge n_0",
+          "description": "A Notação Big O é usada para descrever o limite superior assintótico de uma função, fornecendo uma estimativa do comportamento de tempo de execução ou espaço de memória de um algoritmo para grandes entradas. Ela foca na ordem de crescimento, desconsiderando constantes e termos de menor ordem.",
+          "application": "É a principal ferramenta para classificar e comparar a eficiência de algoritmos. Permite aos desenvolvedores e pesquisadores prever como o desempenho de um algoritmo escalará com o aumento do volume de dados, auxiliando na escolha da melhor solução para um dado problema computacional.",
+          "variables": [
+            {
+              "name": "f(n)",
+              "explanation": "A função que descreve o tempo de execução real ou o uso de espaço do algoritmo em relação ao tamanho da entrada 'n'."
+            },
+            {
+              "name": "g(n)",
+              "explanation": "A função de limite superior que é usada para comparar com f(n), representando uma classe de crescimento (ex: n, n^2, log n)."
+            },
+            {
+              "name": "c",
+              "explanation": "Uma constante positiva, um fator de escala que ajusta g(n) para ser maior ou igual a f(n)."
+            },
+            {
+              "name": "n_0",
+              "explanation": "Um valor de entrada mínimo a partir do qual a condição f(n) <= c * g(n) é sempre verdadeira."
+            }
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "fc-lecture-1780358378880-0",
+          "question": "Qual é a definição fundamental de um algoritmo e por que ele é considerado 'finito'?",
+          "answer": "Um algoritmo é uma sequência finita de instruções bem definidas e não ambíguas, projetadas para resolver um problema. Ele é considerado 'finito' porque, independentemente do problema ou dos dados de entrada, o algoritmo deve sempre terminar após um número limitado de passos, garantindo que não entre em um loop infinito ou processamento interminável.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780358378880-1",
+          "question": "Cite e explique duas das propriedades essenciais de um algoritmo, além da finitude.",
+          "answer": "Duas propriedades essenciais são: 1. **Clareza (ou Unambiguidade):** Cada instrução do algoritmo deve ser precisa e não deixar margem para interpretações múltiplas, de modo que cada passo seja compreendido e executado da mesma forma por qualquer executor. 2. **Efetividade:** Cada operação dentro do algoritmo deve ser básica e factível, ou seja, pode ser realizada por uma pessoa ou máquina em um tempo finito e com recursos disponíveis. As instruções não podem ser vagas ou impossíveis de executar.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780358378880-2",
+          "question": "Para que serve a Notação Big O na análise de algoritmos e qual sua principal vantagem?",
+          "answer": "A Notação Big O serve para descrever o comportamento assintótico de um algoritmo, ou seja, como seu tempo de execução ou uso de espaço cresce à medida que o tamanho da entrada (n) se torna muito grande. Sua principal vantagem é a capacidade de classificar algoritmos em termos de sua escalabilidade, permitindo comparar a eficiência de diferentes soluções de forma independente de hardware ou detalhes de implementação, focando apenas na taxa de crescimento dominante.",
+          "reviewState": false
+        }
+      ],
+      "quizzes": [
+        {
+          "id": "q-lecture-1780358378880-0",
+          "question": "Qual das seguintes características NÃO é uma propriedade essencial de um algoritmo?",
+          "options": [
+            "Capacidade de prever resultados futuros com 100% de precisão.",
+            "Ter um número finito de passos para completar sua execução.",
+            "Possuir instruções claras e sem ambiguidade."
+          ],
+          "correctAnswerIndex": 0,
+          "explanation": "A opção correta é 'Capacidade de prever resultados futuros com 100% de precisão'. Embora algoritmos sejam determinísticos e produzam os mesmos resultados para as mesmas entradas, sua função não é prever o futuro, mas sim resolver problemas baseados em dados existentes. As outras opções – finitude e clareza – são propriedades fundamentais de qualquer algoritmo válido."
+        },
+        {
+          "id": "q-lecture-1780358378880-1",
+          "question": "Um algoritmo que tem uma complexidade de tempo de O(n^2) significa que:",
+          "options": [
+            "Seu tempo de execução é constante, independentemente do tamanho da entrada.",
+            "Seu tempo de execução cresce quadraticamente com o aumento do tamanho da entrada.",
+            "Ele se torna mais rápido à medida que o tamanho da entrada aumenta, de forma logarítmica."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A opção correta é 'Seu tempo de execução cresce quadraticamente com o aumento do tamanho da entrada'. A notação O(n^2) indica que, se a entrada (n) dobra, o tempo de execução do algoritmo aumentará aproximadamente por um fator de quatro (2^2). Algoritmos O(1) têm tempo constante, e O(log n) são logarítmicos, tornando-se mais rápidos por unidade de trabalho conforme n cresce, não mais rápidos no geral. Algoritmos O(n^2) são geralmente considerados menos eficientes para grandes volumes de dados do que aqueles com complexidade linear ou logarítmica."
+        },
+        {
+          "id": "q-lecture-1780358378880-2",
+          "question": "Qual é a principal diferença entre pseudocódigo e fluxogramas na representação de algoritmos?",
+          "options": [
+            "Pseudocódigo é uma linguagem de programação real, enquanto fluxogramas são diagramas gráficos.",
+            "Pseudocódigo é textual e abstrato, enquanto fluxogramas são visuais e representam o fluxo lógico.",
+            "Fluxogramas são usados apenas para algoritmos simples, enquanto pseudocódigo é para algoritmos complexos."
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A opção correta é 'Pseudocódigo é textual e abstrato, enquanto fluxogramas são visuais e representam o fluxo lógico'. O pseudocódigo utiliza uma linguagem próxima ao português (ou inglês), mas com estruturas de programação, sendo uma forma textual e abstrata de descrever o algoritmo. Já os fluxogramas são representações gráficas que usam símbolos padronizados para ilustrar a sequência de operações e decisões do algoritmo, focando no fluxo lógico. Nenhuma das duas é uma linguagem de programação real, e ambos podem ser usados para diferentes níveis de complexidade, dependendo da preferência e do contexto."
+        }
+      ],
+      "chatHistory": [],
+      "createdAt": "2026-06-01T23:59:38.880Z"
+    },
+    {
       "id": "lecture-1",
       "userId": "system",
       "title": "Emaranhamento Quântico e Teoria da Informação",

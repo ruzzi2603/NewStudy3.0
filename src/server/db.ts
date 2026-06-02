@@ -14,9 +14,9 @@ const defaultLectures: Lecture[] = [
   {
     id: "lecture-1",
     userId: "system",
-    title: "Emaranhamento Quântico e Teoria da Informação",
+    title: "Emaranhamento Quântico e Teoria da Informação (EXEMPLO DE ESTUDO)",
     sourceUrl: "https://www.youtube.com/watch?v=zN_3EAsbyNo",
-    category: "Física Avançada",
+    category: "Física Avançada (EXEMPLO DE ESTUDO)",
     moduleName: "Módulo 4",
     duration: "42:15",
     status: "READY",
@@ -108,17 +108,18 @@ function normalizeFlashcards(value: unknown, lectureId: string): Flashcard[] {
   if (!Array.isArray(value)) return [];
   return value
     .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
-    .map((item, index) => {
+    .map((item, index): Flashcard => {
       const question = asString(item.question, asString(item.front));
       const answer = asString(item.answer, asString(item.back));
+      const difficulty =
+        item.difficulty === "easy" || item.difficulty === "good" || item.difficulty === "hard"
+          ? (item.difficulty as Flashcard["difficulty"])
+          : undefined;
       return {
         id: asString(item.id, `fc-${lectureId}-${index}`),
         question,
         answer,
-        difficulty:
-          item.difficulty === "easy" || item.difficulty === "good" || item.difficulty === "hard"
-            ? item.difficulty
-            : undefined,
+        difficulty,
         reviewState: typeof item.reviewState === "boolean" ? item.reviewState : false,
       };
     })
@@ -262,9 +263,14 @@ export async function initializeDatabase() {
         name VARCHAR(100) NOT NULL,
         email VARCHAR(150) UNIQUE NOT NULL,
         password_hash TEXT NOT NULL,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        accepted_legal_version VARCHAR(50),
+        accepted_legal_at TIMESTAMP WITH TIME ZONE
       );
     `);
+
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS accepted_legal_version VARCHAR(50);`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS accepted_legal_at TIMESTAMP WITH TIME ZONE;`);
 
     await client.query(`
       CREATE TABLE IF NOT EXISTS lectures (
@@ -358,6 +364,7 @@ export async function getLectures(userId?: string): Promise<Lecture[]> {
       return rows;
     } catch (err) {
       console.error("[Postgres] Erro em getLectures, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -380,6 +387,7 @@ export async function getLecture(id: string): Promise<Lecture | null> {
       }
     } catch (err) {
       console.error("[Postgres] Erro em getLecture, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -413,6 +421,7 @@ export async function saveLecture(lecture: Lecture): Promise<void> {
       return;
     } catch (err) {
       console.error("[Postgres] Erro em saveLecture, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -433,6 +442,7 @@ export async function deleteLecture(id: string): Promise<void> {
       return;
     } catch (err) {
       console.error("[Postgres] Erro em deleteLecture, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -446,13 +456,17 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   const normEmail = email.toLowerCase().trim();
   if (isPgConnected && pgPool) {
     try {
-      const res = await pgPool.query("SELECT id, name, email, password_hash as \"passwordHash\", created_at as \"createdAt\" FROM users WHERE email = $1", [normEmail]);
+      const res = await pgPool.query(
+        "SELECT id, name, email, password_hash as \"passwordHash\", created_at as \"createdAt\", accepted_legal_version as \"acceptedLegalVersion\", accepted_legal_at as \"acceptedLegalAt\" FROM users WHERE email = $1",
+        [normEmail]
+      );
       if (res.rows.length > 0) {
         return res.rows[0] as User;
       }
       return null;
     } catch (err) {
       console.error("[Postgres] Erro em getUserByEmail, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -463,13 +477,17 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 export async function getUserById(id: string): Promise<User | null> {
   if (isPgConnected && pgPool) {
     try {
-      const res = await pgPool.query("SELECT id, name, email, password_hash as \"passwordHash\", created_at as \"createdAt\" FROM users WHERE id = $1", [id]);
+      const res = await pgPool.query(
+        "SELECT id, name, email, password_hash as \"passwordHash\", created_at as \"createdAt\", accepted_legal_version as \"acceptedLegalVersion\", accepted_legal_at as \"acceptedLegalAt\" FROM users WHERE id = $1",
+        [id]
+      );
       if (res.rows.length > 0) {
         return res.rows[0] as User;
       }
       return null;
     } catch (err) {
       console.error("[Postgres] Erro em getUserById, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 
@@ -481,12 +499,21 @@ export async function createNewUser(user: User): Promise<void> {
   if (isPgConnected && pgPool) {
     try {
       await pgPool.query(
-        "INSERT INTO users (id, name, email, password_hash, created_at) VALUES ($1, $2, $3, $4, $5)",
-        [user.id, user.name, user.email.toLowerCase().trim(), user.passwordHash, user.createdAt]
+        "INSERT INTO users (id, name, email, password_hash, created_at, accepted_legal_version, accepted_legal_at) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        [
+          user.id,
+          user.name,
+          user.email.toLowerCase().trim(),
+          user.passwordHash,
+          user.createdAt,
+          user.acceptedLegalVersion ?? null,
+          user.acceptedLegalAt ?? null,
+        ]
       );
       return;
     } catch (err) {
       console.error("[Postgres] Erro em createNewUser, usando fallback local.", err);
+      isPgConnected = false;
     }
   }
 

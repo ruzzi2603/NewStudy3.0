@@ -22,6 +22,7 @@ import {
   UserCheck
 } from "lucide-react";
 import { Lecture } from "../types";
+import { validateYouTubeUrl } from "../utils/youtube";
 
 interface DashboardProps {
   lectures: Lecture[];
@@ -55,6 +56,7 @@ export default function Dashboard({
   }
 
   const [usageStats, setUsageStats] = useState<UsageStatistics | null>(null);
+  const urlValidation = validateYouTubeUrl(url);
 
   const fetchUsageStats = async () => {
     try {
@@ -96,12 +98,12 @@ export default function Dashboard({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!url) {
-      setError("Por favor, informe uma URL válida de vídeo correspondente.");
+    if (!urlValidation.valid || !urlValidation.normalizedUrl) {
+      setError(urlValidation.message);
       return;
     }
     try {
-      await onAddLecture(url, topicHint);
+      await onAddLecture(urlValidation.normalizedUrl, topicHint);
       setUrl("");
       setTopicHint("");
     } catch (err: any) {
@@ -146,23 +148,43 @@ export default function Dashboard({
               placeholder="https://www.youtube.com/watch?v=..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
+              className={`newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border focus:outline-none focus:border-white font-sans transition-all ${
+                url.trim().length > 0 && !urlValidation.valid
+                  ? "border-red-400/80 ring-1 ring-red-400/20"
+                  : "border-white/25"
+              }`}
               id="url-input"
+              inputMode="url"
+              autoCapitalize="none"
+              spellCheck={false}
+              aria-invalid={url.trim().length > 0 && !urlValidation.valid}
             />
+            {url.trim().length > 0 && !urlValidation.valid ? (
+              <p className="text-[11px] text-red-200/90 leading-5">
+                {urlValidation.message}
+              </p>
+            ) : (
+              <p className="text-[11px] text-white/70 leading-5">
+                Aceitamos apenas vídeos do YouTube, como watch, youtu.be, shorts, live ou embed.
+              </p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
-              ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
+              ASSUNTO OU CURSO DE ASSOCIAÇÃO (OPCIONAL)
             </label>
             <input
               type="text"
-              placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
+              placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT (opcional)"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
               className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
               id="topic-input"
             />
+            <p className="text-[11px] text-white/70 leading-5">
+              Esse campo so ajuda a contextualizar a disciplina; a analise principal vem do video.
+            </p>
           </div>
 
           {error && (
@@ -178,9 +200,9 @@ export default function Dashboard({
 
           <button
             type="submit"
-            disabled={isAdding || !url}
+            disabled={isAdding || !urlValidation.valid}
             className={`w-full text-xs font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
-              isAdding || !url
+              isAdding || !urlValidation.valid
                 ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-400 cursor-not-allowed"
                 : "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 font-bold border border-neutral-300 dark:border-neutral-700 shadow-xs hover:scale-[1.01]"
             }`}
@@ -188,7 +210,7 @@ export default function Dashboard({
           >
             {isAdding ? (
               <>
-                <RotateCw className="h-4 w-4 animate-spin text-[#7C3AED]" />
+                <RotateCw className="h-4 w-4 animate-spin text-brand-mint" />
                 <span>Sintetizando Material Temático...</span>
               </>
             ) : (
@@ -273,7 +295,7 @@ export default function Dashboard({
         {/* Aviso de visitante opcional */}
         {!user && (
           <div className="bg-neutral-50 dark:bg-neutral-905 border dark:border-neutral-800/80 p-3.5 rounded-xl flex items-start gap-2.5 text-xs text-neutral-500 dark:text-neutral-400 leading-normal">
-            <UserCheck className="h-4 w-4 text-[#7C3AED] shrink-0 mt-0.5" />
+            <UserCheck className="h-4 w-4 text-brand-mint shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-neutral-800 dark:text-neutral-200">Usando como visitante</p>
               <p className="text-[11px] mt-0.5 opacity-90 leading-normal">Crie uma conta gratuita clicando no topo da página para salvar seus estudos permanentemente.</p>
@@ -315,7 +337,7 @@ export default function Dashboard({
                   delay: i * 1.3,
                   ease: [0.16, 1, 0.3, 1], // Premium cubic bezier for super smooth motion
                 }}
-                className="absolute inset-0 rounded-2xl border-2 border-dashed border-[#7C3AED]/45 dark:border-violet-400/40 shadow-[0_0_15px_rgba(124,58,237,0.12)]"
+                className="absolute inset-0 rounded-2xl border-4 border-[#0FFCBE]/45  dark:border-violet-400/40 shadow-[0_0_15px_rgba(124,58,237,0.12)]"
               />
             ))}
             {[0, 1].map((i) => (
@@ -327,12 +349,12 @@ export default function Dashboard({
                   scale: [0.98, 1.15, 1.3, 1.45],
                 }}
                 transition={{
-                  duration: 4.5,
+                  duration: 2.5,
                   repeat: Infinity,
                   delay: i * 2.2 + 0.6,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="absolute inset-0 rounded-3xl border border-solid border-[#7C3AED]/30 dark:border-violet-400/30 shadow-[0_0_20px_rgba(124,58,237,0.08)]"
+                className="absolute inset-0 rounded-3xl border border-solid border-[#0FFCBE]/30 dark:border-violet-400/30 shadow-[0_0_20px_rgba(124,58,237,0.08)]"
               />
             ))}
           </div>
@@ -341,7 +363,7 @@ export default function Dashboard({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="text-4xl lg:text-5xl font-extrabold tracking-tight text-[#7C3AED] dark:text-violet-400 font-sans leading-tight relative z-10"
+            className="text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0FFCBE] dark:text-violet-400 font-sans leading-tight relative z-10" id="txtHr"
           >
             Sua aula, seu estudo, nossa entrega.
           </motion.h1>
@@ -382,7 +404,7 @@ export default function Dashboard({
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold text-[#7C3AED] dark:text-violet-400 flex items-center font-sans">
+              <h2 className="text-lg font-bold text-[#0FFCBE] dark:text-violet-400 flex items-center font-sans">
                 <span>Seu Deck de Estudo</span>
                 <span className="text-xs border border-neutral-300 dark:border-neutral-700 h-6 w-6 inline-flex items-center justify-center rounded-full font-mono font-bold text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-850 ml-1.5 select-none font-sans">
                   {lectures.length}
@@ -450,10 +472,10 @@ export default function Dashboard({
                     </div>
                     <div className="mt-2 flex flex-col gap-1">
                       <div className="w-full h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden border dark:border-neutral-850">
-                        <div className="h-full rounded-full w-1/4 bg-[#7C3AED] animate-pulse" />
+                        <div className="h-full rounded-full w-1/4 bg-brand-mint animate-pulse" />
                       </div>
-                      <span className="text-[10px] text-[#7C3AED] font-mono flex items-center gap-1.5 mt-0.5">
-                        <RotateCw className="h-3 animate-spin text-[#7C3AED]" />
+                      <span className="text-[10px] text-brand-mint font-mono flex items-center gap-1.5 mt-0.5">
+                        <RotateCw className="h-3 animate-spin text--brand-mint" />
                         Iniciando requisição inteligente e estruturando dados com a tecnologia Gemini AI...
                       </span>
                     </div>
@@ -492,7 +514,7 @@ export default function Dashboard({
                             </span>
                             <span className="text-neutral-200 dark:text-neutral-800 font-sans text-xs">•</span>
                             <span className="text-[10px] text-neutral-550 dark:text-neutral-400 font-mono flex items-center gap-1 bg-neutral-100/50 dark:bg-neutral-800 px-2 py-0.5 rounded-full border border-neutral-200/50 dark:border-neutral-750">
-                              <Clock className="h-3 w-3 text-[#7C3AED]" />
+                              <Clock className="h-3 w-3 text-brand-mint" />
                               {lecture.duration || "25:00"}
                             </span>
                             {lecture.moduleName && (
@@ -507,7 +529,7 @@ export default function Dashboard({
 
                           <h3
                             onClick={() => !isAnalyzing && !isFailed && onSelectLecture(lecture.id)}
-                            className={`text-base lg:text-lg font-bold tracking-tight text-[#7C3AED] dark:text-violet-400 mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
+                            className={`text-base lg:text-lg font-bold tracking-tight text-brand-mint dark:text-mint-400 mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
                           >
                             {lecture.title}
                           </h3>
@@ -559,11 +581,11 @@ export default function Dashboard({
                               initial={{ width: "10%" }}
                               animate={{ width: `${lecture.progress}%` }}
                               transition={{ duration: 0.5 }}
-                              className="h-full rounded-full bg-gradient-to-r from-[#7C3AED] to-sky-400"
+                              className="h-full rounded-full bg-gradient-to-r from-brand-mint to-sky-400"
                             />
                           </div>
                           <span className="text-[10px] text-neutral-400 font-mono flex items-center gap-1 mt-0.5 animate-pulse">
-                            <RotateCw className="h-3 w-3 animate-spin text-[#7C3AED]" />
+                            <RotateCw className="h-3 w-3 animate-spin text-brand-mint" />
                             Analisando narrativas e extraindo conceitos...
                           </span>
                         </div>

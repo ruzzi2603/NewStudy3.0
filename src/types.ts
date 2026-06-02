@@ -9,6 +9,9 @@ export interface User {
   email: string;
   passwordHash: string;
   createdAt: string;
+  acceptedTerms?: boolean;
+  acceptedLegalVersion?: string;
+  acceptedLegalAt?: string;
 }
 
 export interface TranscriptSegment {

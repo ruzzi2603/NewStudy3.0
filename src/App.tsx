@@ -8,8 +8,226 @@ import { Lecture } from "./types";
 import Dashboard from "./components/Dashboard";
 import LectureView from "./components/LectureView";
 import RecallStage from "./components/RecallStage";
-import { BookOpen, Sparkles, User, LogOut, Check, AlertCircle, X, LogIn, Lock, Mail, Sun, Moon } from "lucide-react";
+import {
+  BookOpen,
+  Sparkles,
+  User,
+  LogOut,
+  Check,
+  AlertCircle,
+  X,
+  LogIn,
+  Lock,
+  Mail,
+  Sun,
+  Moon,
+  Cookie,
+  Database,
+  FileText,
+  ShieldCheck,
+  Scale,
+  ExternalLink,
+  ChevronRight,
+  AlertTriangle,
+} from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+
+type LegalSectionKey = "terms" | "privacy" | "cookies";
+
+type LegalBlock = {
+  title: string;
+  body?: string;
+  bullets?: string[];
+};
+
+type LegalDocument = {
+  badge: string;
+  title: string;
+  subtitle: string;
+  updatedAt: string;
+  blocks: LegalBlock[];
+};
+
+const LEGAL_DOCUMENTS: Record<LegalSectionKey, LegalDocument> = {
+  terms: {
+    badge: "Contrato de uso",
+    title: "Termos de Uso",
+    subtitle: "Regras de acesso, limites da plataforma e responsabilidades do usuário.",
+    updatedAt: "1 de junho de 2026",
+    blocks: [
+      {
+        title: "1. Natureza do serviço",
+        body:
+          "O NewStudy é uma plataforma de apoio educacional que transforma links e materiais enviados pelo usuário em resumos, transcrições temáticas, fórmulas, flashcards, quizzes e atendimento por IA. O serviço é fornecido como ferramenta de estudo e organização, e não como certificação acadêmica, consultoria profissional, aconselhamento jurídico, médico, financeiro ou psicológico.",
+      },
+      {
+        title: "2. Aceitação dos termos",
+        body:
+          "Ao criar uma conta, acessar, navegar ou utilizar qualquer funcionalidade, o usuário confirma que leu, entendeu e concorda com estes Termos, com a Política de Privacidade e com a Política de Cookies. Caso não concorde, não deve usar a plataforma.",
+      },
+      {
+        title: "3. Cadastro e segurança da conta",
+        bullets: [
+          "O usuário deve fornecer dados verdadeiros, completos e atualizados.",
+          "A senha é de uso pessoal e intransferível, e o usuário responde por qualquer atividade realizada com sua conta.",
+          "O usuário deve informar imediatamente qualquer uso não autorizado da conta ou suspeita de comprometimento de credenciais.",
+          "Quando a lei aplicável exigir, menores de idade devem utilizar o serviço somente com a autorização de um responsável legal.",
+        ],
+      },
+      {
+        title: "4. Uso permitido",
+        bullets: [
+          "Usar o serviço apenas para fins lícitos e educacionais.",
+          "Não tentar burlar limites de uso, autenticação, rate limits, controles de segurança ou mecanismos de proteção.",
+          "Não enviar malware, scripts maliciosos, conteúdo difamatório, discriminatório, sexualmente explícito, abusivo ou ilegal.",
+          "Não subir ou processar material de terceiros sem autorização adequada, especialmente conteúdo confidencial, sigiloso ou protegido por contrato.",
+        ],
+      },
+      {
+        title: "5. Conteúdo enviado pelo usuário",
+        body:
+          "Ao inserir URLs, tópicos, textos, perguntas, anotações, feedbacks, respostas de quiz, flashcards e demais informações, o usuário declara possuir direito de uso sobre o material enviado ou, ao menos, permissão para processá-lo na plataforma. O usuário permanece responsável pela legalidade do conteúdo original e pelo uso posterior dos materiais gerados.",
+      },
+      {
+        title: "6. Inteligência artificial e limitações",
+        body:
+          "As respostas e materiais gerados por IA podem conter imprecisões, omissões ou interpretações incompletas. O usuário deve revisar o conteúdo antes de utilizá-lo academicamente, profissionalmente ou publicamente. O NewStudy não garante que os resultados estejam livres de erro, viés ou desatualização.",
+      },
+      {
+        title: "7. Propriedade intelectual",
+        body:
+          "O usuário mantém os direitos sobre os dados que envia, observadas as restrições do conteúdo original de terceiros. A plataforma e seus componentes visuais, fluxos, código, prompts internos e identidade visual continuam pertencendo ao titular do projeto ou a seus licenciantes. A geração automática de materiais não transfere direitos sobre obras de terceiros incorporadas ao conteúdo original.",
+      },
+      {
+        title: "8. Suspensão e encerramento",
+        body:
+          "A plataforma pode limitar, suspender ou encerrar acesso de contas que violem estes termos, abusem do sistema, comprometam a segurança ou exponham o serviço a risco jurídico, técnico ou reputacional.",
+      },
+      {
+        title: "9. Garantias e responsabilidade",
+        body:
+          "A plataforma é fornecida na forma em que se encontra, na extensão máxima permitida pela lei aplicável. Na medida permitida por lei, o serviço não responde por prejuízos indiretos, perda de dados, interrupção de uso, decisões tomadas com base em material gerado por IA ou danos decorrentes do uso indevido da conta.",
+      },
+      {
+        title: "10. Alterações",
+        body:
+          "Estes Termos podem ser atualizados periodicamente. A versão vigente será a exibida no aplicativo, com data de atualização visível. O uso contínuo após a mudança representa concordância com a nova versão.",
+      },
+      {
+        title: "11. Contato jurídico e suporte",
+        body:
+          "Para questões sobre termos, privacidade, remoção de dados ou dúvidas legais, o canal recomendado é legal@newstudy.app. Antes da publicação comercial, substitua esse endereço por um canal realmente monitorado pela operação do projeto.",
+      },
+    ],
+  },
+  privacy: {
+    badge: "Dados e privacidade",
+    title: "Privacidade e Dados",
+    subtitle: "O que a plataforma coleta, por que coleta e como usa essas informações.",
+    updatedAt: "1 de junho de 2026",
+    blocks: [
+      {
+        title: "1. Categorias de dados coletados",
+        bullets: [
+          "Dados de cadastro: nome, e-mail, senha com hash e identificadores internos da conta.",
+          "Dados de autenticação e segurança: cookies de sessão, cookies de visitante, endereços IP, cabeçalhos do navegador e eventos de acesso.",
+          "Dados de estudo: links de aulas, tópicos sugeridos, resumos, transcrições, fórmulas, flashcards, quizzes, chat com IA, progresso e histórico de revisão.",
+          "Dados de uso e suporte: feedbacks, avaliações, mensagens enviadas ao suporte, registros de falha e métricas de cota/limite.",
+          "Preferências locais no navegador: tema visual e alguns estados de interface salvos pelo próprio navegador.",
+        ],
+      },
+      {
+        title: "2. Finalidades do tratamento",
+        bullets: [
+          "Criar e manter contas de usuário.",
+          "Autenticar sessões e prevenir abuso, fraude e uso indevido.",
+          "Processar conteúdos enviados para gerar materiais de estudo e respostas contextuais.",
+          "Aplicar limites de uso, registrar progresso e melhorar a experiência educacional.",
+          "Cumprir obrigações legais, auditoria, segurança e suporte técnico.",
+        ],
+      },
+      {
+        title: "3. Compartilhamento e terceiros",
+        body:
+          "A plataforma pode compartilhar dados estritamente necessários com provedores de infraestrutura, banco de dados, hospedagem e processamento de IA, somente para operar o serviço. No fluxo atual, conteúdos enviados para geração e perguntas ao tutor podem ser tratados por provedores de IA para produzir as respostas. Não vendemos dados pessoais como prática de negócio.",
+      },
+      {
+        title: "4. Retenção",
+        body:
+          "Os dados são mantidos enquanto forem necessários para a prestação do serviço, cumprimento de obrigação legal, resolução de disputas, segurança da plataforma ou manutenção do histórico educacional do usuário. Quando aplicável, o usuário pode solicitar correção ou exclusão, sujeito às limitações técnicas e legais do sistema.",
+      },
+      {
+        title: "5. Direitos do titular",
+        bullets: [
+          "Solicitar acesso aos dados pessoais tratados pela plataforma.",
+          "Solicitar correção de informações incompletas ou desatualizadas.",
+          "Solicitar eliminação ou anonimização quando aplicável.",
+          "Revogar consentimento para usos opcionais, quando existentes.",
+          "Solicitar esclarecimentos sobre processamento e compartilhamentos.",
+        ],
+      },
+      {
+        title: "6. Segurança",
+        body:
+          "Usamos senha com hash, cookies de sessão, controles de limite e mecanismos básicos de proteção. Isso reduz riscos, mas não elimina totalmente a possibilidade de incidente. Nenhuma plataforma conectada à internet consegue prometer segurança absoluta.",
+      },
+      {
+        title: "7. Base jurídica e aviso prudencial",
+        body:
+          "As bases legais variam conforme a jurisdição e a finalidade. Este texto é uma minuta operacional para o produto e deve ser revisado por advogado local antes da publicação pública, especialmente se o serviço atender usuários no Brasil, na União Europeia, no Reino Unido ou em estados norte-americanos com regras próprias.",
+      },
+    ],
+  },
+  cookies: {
+    badge: "Sessão e navegador",
+    title: "Cookies e Tecnologias Semelhantes",
+    subtitle: "Como a sessão funciona e quais dados ficam no navegador.",
+    updatedAt: "1 de junho de 2026",
+    blocks: [
+      {
+        title: "1. O que são cookies",
+        body:
+          "Cookies são pequenos arquivos de dados gravados pelo navegador. Em termos simples, eles ajudam o site a lembrar de uma sessão, de preferências ou de configurações básicas. A regra geral é informar o usuário de forma clara e pedir consentimento quando o cookie não for estritamente necessário.",
+      },
+      {
+        title: "2. Cookies essenciais usados hoje",
+        bullets: [
+          "`newstudy_session`: mantém a sessão autenticada do usuário logado.",
+          "`newstudy_guest`: mantém uma identidade de visitante para cotas e controle de abuso quando o usuário não está autenticado.",
+          "Se cookies estritamente necessários forem removidos, partes do login e da navegação podem parar de funcionar corretamente.",
+        ],
+      },
+      {
+        title: "3. Tecnologias semelhantes no navegador",
+        bullets: [
+          "`newstudy_theme`: lembra o tema visual escolhido.",
+          "`newstudy_user`: salva o perfil básico do usuário logado para facilitar o carregamento inicial.",
+          "Esses itens são armazenados no navegador por meio de tecnologias semelhantes, como localStorage, e não são cookies tradicionais.",
+        ],
+      },
+      {
+        title: "4. O que não usamos agora",
+        bullets: [
+          "Não usamos cookies de publicidade comportamental no fluxo atual.",
+          "Não usamos rastreamento de marketing por terceiros no navegador como padrão.",
+          "Se isso mudar no futuro, o banner e esta política devem ser atualizados antes de publicar a nova versão.",
+        ],
+      },
+      {
+        title: "5. Controle do usuário",
+        body:
+          "O usuário pode bloquear ou apagar cookies nas configurações do navegador. Se fizer isso, a sessão pode expirar e preferências locais podem ser perdidas. Em jurisdições que exigem consentimento para cookies não essenciais, o ideal é exibir um banner de aceite separado com opção de recusar com a mesma facilidade.",
+      },
+      {
+        title: "6. Serviços de terceiros",
+        body:
+          "Se o produto passar a incorporar vídeos, widgets, analytics ou anúncios de terceiros, esses serviços podem definir seus próprios cookies e políticas. A presença desses recursos deve ser informada antes do uso.",
+      },
+    ],
+  },
+};
+
+const LEGAL_SECTION_ORDER: LegalSectionKey[] = ["terms", "privacy", "cookies"];
 
 export default function App() {
   const [lectures, setLectures] = useState<Lecture[]>([]);
@@ -64,6 +282,9 @@ export default function App() {
           if (data.user) {
             setUser(data.user);
             localStorage.setItem("newstudy_user", JSON.stringify(data.user));
+          } else {
+            setUser(null);
+            localStorage.removeItem("newstudy_user");
           }
         } else {
           setUser(null);
@@ -83,6 +304,25 @@ export default function App() {
   const [authName, setAuthName] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [hasAcceptedLegal, setHasAcceptedLegal] = useState(false);
+  const [isLegalOpen, setIsLegalOpen] = useState(false);
+  const [legalSection, setLegalSection] = useState<LegalSectionKey>("terms");
+
+  const openLegalSection = (section: LegalSectionKey) => {
+    setLegalSection(section);
+    setIsLegalOpen(true);
+  };
+
+  useEffect(() => {
+    const shouldLockScroll = isAuthOpen || isLegalOpen;
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = shouldLockScroll ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isAuthOpen, isLegalOpen]);
 
   // Fetch all monographs (optionally scoped by current logged in user)
   const fetchLectures = async () => {
@@ -212,10 +452,20 @@ export default function App() {
     setAuthLoading(true);
 
     try {
+      if (authTab === "register" && !hasAcceptedLegal) {
+        throw new Error("Para criar a conta, aceite os Termos de Uso, a Política de Privacidade e a Política de Cookies.");
+      }
+
       const endpoint = authTab === "login" ? "/api/auth/login" : "/api/auth/register";
       const payload = authTab === "login"
         ? { email: authEmail, password: authPassword }
-        : { name: authName, email: authEmail, password: authPassword };
+        : {
+            name: authName,
+            email: authEmail,
+            password: authPassword,
+            acceptedTerms: true,
+            acceptedLegalVersion: "2026-06-01",
+          };
 
       const res = await fetch(endpoint, {
         method: "POST",
@@ -231,11 +481,22 @@ export default function App() {
       if (data.user) {
         setUser(data.user);
         localStorage.setItem("newstudy_user", JSON.stringify(data.user));
+        if (authTab === "register") {
+          localStorage.setItem(
+            "newstudy_legal_acceptance",
+            JSON.stringify({
+              acceptedAt: new Date().toISOString(),
+              version: "2026-06-01",
+              userEmail: authEmail.toLowerCase().trim(),
+            })
+          );
+        }
         setIsAuthOpen(false);
         // Clean inputs
         setAuthEmail("");
         setAuthPassword("");
         setAuthName("");
+        setHasAcceptedLegal(false);
       }
     } catch (err: any) {
       setAuthError(err.message);
@@ -257,12 +518,13 @@ export default function App() {
   };
 
   const activeLecture = lectures.find((l) => l.id === selectedLectureId);
+  const activeLegalDocument = LEGAL_DOCUMENTS[legalSection];
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-200 flex flex-col justify-between font-sans">
       
       {/* Redesenhado: Header de Alto Padrão em Violeta Sólido com Elementos de Vidro */}
-      <header className="bg-[#7C3AED] sticky top-0 z-30 transition-all shadow-md select-none">
+      <header className="bg-brand-mint sticky top-0 z-30 transition-all shadow-md select-none">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           
           <div
@@ -273,10 +535,10 @@ export default function App() {
               <BookOpen className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-bold tracking-tight text-white font-sans leading-none">
+              <span className="text-base font-bold tracking-tight text-black font-sans leading-none">
                 NewStudy
               </span>
-              <span className="text-[10px] text-white/80 font-medium font-sans mt-0.5">
+              <span className="text-[10px] text-black/80 font-medium font-sans mt-0.5">
                 Material Inteligente
               </span>
             </div>
@@ -300,9 +562,9 @@ export default function App() {
                   className="flex items-center justify-center"
                 >
                   {theme === "dark" ? (
-                    <Sun className="h-4.5 w-4.5 text-white" />
+                    <Sun className="h-4.5 w-4.5 text-black" />
                   ) : (
-                    <Moon className="h-4.5 w-4.5 text-white" />
+                    <Moon className="h-4.5 w-4.5 text-black" />
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -335,9 +597,9 @@ export default function App() {
                   setAuthError(null);
                   setIsAuthOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:bg-white/15 bg-white/5 border border-white/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-black hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
               >
-                <User className="h-3.5 w-3.5 text-white" />
+                <User className="h-3.5 w-3.5 text-black" />
                 <span>Entrar / Cadastrar</span>
               </button>
             )}
@@ -386,7 +648,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
           <span>&copy; 2026 Plataforma NewStudy. Todos os direitos reservados.</span>
           <span className="flex items-center gap-1 opacity-80">
-            <Sparkles className="h-3 w-3 text-brand-mint" /> Desenvolvido com Gemini AI & PostgreSQL
+            <Sparkles className="h-3 w-3 text-brand-mint" /> Desenvolvido por RuzziDev
           </span>
         </div>
       </footer>
@@ -408,7 +670,7 @@ export default function App() {
               initial={{ scale: 0.95, opacity: 0, y: 15 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 lg:p-8 w-full max-w-md shadow-2xl relative z-10 flex flex-col gap-6"
+              className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 lg:p-8 w-full max-w-md shadow-2xl relative z-10 flex flex-col gap-6" id="form-all"
             >
               <button
                 onClick={() => setIsAuthOpen(false)}
@@ -457,7 +719,46 @@ export default function App() {
                 </button>
               </div>
 
-              <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4">
+              <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950/40 p-4 flex flex-col gap-3" id="cdfm">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="h-5 w-5 text-emerald-500 mt-0.5 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                      Termos, privacidade e cookies
+                    </p>
+                   
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => openLegalSection("terms")}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>Termos</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openLegalSection("privacy")}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+                  >
+                    <Database className="h-4 w-4" />
+                    <span>Dados</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openLegalSection("cookies")}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-850 transition-colors"
+                  >
+                    <Cookie className="h-4 w-4" />
+                    <span>Cookies</span>
+                  </button>
+                </div>
+              </div>
+
+              <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4" id="auth-form">
                 {authTab === "register" && (
                   <div className="flex flex-col gap-1">
                     <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
@@ -511,6 +812,25 @@ export default function App() {
                   </div>
                 </div>
 
+                {authTab === "register" && (
+                  <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-900/50 p-3">
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={hasAcceptedLegal}
+                        onChange={(e) => setHasAcceptedLegal(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900"
+                      />
+                      <span className="text-xs leading-5 text-neutral-600 dark:text-neutral-300">
+                        Confirmo que li e concordo com os Termos de Uso, a Política de Privacidade e a Política de Cookies.
+                      </span>
+                    </label>
+                    <p className="mt-2 text-[11px] text-neutral-500 dark:text-neutral-400">
+                      O cadastro só prossegue depois desse aceite explícito.
+                    </p>
+                  </div>
+                )}
+
                 {authError && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
@@ -524,8 +844,8 @@ export default function App() {
 
                 <button
                   type="submit"
-                  disabled={authLoading}
-                  className="w-full py-3 mt-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 font-bold text-xs rounded-xl shadow-md cursor-pointer transition-colors flex items-center justify-center gap-1.5"
+                  disabled={authLoading || (authTab === "register" && !hasAcceptedLegal)}
+                  className="w-full py-3 mt-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 font-bold text-xs rounded-xl shadow-md cursor-pointer transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {authLoading ? (
                     <div className="h-4 w-4 border-2 border-neutral-300 dark:border-neutral-600 border-t-white dark:border-t-black rounded-full animate-spin" />
@@ -544,6 +864,124 @@ export default function App() {
               </form>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isLegalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm px-4 py-6 flex items-center justify-center"
+            onClick={() => setIsLegalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 260, damping: 28 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl flex flex-col"
+            >
+              <div className="border-b border-neutral-200 dark:border-neutral-800 px-6 py-5 flex items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-neutral-100 dark:bg-neutral-900 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+                    <Scale className="h-3.5 w-3.5" />
+                    <span>{activeLegalDocument.badge}</span>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
+                      {activeLegalDocument.title}
+                    </h2>
+                    <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400 max-w-3xl">
+                      {activeLegalDocument.subtitle}
+                    </p>
+                  </div>
+                  <p className="text-[11px] font-medium text-neutral-400 dark:text-neutral-500">
+                    Atualizado em {activeLegalDocument.updatedAt}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsLegalOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                  aria-label="Fechar janela de documentos legais"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="border-b border-neutral-200 dark:border-neutral-800 px-6 py-4 flex flex-wrap gap-2">
+                {LEGAL_SECTION_ORDER.map((section) => {
+                  const legalDoc = LEGAL_DOCUMENTS[section];
+                  const active = legalSection === section;
+                  return (
+                    <button
+                      key={section}
+                      type="button"
+                      onClick={() => setLegalSection(section)}
+                      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
+                        active
+                          ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                          : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                      }`}
+                    >
+                      {section === "terms" ? (
+                        <Scale className="h-3.5 w-3.5" />
+                      ) : section === "privacy" ? (
+                        <Database className="h-3.5 w-3.5" />
+                      ) : (
+                        <Cookie className="h-3.5 w-3.5" />
+                      )}
+                      <span>{legalDoc.title}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-6 py-5">
+                <div className="max-w-4xl space-y-6">
+                  {activeLegalDocument.blocks.map((block) => (
+                    <section
+                      key={block.title}
+                      className="border-b border-neutral-200/70 dark:border-neutral-800/70 pb-5 last:border-b-0 last:pb-0"
+                    >
+                      <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-50">
+                        {block.title}
+                      </h3>
+                      {block.body && (
+                        <p className="mt-2 text-sm leading-7 text-neutral-600 dark:text-neutral-300">
+                          {block.body}
+                        </p>
+                      )}
+                      {block.bullets && (
+                        <ul className="mt-3 space-y-2">
+                          {block.bullets.map((item) => (
+                            <li
+                              key={item}
+                              className="flex items-start gap-2 text-sm leading-7 text-neutral-600 dark:text-neutral-300"
+                            >
+                              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-neutral-400 dark:text-neutral-500" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </section>
+                  ))}
+
+                  <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 px-4 py-4 text-sm text-amber-900 dark:text-amber-100 flex items-start gap-3">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <p className="leading-7">
+                     Ler com cuidado e atenção. Esses documentos são a base do nosso compromisso mútuo para uma experiência de estudo segura, transparente e eficaz. Se tiver dúvidas, entre em contato conosco antes de aceitar.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
