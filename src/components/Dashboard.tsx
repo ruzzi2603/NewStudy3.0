@@ -172,19 +172,16 @@ export default function Dashboard({
 
           <div className="flex flex-col gap-1.5">
             <label className="newstudy-importer-text text-[10px] font-bold font-sans tracking-wide uppercase opacity-90">
-              ASSUNTO OU CURSO DE ASSOCIAÇÃO (OPCIONAL)
+              ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
             </label>
             <input
               type="text"
-              placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT (opcional)"
+              placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
               className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
               id="topic-input"
             />
-            <p className="text-[11px] text-white/70 leading-5">
-              Esse campo so ajuda a contextualizar a disciplina; a analise principal vem do video.
-            </p>
           </div>
 
           {error && (
@@ -320,53 +317,34 @@ export default function Dashboard({
           <span>Estruturador de Estudos Inteligente</span>
         </motion.div>
         
+<div className="hole">
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+  <i></i>
+</div>
+
         <div className="relative inline-block px-10 py-5 mb-5 max-w-full overflow-visible">
           {/* Animated concentric rounded outline rings */}
-          <div className="absolute inset-0 pointer-events-none">
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{
-                  opacity: [0, 0.7, 0.3, 0],
-                  scale: [0.95, 1.1, 1.25, 1.4],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 1.3,
-                  ease: [0.16, 1, 0.3, 1], // Premium cubic bezier for super smooth motion
-                }}
-                className="absolute inset-0 rounded-2xl border-4 border-[#0FFCBE]/45  dark:border-violet-400/40 shadow-[0_0_15px_rgba(124,58,237,0.12)]"
-              />
-            ))}
-            {[0, 1].map((i) => (
-              <motion.div
-                key={`solid-${i}`}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{
-                  opacity: [0, 0.8, 0.3, 0],
-                  scale: [0.98, 1.15, 1.3, 1.45],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  delay: i * 2.2 + 0.6,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="absolute inset-0 rounded-3xl border border-solid border-[#0FFCBE]/30 dark:border-violet-400/30 shadow-[0_0_20px_rgba(124,58,237,0.08)]"
-              />
-            ))}
-          </div>
+          
 
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0FFCBE] dark:text-violet-400 font-sans leading-tight relative z-10" id="txtHr"
+            className="text-4xl lg:text-5xl font-extrabold tracking-tight text-brand-black dark:text-mint-400 font-sans leading-tight relative z-10" id="txtHr"
           >
+            
             Sua aula, seu estudo, nossa entrega.
+            
           </motion.h1>
+        
         </div>
         
         <motion.p
@@ -374,8 +352,8 @@ export default function Dashboard({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
           className="text-sm lg:text-base text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto font-sans font-light leading-relaxed"
-        >
-          Cole aulas gravadas, seminários científicos ou lives acadêmicas do YouTube para convertê-los em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes em segundos.
+   id="txtsec"     >
+          Converta vídeos do youtube em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes, questões e muito mais em segundos.
         </motion.p>
         <ScrollDown />
         <div className="newstudy-promo-carousel">
@@ -404,7 +382,7 @@ export default function Dashboard({
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold text-[#0FFCBE] dark:text-violet-400 flex items-center font-sans">
+              <h2 className="text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  flex items-center font-sans">
                 <span>Seu Deck de Estudo</span>
                 <span className="text-xs border border-neutral-300 dark:border-neutral-700 h-6 w-6 inline-flex items-center justify-center rounded-full font-mono font-bold text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-850 ml-1.5 select-none font-sans">
                   {lectures.length}
@@ -529,7 +507,7 @@ export default function Dashboard({
 
                           <h3
                             onClick={() => !isAnalyzing && !isFailed && onSelectLecture(lecture.id)}
-                            className={`text-base lg:text-lg font-bold tracking-tight text-brand-mint dark:text-mint-400 mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
+                            className={`text-base lg:text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
                           >
                             {lecture.title}
                           </h3>

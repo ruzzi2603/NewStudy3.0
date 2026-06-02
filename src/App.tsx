@@ -524,7 +524,7 @@ export default function App() {
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-200 flex flex-col justify-between font-sans">
       
       {/* Redesenhado: Header de Alto Padrão em Violeta Sólido com Elementos de Vidro */}
-      <header className="bg-brand-mint sticky top-0 z-30 transition-all shadow-md select-none">
+      <header className="bg-brand-mint sticky top-0 z-30 transition-all shadow-md select-none bg-white dark:bg-neutral-900 border border-dashed border-neutral-200/80 dark:border-neutral-800">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           
           <div
@@ -535,10 +535,10 @@ export default function App() {
               <BookOpen className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-bold tracking-tight text-black font-sans leading-none">
+              <span className="text-base font-bold tracking-tight text-brand-black dark:text-mint-400  font-sans leading-none">
                 NewStudy
               </span>
-              <span className="text-[10px] text-black/80 font-medium font-sans mt-0.5">
+              <span className="text-[10px] tracking-tight text-brand-black dark:text-mint-400  font-medium font-sans mt-0.5">
                 Material Inteligente
               </span>
             </div>
@@ -562,7 +562,7 @@ export default function App() {
                   className="flex items-center justify-center"
                 >
                   {theme === "dark" ? (
-                    <Sun className="h-4.5 w-4.5 text-black" />
+                    <Sun className="h-4.5 w-4.5 text-brand-black dark:text-mint-400 " />
                   ) : (
                     <Moon className="h-4.5 w-4.5 text-black" />
                   )}
@@ -584,7 +584,7 @@ export default function App() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="p-1 hover:text-red-300 text-white/80 rounded-lg hover:bg-white/10 transition-all cursor-pointer ml-1"
+                  className="p-1 hover:text-red-300 tracking-tight text-brand-black dark:text-mint-400  rounded-lg hover:bg-white/10 transition-all cursor-pointer ml-1"
                   title="Sair da Conta"
                 >
                   <LogOut className="h-4 w-4" />
@@ -597,9 +597,9 @@ export default function App() {
                   setAuthError(null);
                   setIsAuthOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-black hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold tracking-tight text-brand-black dark:text-mint-400  hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
               >
-                <User className="h-3.5 w-3.5 text-black" />
+                <User className="h-3.5 w-3.5 tracking-tight text-brand-black dark:text-mint-400 " />
                 <span>Entrar / Cadastrar</span>
               </button>
             )}

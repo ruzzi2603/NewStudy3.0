@@ -34,9 +34,10 @@ export default function PromoCarousel() {
   // Mapeamento visual das imagens de fundo para garantir que fiquem profissionais
   const getFallbackImage = (index: number) => {
     const images = [
-      "/src/assets/images/ai_workspace_hero_1779742602115.png",
-      "/src/assets/images/concept_microlearning_1779742615958.png",
-      "/src/assets/images/interactive_study_1779742630029.png"
+      "/src/assets/images/img3.jpg",
+      "/src/assets/images/img3.jpg",
+      "/src/assets/images/img3.jpg",
+  
     ];
     return images[index % images.length];
   };
@@ -96,7 +97,7 @@ export default function PromoCarousel() {
   if (loading || slides.length === 0) {
     return (
       <div className="w-full h-44 flex items-center justify-center bg-neutral-900/10 dark:bg-neutral-900 rounded-2xl animate-pulse text-xs text-neutral-400">
-        Iniciando painel de novidades integrado...
+        Carregando banners...
       </div>
     );
   }

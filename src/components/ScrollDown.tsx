@@ -59,7 +59,10 @@ export default function ScrollDown() {
       aria-label="Ir para a seção Importar Aula do YouTube"
       title="Ir para a seção Importar Aula do YouTube"
     >
+      <div className="scroll-down-arrow">
       <ArrowDownToLine className="scroll-down-icon" aria-hidden="true" />
+      <h1 className="scroll-down-text">Começar</h1>
+</div>
     </button>
   );
 }
