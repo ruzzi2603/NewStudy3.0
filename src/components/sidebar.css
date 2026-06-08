@@ -1,0 +1,409 @@
+/* =========================
+   PREMIUM SIDEBAR
+   ========================= */
+
+:root {
+  --sidebar-width: 200px;
+  --transition: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================
+   OVERLAY
+   ========================= */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+
+  z-index: 998;
+}
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: var(--sidebar-width);
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #fafafa;
+  color: #262626;
+
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 2px 12px rgba(0, 0, 0, 0.05);
+
+  backdrop-filter: blur(20px);
+
+  transform: translateX(-105%);
+  transition: transform var(--transition);
+
+  overflow: hidden;
+  z-index: 999;
+}
+
+/* DARK MODE */
+
+.dark .sidebar {
+  background: #0a0a0a;
+  color: #e5e5e5;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 10px 50px rgba(0, 0, 0, 0.6),
+    0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px 24px 18px 24px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .sidebar-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* =========================
+   BOTÃO FECHAR
+   ========================= */
+
+.closeBtn {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: inherit;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: rotate(90deg);
+}
+
+.dark .closeBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   SEÇÕES
+   ========================= */
+
+.sidebar-section {
+  padding: 20px 16px;
+}
+
+.section-title {
+  display: block;
+
+  padding: 0 12px;
+  margin-bottom: 12px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+
+  opacity: 0.55;
+}
+
+/* =========================
+   DIVISOR
+   ========================= */
+
+.divider {
+  height: 1px;
+
+  margin: 0 16px;
+
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dark .divider {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* =========================
+   MENU ITEMS
+   ========================= */
+
+.menu-item,
+.history-item {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 14px;
+  margin-bottom: 4px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+  color: inherit;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.menu-item:hover,
+.history-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+
+  transform: translateX(4px);
+}
+
+.dark .menu-item:hover,
+.dark .history-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* barra lateral animada */
+
+.menu-item::before,
+.history-item::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 50%;
+
+  width: 3px;
+  height: 0;
+
+  border-radius: 999px;
+
+  background: #6366f1;
+
+  transform: translateY(-50%);
+  transition: height 0.25s ease;
+}
+
+.menu-item:hover::before,
+.history-item:hover::before {
+  height: 60%;
+}
+
+/* =========================
+   HISTÓRICO
+   ========================= */
+
+.history {
+  flex: 1;
+  overflow-y: auto;
+
+  padding-right: 8px;
+}
+
+.history::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.3);
+  border-radius: 999px;
+}
+
+.history::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.sidebar-footer {
+  padding: 18px;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 12px;
+
+  border-radius: 16px;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.user-card:hover {
+  background: rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+.dark .user-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* =========================
+   AVATAR
+   ========================= */
+
+.avatar {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #8b5cf6,
+      #a855f7
+    );
+
+  box-shadow:
+    0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.user-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+/* =========================
+   BOTÃO HAMBURGUER
+   ========================= */
+
+#toggleBtn {
+  position: fixed;
+  margin: 10px;
+
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #af1616;
+  color: #171717;
+
+
+
+  font-size: 1.2rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  z-index: 997;
+}
+
+#toggleBtn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.16);
+}
+
+.dark #toggleBtn {
+  background: #171717;
+  color: #f5f5f5;
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================
+   RESPONSIVO
+   ========================= */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 85%;
+    max-width: 340px;
+  }
+}

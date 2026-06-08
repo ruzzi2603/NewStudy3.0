@@ -1,5 +1,26 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "user-1780492035598-9e4c020b",
+      "name": "mat",
+      "email": "ma@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$143196a590290dcf0012d0b1f1e84f2e$16f3ffe9ba572dafd7af76f90de7ad9e8da37c6452bd183e8caddafa74ffa08c2470c7ea77fedbb190e3b90cb4a40ce302ed0b7b80286ad15e7590753be56e71",
+      "createdAt": "2026-06-03T13:07:16.004Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-03T13:07:16.004Z"
+    },
+    {
+      "id": "user-1780917675221-09054792",
+      "name": "Matheus",
+      "email": "rzz@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$10d9e3798028fb9cea8a8f0e45a8107b$ccdabd7ad9669752a939fe661cfc7ac6bd024bf957621830f8fd6043cea1cc59802c3977202544497df746d9e88d44fb03e3a54eb9b55a85da9d0173c279b1b3",
+      "createdAt": "2026-06-08T11:21:15.539Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-08T11:21:15.539Z"
+    }
+  ],
   "lectures": [
     {
       "id": "lecture-1780358378880",
@@ -170,7 +191,7 @@
       "userId": "system",
       "title": "Emaranhamento Quântico e Teoria da Informação",
       "sourceUrl": "https://www.youtube.com/watch?v=zN_3EAsbyNo",
-      "category": "Física Avançada",
+      "category": "Física Avançada (Exemplo de estudo)",
       "moduleName": "Módulo 4",
       "duration": "42:15",
       "status": "READY",

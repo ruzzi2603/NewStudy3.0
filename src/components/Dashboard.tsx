@@ -148,12 +148,12 @@ export default function Dashboard({
               placeholder="https://www.youtube.com/watch?v=..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className={`newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border focus:outline-none focus:border-white font-sans transition-all ${
+              className={`tracking-tight border-black dark:border-white  w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all ${
                 url.trim().length > 0 && !urlValidation.valid
                   ? "border-red-400/80 ring-1 ring-red-400/20"
                   : "border-white/25"
               }`}
-              id="url-input"
+                 id="topic-input"
               inputMode="url"
               autoCapitalize="none"
               spellCheck={false}
@@ -179,7 +179,7 @@ export default function Dashboard({
               placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
-              className="newstudy-importer-input w-full text-xs py-3 px-3.5 rounded-xl border border-white/25 focus:outline-none focus:border-white font-sans transition-all"
+              className="tracking-tight border-black dark:border-white  w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all"
               id="topic-input"
             />
           </div>
@@ -340,7 +340,7 @@ export default function Dashboard({
             className="text-4xl lg:text-5xl font-extrabold tracking-tight text-brand-black dark:text-mint-400 font-sans leading-tight relative z-10" id="txtHr"
           >
             
-            Sua aula, seu estudo, nossa entrega.
+              {user ? `Bem vindo ${user.name}, o que vamos estudar hoje?` : "O que vamos estudar hoje?"}
             
           </motion.h1>
         
@@ -352,7 +352,7 @@ export default function Dashboard({
           transition={{ delay: 0.1 }}
           className="text-sm lg:text-base text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto font-sans font-light leading-relaxed"
    id="txtsec"     >
-          Converta vídeos do youtube em apostilas dinâmicas, fórmulas comprovadas e flashcards inteligentes, questões e muito mais em segundos.
+          Converta vídeos do youtube em apostilas dinâmicas, fórmulas e flashcards inteligentes, questões e muito mais em segundos, tudo para o seu melhor aprendizado.
         </motion.p>
         <ScrollDown />
          <div className="separator"></div>
@@ -378,7 +378,7 @@ export default function Dashboard({
           initial={{ opacity: 0, x: 15 }}
           animate={{ opacity: 1, x: 0 }}
           className="lg:col-span-7 flex flex-col gap-6"
-          id="library-panel"
+         
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>

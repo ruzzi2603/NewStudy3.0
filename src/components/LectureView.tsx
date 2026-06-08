@@ -391,10 +391,10 @@ ${formulas}
                       {lecture.formulas.map((formula, idx) => (
                         <div
                           key={idx}
-                          className="border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 flex flex-col gap-4 hover:shadow-xs transition-shadow bg-neutral-50/50 dark:bg-neutral-955"
+                          className="border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 flex flex-col gap-4 hover:shadow-xs transition-shadow bg-neutral-50/50 dark:bg-neutral-900 "
                         >
                           <div>
-                            <h4 className="text-sm font-bold text-neutral-900 dark:text-neutral-150">
+                            <h4 className="text-sm font-bold text-neutral-500 dark:text-neutral-400">
                               {formula.title}
                             </h4>
                           </div>

@@ -7,17 +7,23 @@ import React, { useState, useEffect } from "react";
 import { Lecture } from "./types";
 import Dashboard from "./components/Dashboard";
 import LectureView from "./components/LectureView";
+import Sidebar from "./components/sidebar";
 import RecallStage from "./components/RecallStage";
 import {
   BookOpen,
   Sparkles,
   User,
   LogOut,
+    Search,
   Check,
   AlertCircle,
   X,
   LogIn,
   Lock,
+   Play,
+  RotateCw,
+  Trash2,
+  Clock,
   Mail,
   Sun,
   Moon,
@@ -31,6 +37,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { div } from "motion/react-client";
 
 type LegalSectionKey = "terms" | "privacy" | "cookies";
 
@@ -228,13 +235,30 @@ const LEGAL_DOCUMENTS: Record<LegalSectionKey, LegalDocument> = {
 };
 
 const LEGAL_SECTION_ORDER: LegalSectionKey[] = ["terms", "privacy", "cookies"];
+interface DashboardPropse {
+  lectures: Lecture[];
+  onSelectLecture: (id: string) => void;
+  onAddLecture: (url: string, topicHint: string) => Promise<void>;
+  onDeleteLecture: (id: string) => void;
+  isAdding: boolean;
+}
 
-export default function App() {
+export default function App({
+
+  onSelectLecture,
+  onAddLecture,
+  onDeleteLecture,
+
+}: DashboardPropse) {
   const [lectures, setLectures] = useState<Lecture[]>([]);
   const [selectedLectureId, setSelectedLectureId] = useState<string | null>(null);
   const [currentView, setCurrentView] = useState<"dashboard" | "lecture" | "recall">("dashboard");
   const [recallMode, setRecallMode] = useState<"flashcards" | "quiz">("flashcards");
+const [url, setUrl] = useState("");
 
+  const [topicHint, setTopicHint] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   // Theme state synchronized with Tailwind class lists (Claro e Escuro)
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     try {
@@ -323,7 +347,11 @@ export default function App() {
       document.body.style.overflow = previousOverflow;
     };
   }, [isAuthOpen, isLegalOpen]);
-
+const filteredLectures = lectures.filter((l) =>
+    l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    l.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    l.summaryShort.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   // Fetch all monographs (optionally scoped by current logged in user)
   const fetchLectures = async () => {
     try {
@@ -519,21 +547,30 @@ export default function App() {
 
   const activeLecture = lectures.find((l) => l.id === selectedLectureId);
   const activeLegalDocument = LEGAL_DOCUMENTS[legalSection];
+  
 
   return (
+    
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-200 flex flex-col justify-between font-sans">
       
       {/* Redesenhado: Header de Alto Padrão em Violeta Sólido com Elementos de Vidro */}
-      <header className="bg-brand-mint sticky top-0 z-30 transition-all shadow-md select-none bg-white dark:bg-neutral-900 border border-dashed border-neutral-200/80 dark:border-neutral-800">
-        <div className="BarraLateral">
-      
+      <header className="bg-brand-mint sticky  top-0 z-30 transition-all shadow-md select-none  dark:bg-neutral-900 border border-dashed border-neutral-200/80 dark:border-neutral-800">
+          <Sidebar
+  user={user}
+  lectures={filteredLectures}
+  selectedLectureId={selectedLectureId}
+  searchQuery={searchQuery}
+  onSearchChange={setSearchQuery}
+  onSelectLecture={handleSelectLecture}
 
-        </div>
+  onLogout={handleLogout}
+/>
+           
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           
           <div
             onClick={() => setCurrentView("dashboard")}
-            className="flex items-center gap-3 cursor-pointer group select-none"
+            className="flex items-center gap-3 cursor-pointer group select-none" 
           >
             <div className="h-9 w-9 bg-neutral-950 text-white rounded-xl flex items-center justify-center font-black shadow-sm group-hover:scale-105 transition-transform">
               <BookOpen className="h-5 w-5" />

@@ -96,7 +96,7 @@ export default function PromoCarousel() {
   // Se estiver carregando ou não houver nada no Django, podemos exibir fallback ou ficar invisível
   if (loading || slides.length === 0) {
     return (
-      <div className="w-full h-44 flex items-center justify-center bg-neutral-900/10 dark:bg-neutral-900 rounded-2xl animate-pulse text-xs text-neutral-400">
+      <div className="w-760px h-80 flex items-center justify-center bg-neutral-500/10 dark:bg-neutral-900 rounded-2xl animate-pulse text-xs text-neutral-700">
         Carregando banners...
       </div>
     );
