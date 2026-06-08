@@ -585,12 +585,12 @@ const filteredLectures = lectures.filter((l) =>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3" id="bnt">
             
             {/* Toggler de Tema Translúcido (Claro / Escuro) */}
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 bg-white/5 border border-white/15 transition-all cursor-pointer shadow-xs shrink-0"
+              className="p-2.5 rounded-full text-white/90 hover:text-white hover:bg-white/10 bg-white/5 border border-black/15 transition-all cursor-pointer shadow-xs shrink-0"
               title={theme === "dark" ? "Ativar Modo Claro" : "Ativar Modo Escuro"}
             >
               <AnimatePresence mode="wait">
@@ -613,12 +613,12 @@ const filteredLectures = lectures.filter((l) =>
 
             {/* Widget de Informações / Sessão do Estudante */}
             {user ? (
-              <div className="flex items-center gap-3 bg-white/10 hover:bg-white/15 border border-white/20 py-1 px-4 rounded-full transition-all">
-                <div className="h-7 w-7 rounded-full bg-[#3B82F6] text-white text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none">
+              <div className="flex items-center gap-3 bg-white/10 hover:bg-gray/15 border border-black/15 py-1 px-4 rounded-full transition-all">
+                <div className="h-7 w-7 rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none">
                   {user.name.charAt(0)}
                 </div>
                 <div className="flex flex-col items-start leading-none gap-0.5">
-                  <span className="text-xs font-bold text-white text-left">
+                  <span className="text-xs font-bold text-gray text-left">
                     {user.name}
                   </span>
                   <span className="text-[9px] text-[#A78BFA] font-mono font-medium">estudante</span>

@@ -133,7 +133,7 @@ export default function Dashboard({
             <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
             <span className=" text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">Importar Aula do YouTube</span>
           </h2>
-          <p className="text-[5px] font-bold  tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
+          <p className=" font-bold  tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
             Processamento didático em linguagem natural (PT-BR).
           </p>
         </div>
@@ -230,7 +230,7 @@ export default function Dashboard({
               <span className="  text-neutral-900 dark:text-neutral-100 opacity-80">
                 Módulos Ativos no Deck
               </span>
-              <span className="newstudy-importer-text font-mono font-bold">
+              <span className="text-neutral-900 dark:text-neutral-100 font-mono font-bold">
                 {usageStats ? `${usageStats.lectures.current} / ${usageStats.lectures.limit}` : "0 / 15"}
               </span>
             </div>
@@ -251,13 +251,13 @@ export default function Dashboard({
               <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
                 Gerações por IA (Últimas 24h)
               </span>
-              <span className="newstudy-importer-text font-mono font-bold">
+              <span className="text-neutral-900 dark:text-neutral-100 font-mono font-bold">
                 {usageStats ? `${usageStats.generations.current} / ${usageStats.generations.limit}` : "0 / 5"}
               </span>
             </div>
             <div className="h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden border dark:border-neutral-850">
               <div
-                className="h-full bg-neutral-450 dark:bg-neutral-600 rounded-full transition-all duration-300"
+                className="h-full bg-neutral-400 dark:bg-neutral-600 rounded-full transition-all duration-300"
                 style={{
                   width: usageStats
                     ? `${Math.min(100, (usageStats.generations.current / usageStats.generations.limit) * 100)}%`

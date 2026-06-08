@@ -19,9 +19,157 @@
       "acceptedTerms": true,
       "acceptedLegalVersion": "2026-06-01",
       "acceptedLegalAt": "2026-06-08T11:21:15.539Z"
+    },
+    {
+      "id": "user-1780937633751-569e696a",
+      "name": "ruzzi",
+      "email": "rtt@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$225043db7edb0f894662e6e64cf1e4d6$7c408549e516adf54d55ba9dc3750b5ae25cc81be7f4ade75a3c27b6c3f2b58c27ba6f49ea5c8208e0f6df7fb61082ee2cfffa9e7deeaf8910a7d6a6ea0b510c",
+      "createdAt": "2026-06-08T16:53:53.927Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-08T16:53:53.927Z"
+    },
+    {
+      "id": "user-1780940189456-00af3c6f",
+      "name": "João marcelo Bachiao v",
+      "email": "jmbvmoreira@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$41599876a7fca4befecc90b03b3a90c3$866bd21c769025ad95792b8692fae72532cdb16424f62deee427024a15b724b2f6e0149886b3f6da91b99776ec4aca3664f85831c967d5821aa2986c9aed4785",
+      "createdAt": "2026-06-08T17:36:29.583Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-08T17:36:29.583Z"
     }
   ],
   "lectures": [
+    {
+      "id": "lecture-1780940277768",
+      "userId": "user-1780940189456-00af3c6f",
+      "title": "A Raiz Quadrada: Conceitos Fundamentais e Resolução de Problemas para o 6º Ano",
+      "sourceUrl": "https://www.youtube.com/watch?v=i7bCpeTMgTU",
+      "category": "Matemática",
+      "moduleName": "Matemática Básica",
+      "duration": "09:20",
+      "status": "READY",
+      "progress": 100,
+      "summaryShort": "Este vídeo instrui sobre o conceito de raiz quadrada, sua relação com a potenciação, e métodos práticos para resolver problemas envolvendo o cálculo de raízes, direcionado a estudantes do 6º ano.",
+      "summaryFull": "A aula tem como objetivo principal introduzir o conceito de raiz quadrada para alunos do 6º ano do Ensino Fundamental, conectando-o diretamente à operação inversa da potenciação. O conteúdo aborda a definição formal de raiz quadrada de um número natural, explicando que encontrar a raiz quadrada de um número 'x' significa determinar um número 'y' que, quando multiplicado por si mesmo, resulta em 'x'. Serão apresentados exemplos práticos de como calcular raízes quadradas exatas de números perfeitos, utilizando a tabuada ou métodos de fatoração, quando pertinente, para auxiliar na compreensão.\n\nAlém da conceituação, o vídeo foca em como aplicar esse conhecimento na resolução de problemas cotidianos ou matemáticos. O material detalha a abordagem para um problema contextualizado, demonstrando o passo a passo da identificação da necessidade de usar a raiz quadrada até a obtenção da solução final. A metodologia inclui a visualização da operação e a verificação do resultado, consolidando o aprendizado de forma didática e acessível. A intenção é não apenas ensinar o cálculo, mas também desenvolver a capacidade de raciocínio lógico e aplicação de conceitos matemáticos em diferentes situações.",
+      "learningObjectives": [
+        "Definir o conceito de raiz quadrada e identificar sua relação com a potenciação.",
+        "Calcular raízes quadradas exatas de números naturais, aplicando métodos adequados para cada caso.",
+        "Resolver problemas que envolvem a aplicação de raízes quadradas em contextos práticos."
+      ],
+      "keyConcept": {
+        "title": "Raiz Quadrada",
+        "body": "A raiz quadrada de um número 'x' é um valor 'y' que, quando multiplicado por si mesmo ('y * y' ou 'y²'), resulta em 'x'. É uma das operações fundamentais da aritmética, representando a operação inversa da potenciação com expoente 2. Por exemplo, a raiz quadrada de 9 é 3, porque 3 ao quadrado (3²) é 9. Ela é simbolizada pelo radical (√), onde √x = y significa que y² = x. Compreender a raiz quadrada é essencial para o desenvolvimento de habilidades em álgebra, geometria e diversas áreas da matemática e ciências."
+      },
+      "transcriptionSegments": [
+        {
+          "time": "00:00",
+          "text": "Olá, pessoal! Sejam bem-vindos a mais uma aula de matemática. Hoje, vamos mergulhar no mundo da raiz quadrada, um conceito fundamental que usamos muito no nosso dia a dia."
+        },
+        {
+          "time": "01:15",
+          "text": "Primeiramente, o que é a raiz quadrada? Basicamente, é a operação inversa da potenciação ao quadrado. Se eu tenho um número 'y' e o elevo ao quadrado, ou seja, 'y' vezes 'y', chego a um resultado 'x'. A raiz quadrada de 'x' é justamente encontrar esse 'y'."
+        },
+        {
+          "time": "02:40",
+          "text": "Vamos ver como calcular algumas raízes quadradas exatas. Por exemplo, a raiz quadrada de 25 é 5, porque 5 vezes 5 é 25. É importante conhecermos os quadrados perfeitos para facilitar esse cálculo."
+        },
+        {
+          "time": "04:30",
+          "text": "Agora, vamos aplicar esse conhecimento na resolução de um problema. Imagine que temos um terreno quadrado com uma área de 64 metros quadrados. Como podemos descobrir a medida do lado desse terreno? Precisamos usar a raiz quadrada!"
+        },
+        {
+          "time": "06:10",
+          "text": "Para resolver o problema do terreno, calculamos a raiz quadrada de 64, que é 8. Isso significa que cada lado do terreno mede 8 metros. É a aplicação direta do conceito de raiz quadrada para encontrar a dimensão de um quadrado."
+        },
+        {
+          "time": "08:00",
+          "text": "Em resumo, a raiz quadrada nos ajuda a encontrar o número que, multiplicado por ele mesmo, resulta no número original. É uma ferramenta poderosa para diversos problemas, e com prática, vocês vão dominar esse conceito."
+        }
+      ],
+      "formulas": [
+        {
+          "title": "Definição de Raiz Quadrada",
+          "latex": "\\sqrt{x} = y \\iff y^2 = x",
+          "description": "Esta fórmula define a relação entre a raiz quadrada e a potenciação. Ela estabelece que a raiz quadrada de um número 'x' (√x) é igual a 'y' se, e somente se, 'y' elevado ao quadrado (y²) for igual a 'x'.",
+          "application": "Utilizada para encontrar o lado de um quadrado dada sua área, para calcular distâncias em geometria (Teorema de Pitágoras), e em diversas equações algébricas, especialmente ao se trabalhar com medidas e proporções.",
+          "variables": [
+            {
+              "name": "\\sqrt{x}",
+              "explanation": "Representa a raiz quadrada do número x, buscando o valor que ao ser elevado ao quadrado resulta em x."
+            },
+            {
+              "name": "y",
+              "explanation": "O valor da raiz quadrada de x; é o número que, multiplicado por si mesmo, resulta em x."
+            },
+            {
+              "name": "x",
+              "explanation": "O radicando, o número do qual se deseja extrair a raiz quadrada; é o valor de base para a operação de radiciação."
+            }
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "fc-lecture-1780940277768-0",
+          "question": "O que é uma raiz quadrada?",
+          "answer": "A raiz quadrada de um número é um outro número que, quando multiplicado por si mesmo, resulta no número original. É a operação inversa da potenciação ao quadrado.",
+          "difficulty": "good",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780940277768-1",
+          "question": "Qual a relação entre a raiz quadrada e a potenciação?",
+          "answer": "A raiz quadrada de um número N é o número R tal que R elevado ao quadrado (R²) é igual a N. Ou seja, são operações inversas que se anulam mutuamente.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1780940277768-2",
+          "question": "Qual o símbolo matemático utilizado para representar a raiz quadrada?",
+          "answer": "O símbolo é o radical, que se parece com um 'v' com um traço superior estendido: √. Ele indica a operação de radiciação.",
+          "reviewState": false
+        }
+      ],
+      "quizzes": [
+        {
+          "id": "q-lecture-1780940277768-0",
+          "question": "Qual a raiz quadrada de 81?",
+          "options": [
+            "7",
+            "9",
+            "8"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A raiz quadrada de 81 é 9, pois 9 multiplicado por 9 (9²) é igual a 81. A opção 7 está incorreta porque 7² = 49. A opção 8 está incorreta porque 8² = 64."
+        },
+        {
+          "id": "q-lecture-1780940277768-1",
+          "question": "Se a área de um quadrado é de 49 cm², qual é a medida do lado desse quadrado?",
+          "options": [
+            "7 cm",
+            "8 cm",
+            "6 cm"
+          ],
+          "correctAnswerIndex": 0,
+          "explanation": "A área de um quadrado é calculada pela fórmula A = L², onde L é a medida do lado. Para encontrar o lado, devemos calcular a raiz quadrada da área. Assim, a raiz quadrada de 49 é 7. Portanto, o lado do quadrado mede 7 cm. As outras opções estão erradas porque 8² = 64 e 6² = 36."
+        },
+        {
+          "id": "q-lecture-1780940277768-2",
+          "question": "A operação de calcular a raiz quadrada de um número é a inversa de qual outra operação matemática?",
+          "options": [
+            "Divisão",
+            "Potenciação ao quadrado",
+            "Multiplicação"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A raiz quadrada é a operação inversa da potenciação com expoente 2 (elevar ao quadrado). Por exemplo, 3² = 9 e √9 = 3. A divisão e a multiplicação não são as operações inversas diretas da radiciação nesse contexto, embora estejam relacionadas a operações de inversão de outras formas."
+        }
+      ],
+      "chatHistory": [],
+      "createdAt": "2026-06-08T17:37:57.768Z"
+    },
     {
       "id": "lecture-1780358378880",
       "userId": "guest-c3bd9ea812356b3dde3f6d3a",

@@ -20,7 +20,7 @@ NewStudy e uma plataforma de estudo com IA que transforma aulas, links e materia
 - Admin legado/apoio: Django em `backend/`
 
 ## Como rodar localmente
-
+## caso nao tenh o node: set PATH=C:\Users\14894087626\node-v22.22.3-win-x64;%PATH%
 ### 1. Instalar dependencias
 
 ```bash
