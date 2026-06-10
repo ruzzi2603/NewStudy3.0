@@ -9,6 +9,7 @@ export interface User {
   email: string;
   passwordHash: string;
   createdAt: string;
+  avatar?: string;
   acceptedTerms?: boolean;
   acceptedLegalVersion?: string;
   acceptedLegalAt?: string;

@@ -7,24 +7,29 @@ import React, { useState, useEffect } from "react";
 import { Lecture } from "./types";
 import Dashboard from "./components/Dashboard";
 import LectureView from "./components/LectureView";
+import UserProfile from "./components/profile/UserProfile";
 import Sidebar from "./components/sidebar";
 import RecallStage from "./components/RecallStage";
 import {
   BookOpen,
   Sparkles,
   User,
+  UserCircle2,
+  Star,
+  Settings,
   LogOut,
-    Search,
+  Search,
   Check,
   AlertCircle,
   X,
   LogIn,
   Lock,
-   Play,
+  Play,
   RotateCw,
   Trash2,
   Clock,
   Mail,
+  ChevronDown,
   Sun,
   Moon,
   Cookie,
@@ -252,7 +257,13 @@ export default function App({
 }: DashboardPropse) {
   const [lectures, setLectures] = useState<Lecture[]>([]);
   const [selectedLectureId, setSelectedLectureId] = useState<string | null>(null);
-  const [currentView, setCurrentView] = useState<"dashboard" | "lecture" | "recall">("dashboard");
+  const [currentView, setCurrentView] =
+  useState<
+    "dashboard" |
+    "lecture" |
+    "recall" |
+    "profile"
+  >("dashboard");
   const [recallMode, setRecallMode] = useState<"flashcards" | "quiz">("flashcards");
 const [url, setUrl] = useState("");
 
@@ -284,6 +295,7 @@ const [url, setUrl] = useState("");
 
   // Load state helpers
   const [isAdding, setIsAdding] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
 
   // Authentication states
@@ -613,38 +625,92 @@ const filteredLectures = lectures.filter((l) =>
 
             {/* Widget de Informações / Sessão do Estudante */}
             {user ? (
-              <div className="flex items-center gap-3 bg-white/10 hover:bg-gray/15 border border-black/15 py-1 px-4 rounded-full transition-all">
-                <div className="h-7 w-7 rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none">
-                  {user.name.charAt(0)}
-                </div>
-                <div className="flex flex-col items-start leading-none gap-0.5">
-                  <span className="text-xs font-bold text-gray text-left">
-                    {user.name}
-                  </span>
-                  <span className="text-[9px] text-[#A78BFA] font-mono font-medium">estudante</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="p-1 hover:text-red-300 tracking-tight text-brand-black dark:text-mint-400  rounded-lg hover:bg-white/10 transition-all cursor-pointer ml-1"
-                  title="Sair da Conta"
-                >
-                  <LogOut className="h-4 w-4" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  setAuthTab("login");
-                  setAuthError(null);
-                  setIsAuthOpen(true);
-                }}
-                className="inline-flex items-center gap-1.5 text-xs font-bold tracking-tight text-brand-black dark:text-mint-400  hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
-              >
-                <User className="h-3.5 w-3.5 tracking-tight text-brand-black dark:text-mint-400 " />
-                <span>Entrar / Cadastrar</span>
-              </button>
-            )}
+  <div className="relative">
+    <div className="flex items-center gap-3 bg-white/10 hover:bg-gray/15 border border-black/15 py-1 px-4 rounded-full transition-all">
+      
+      <button
+        onClick={() => setCurrentView("profile")}
+        className="flex items-center gap-3 cursor-pointer"
+      >
+        <div className="h-7 w-7 rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none">
+          {user.name.charAt(0)}
+        </div>
 
+        <div className="flex flex-col items-start leading-none gap-0.5">
+          <span className="text-xs font-bold text-gray text-left">
+            {user.name}
+          </span>
+          <span className="text-[9px] text-[#A78BFA] font-mono font-medium">
+            estudante
+          </span>
+        </div>
+      </button>
+
+      <button
+        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+        className="p-1 hover:bg-white/10 rounded-lg transition-all cursor-pointer"
+      >
+        <ChevronDown
+          className={`h-4 w-4 text-brand-black dark:text-mint-400 transition-transform ${
+            isUserMenuOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {isUserMenuOpen && (
+        <div className="absolute top-12 right-0 w-56 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-xl overflow-hidden z-50">
+          
+          <button
+            onClick={() => {
+              setCurrentView("profile");
+              setIsUserMenuOpen(false);
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          >
+            <User className="h-4 w-4" />
+            Meu Perfil
+          </button>
+
+          <button
+            onClick={() => {
+              setCurrentView("dashboard");
+              setIsUserMenuOpen(false);
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          >
+            <BookOpen className="h-4 w-4" />
+            Meus Materiais
+          </button>
+
+          <div className="border-t border-neutral-200 dark:border-neutral-800" />
+
+          <button
+            onClick={() => {
+              setIsUserMenuOpen(false);
+              handleLogout();
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Sair da Conta
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+) : (
+  <button
+    onClick={() => {
+      setAuthTab("login");
+      setAuthError(null);
+      setIsAuthOpen(true);
+    }}
+    className="inline-flex items-center gap-1.5 text-xs font-bold tracking-tight text-brand-black dark:text-mint-400 hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
+  >
+    <User className="h-3.5 w-3.5 tracking-tight text-brand-black dark:text-mint-400" />
+    <span>Entrar / Cadastrar</span>
+  </button>
+)}
           </div>
         </div>
       </header>
@@ -673,6 +739,15 @@ const filteredLectures = lectures.filter((l) =>
             isResponding={isResponding}
           />
         )}
+{currentView === "profile" && user && (
+  <UserProfile
+    user={{
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }}
+  />
+)}
 
         {currentView === "recall" && activeLecture && (
           <RecallStage

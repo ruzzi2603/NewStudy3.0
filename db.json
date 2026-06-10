@@ -39,6 +39,16 @@
       "acceptedTerms": true,
       "acceptedLegalVersion": "2026-06-01",
       "acceptedLegalAt": "2026-06-08T17:36:29.583Z"
+    },
+    {
+      "id": "user-1781098631782-f4d9394d",
+      "name": "joao",
+      "email": "joao@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$0b00fba26cd26d8dc17c4846aa77f06e$1552f2623a9e50d9eaf67ce811423792bca3243d464f711b13a79d84ae624deb1ac977e52902dbf9b60da12f89d0feb5d9a491f26b7372e8f9316b235a378895",
+      "createdAt": "2026-06-10T13:37:11.968Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-10T13:37:11.968Z"
     }
   ],
   "lectures": [
