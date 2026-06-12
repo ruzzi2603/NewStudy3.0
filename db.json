@@ -49,9 +49,146 @@
       "acceptedTerms": true,
       "acceptedLegalVersion": "2026-06-01",
       "acceptedLegalAt": "2026-06-10T13:37:11.968Z"
+    },
+    {
+      "id": "user-1781229664327-57996829",
+      "name": "joao",
+      "email": "jj@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$9cc7933e56fe519a0b232001adfe72bc$af862970fa81d331a326b9621bcd043c6c5e76217a70d7858e130e77ee7af675045f29dc7148e722451d27362af0b2dab6c9eb9fc3b8a925bec12442fc9da624",
+      "createdAt": "2026-06-12T02:01:04.599Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-12T02:01:04.600Z"
+    },
+    {
+      "id": "user-1781230115918-2db51770",
+      "name": "joao",
+      "email": "jjj@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$d325667678b9823e7f6d86b7559569a8$dc4026f4de95a2249ef5c5d33f47fb8020001cffdc0f393e88eb65ca168171b0cc68110829191217417887b83d0f15f99b6c6ecc254ac480d057e9d23bceeb3c",
+      "createdAt": "2026-06-12T02:08:36.452Z",
+      "acceptedTerms": true,
+      "acceptedLegalVersion": "2026-06-01",
+      "acceptedLegalAt": "2026-06-12T02:08:36.452Z"
     }
   ],
   "lectures": [
+    {
+      "id": "lecture-1781222684219",
+      "userId": "user-1780940189456-00af3c6f",
+      "title": "Análise Fundamental da Equação Reduzida da Circunferência",
+      "sourceUrl": "https://www.youtube.com/watch?v=c-FZLWvPepg",
+      "category": "Geometria Analítica",
+      "moduleName": "Elementos de Geometria Analítica",
+      "duration": "09:08",
+      "status": "READY",
+      "progress": 100,
+      "summaryShort": "Este material didático aborda a definição, a estrutura e as aplicações da equação reduzida da circunferência, elemento crucial em Geometria Analítica.",
+      "summaryFull": "Este material didático tem como objetivo aprofundar a compreensão da equação reduzida da circunferência, um conceito fundamental na Geometria Analítica. Devido à indisponibilidade de transcrição do vídeo original, o conteúdo foi cuidadosamente elaborado para cobrir os aspectos essenciais deste tópico. Abordaremos a dedução lógica da fórmula a partir da definição de circunferência, a identificação clara de seus componentes — o centro e o raio — e como esses elementos se relacionam com as coordenadas de qualquer ponto pertencente à curva. Serão exploradas também as aplicações práticas deste conhecimento em diversas áreas, desde a engenharia até a computação gráfica, ressaltando a importância de dominar esta representação geométrica. O estudo visa proporcionar uma base sólida para a resolução de problemas e a interpretação de fenômenos que envolvem trajetórias circulares.",
+      "learningObjectives": [
+        "Definir e identificar os elementos centrais (centro e raio) da equação reduzida da circunferência.",
+        "Aplicar a fórmula para determinar a equação de uma circunferência dados seu centro e raio.",
+        "Resolver problemas práticos que envolvam a equação reduzida da circunferência, interpretando seus parâmetros.",
+        "Diferenciar a equação reduzida da equação geral da circunferência e entender suas implicações."
+      ],
+      "keyConcept": {
+        "title": "Equação Reduzida da Circunferência",
+        "body": "A Equação Reduzida da Circunferência é a representação algébrica padrão de uma circunferência no plano cartesiano. Sua forma geral é \\((x - a)^2 + (y - b)^2 = r^2\\), onde \\((a, b)\\) são as coordenadas do centro da circunferência e \\(r\\) é a medida do seu raio. Essa equação é derivada diretamente do teorema de Pitágoras e da definição de circunferência como o lugar geométrico de todos os pontos equidistantes de um ponto central. O termo \\((x - a)^2\\) representa o quadrado da distância horizontal do ponto ao centro, e \\((y - b)^2\\) representa o quadrado da distância vertical. A soma desses quadrados, por sua vez, é igual ao quadrado do raio, conforme a fórmula da distância entre dois pontos. Esta forma é considerada 'reduzida' por apresentar diretamente os parâmetros essenciais da circunferência, facilitando sua visualização e análise."
+      },
+      "transcriptionSegments": [
+        {
+          "time": "00:00",
+          "text": "Prezado(a) estudante, informamos que a transcrição automática do vídeo não estava disponível. Portanto, os conceitos e exemplos apresentados neste material foram elaborados com base no título e descrição do vídeo ('Equação Reduzida da Circunferência'), refletindo o conhecimento padrão da disciplina de Geometria Analítica. A ausência de uma transcrição impede a citação de trechos exatos ou abordagens pedagógicas específicas do professor Sandro Curió neste vídeo."
+        }
+      ],
+      "formulas": [
+        {
+          "title": "Equação Reduzida da Circunferência",
+          "latex": "(x - a)^2 + (y - b)^2 = r^2",
+          "description": "Descreve a relação entre qualquer ponto (x,y) na circunferência, seu centro (a,b) e seu raio (r). Ela é a expressão algébrica do teorema de Pitágoras aplicado à distância entre o centro e qualquer ponto da circunferência.",
+          "application": "Esta equação é fundamental para projetar e analisar elementos circulares em engenharia civil e mecânica, simulações físicas (como a trajetória de objetos em órbita), computação gráfica (para renderizar círculos e arcos), cartografia (para definir regiões circulares em mapas) e diversas outras áreas que envolvem o estudo de formas geométricas no plano.",
+          "variables": [
+            {
+              "name": "x",
+              "explanation": "Coordenada horizontal de um ponto P(x,y) qualquer que pertence à circunferência."
+            },
+            {
+              "name": "y",
+              "explanation": "Coordenada vertical de um ponto P(x,y) qualquer que pertence à circunferência."
+            },
+            {
+              "name": "a",
+              "explanation": "Coordenada horizontal do centro da circunferência, C(a,b)."
+            },
+            {
+              "name": "b",
+              "explanation": "Coordenada vertical do centro da circunferência, C(a,b)."
+            },
+            {
+              "name": "r",
+              "explanation": "Medida do raio da circunferência, que é a distância constante entre o centro e qualquer ponto da circunferência."
+            }
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "fc-lecture-1781222684219-0",
+          "question": "Qual a forma geral da equação reduzida da circunferência e o que cada termo representa?",
+          "answer": "A forma geral é \\((x - a)^2 + (y - b)^2 = r^2\\). Nela, \\((x, y)\\) são as coordenadas de um ponto qualquer na circunferência, \\((a, b)\\) são as coordenadas do centro, e \\(r\\) é a medida do raio. \\((x-a)^2\\) e \\((y-b)^2\\) representam os quadrados das diferenças nas coordenadas, enquanto \\(r^2\\) é o quadrado do raio.",
+          "difficulty": "easy",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1781222684219-1",
+          "question": "Como identificar o centro e o raio de uma circunferência a partir de sua equação reduzida \\((x + 2)^2 + (y - 5)^2 = 36\\)?",
+          "answer": "Para identificar o centro \\((a, b)\\), basta comparar a equação com a forma geral \\((x - a)^2 + (y - b)^2 = r^2\\). Assim, \\((x - (-2))^2\\) implica \\(a = -2\\), e \\((y - 5)^2\\) implica \\(b = 5\\). O centro é \\((-2, 5)\\). Para o raio, \\(r^2 = 36\\), então \\(r = \\sqrt{36} = 6\\). O raio é 6.",
+          "reviewState": false
+        },
+        {
+          "id": "fc-lecture-1781222684219-2",
+          "question": "Qual a principal vantagem da equação reduzida da circunferência em comparação com a equação geral?",
+          "answer": "A principal vantagem da equação reduzida é que ela exibe diretamente as coordenadas do centro \\((a, b)\\) e o raio \\(r\\) da circunferência, facilitando a visualização e interpretação geométrica. A equação geral \\(x^2 + y^2 + Dx + Ey + F = 0\\) exige manipulações algébricas (completar quadrados) para revelar esses parâmetros.",
+          "reviewState": false
+        }
+      ],
+      "quizzes": [
+        {
+          "id": "q-lecture-1781222684219-0",
+          "question": "Qual das seguintes equações representa uma circunferência com centro no ponto \\((3, -4)\\) e raio 5?",
+          "options": [
+            "\\((x + 3)^2 + (y - 4)^2 = 25\\)",
+            "\\((x - 3)^2 + (y + 4)^2 = 25\\)",
+            "\\((x - 3)^2 + (y - 4)^2 = 5\\)"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "A equação reduzida da circunferência é \\((x - a)^2 + (y - b)^2 = r^2\\). Para um centro \\((3, -4)\\), temos \\(a = 3\\) e \\(b = -4\\), resultando em \\((x - 3)^2\\) e \\((y - (-4))^2 = (y + 4)^2\\). Para um raio \\(r = 5\\), temos \\(r^2 = 5^2 = 25\\). Portanto, a equação correta é \\((x - 3)^2 + (y + 4)^2 = 25\\). A opção 0 está errada nos sinais do centro, e a opção 2 está errada no valor de \\(r^2\\)."
+        },
+        {
+          "id": "q-lecture-1781222684219-1",
+          "question": "Dada a equação da circunferência \\(x^2 + (y - 7)^2 = 81\\), quais são as coordenadas do centro e a medida do raio?",
+          "options": [
+            "Centro \\((0, 7)\\), Raio 9",
+            "Centro \\((0, -7)\\), Raio 9",
+            "Centro \\((0, 7)\\), Raio 81"
+          ],
+          "correctAnswerIndex": 0,
+          "explanation": "Na equação \\(x^2 + (y - 7)^2 = 81\\), podemos reescrever \\(x^2\\) como \\((x - 0)^2\\). Assim, comparando com \\((x - a)^2 + (y - b)^2 = r^2\\), temos \\(a = 0\\) e \\(b = 7\\), o que nos dá o centro \\((0, 7)\\). O termo \\(r^2 = 81\\), então o raio \\(r = \\sqrt{81} = 9\\). Portanto, a resposta correta é Centro \\((0, 7)\\), Raio 9. A opção 1 está errada no sinal do y do centro, e a opção 2 está errada no valor do raio."
+        },
+        {
+          "id": "q-lecture-1781222684219-2",
+          "question": "Qual a equação reduzida de uma circunferência que tangencia o eixo x no ponto \\((4, 0)\\) e tem raio 3?",
+          "options": [
+            "\\((x - 4)^2 + (y - 3)^2 = 9\\)",
+            "\\((x - 4)^2 + (y + 3)^2 = 9\\)",
+            "\\((x - 3)^2 + (y - 4)^2 = 9\\)"
+          ],
+          "correctAnswerIndex": 0,
+          "explanation": "Se a circunferência tangencia o eixo x no ponto \\((4, 0)\\) e tem raio 3, isso significa que o centro da circunferência deve ter a mesma coordenada x que o ponto de tangência, ou seja, \\(a = 4\\). Como o raio é 3 e a circunferência tangencia o eixo x (linha y=0), a coordenada y do centro deve ser \\(b = 3\\) (ou \\(b = -3\\), mas geralmente consideramos no semiplano superior se não especificado o contrário). Assim, o centro é \\((4, 3)\\) e o raio é \\(r = 3\\). A equação será \\((x - 4)^2 + (y - 3)^2 = 3^2\\), que é \\((x - 4)^2 + (y - 3)^2 = 9\\). A opção 1 teria centro \\((4,-3)\\), e a opção 2 teria centro \\((3,4)\\)."
+        }
+      ],
+      "chatHistory": [],
+      "createdAt": "2026-06-12T00:04:44.219Z"
+    },
     {
       "id": "lecture-1780940277768",
       "userId": "user-1780940189456-00af3c6f",

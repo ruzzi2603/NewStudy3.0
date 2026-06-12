@@ -8,6 +8,7 @@ import {
     LogOut,
     ChevronDown,
   } from "lucide-react";
+  import type { ReactNode } from "react";
   import { useState } from "react";
   
   interface UserDropdownProps {
@@ -180,7 +181,7 @@ import {
   }
   
   interface ItemProps {
-    icon: React.ReactNode;
+    icon: ReactNode;
     label: string;
     danger?: boolean;
     onClick: () => void;

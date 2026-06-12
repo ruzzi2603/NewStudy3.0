@@ -19,32 +19,35 @@ export interface ProfileStats {
 }
 
 export interface UserProfileData {
-    id: string;
-    name: string;
-    email: string;
-    createdAt?: string;
-    lastAccessAt?: string;
-    stats?: ProfileStats;
-    
-    sessions?: StudySession[];
-    avatar?: string;
-  
-    institution?: string;
-    university?: string;
-    course?: string;
-    semester?: string;
-  
-    bio?: string;
-    phone?: string;
-    location?: string;
-  
-    theme?: "light" | "dark";
-  
-    joinDate?: string;
-  
-    studyHours?: number;
-    completedQuizzes?: number;
-    reviewedFlashcards?: number;
-    createdLectures?: number;
+  id: string;
+  name: string;
+  email: string;
+  createdAt?: string;
+  lastAccessAt?: string;
+  stats?: ProfileStats;
+  sessions?: StudySession[];
+  avatar?: string;
+  institution?: string;
+  university?: string;
+  course?: string;
+  semester?: string;
+  bio?: string;
+  phone?: string;
+  location?: string;
+  theme?: ProfileTheme;
+  joinDate?: string;
+  studyHours?: number;
+  completedQuizzes?: number;
+  reviewedFlashcards?: number;
+  createdLectures?: number;
+}
+
+export interface AccountPreferences {
+  emailNotifications: boolean;
+  autoSaveProgress: boolean;
+  compactMode: boolean;
+  privateAccount: boolean;
+  weeklyDigest: boolean;
   }
-export type ProfileTab = "perfil" | "seguranca" | "historico";
+
+export type ProfileTab = "perfil" | "conteudos" | "seguranca" | "historico" | "configuracoes";

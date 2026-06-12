@@ -8,6 +8,7 @@ import { Lecture } from "./types";
 import Dashboard from "./components/Dashboard";
 import LectureView from "./components/LectureView";
 import UserProfile from "./components/profile/UserProfile";
+import type { UserProfileData } from "./components/profile/profileTypes";
 import Sidebar from "./components/sidebar";
 import RecallStage from "./components/RecallStage";
 import {
@@ -40,6 +41,7 @@ import {
   ExternalLink,
   ChevronRight,
   AlertTriangle,
+  Camera,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { div } from "motion/react-client";
@@ -240,6 +242,68 @@ const LEGAL_DOCUMENTS: Record<LegalSectionKey, LegalDocument> = {
 };
 
 const LEGAL_SECTION_ORDER: LegalSectionKey[] = ["terms", "privacy", "cookies"];
+
+type AppUser = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+function createProfileFromUser(user: AppUser): UserProfileData {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    avatar: "",
+    bio: "Estudante focado em criar materiais inteligentes com o NewStudy.",
+    institution: "Instituição não informada",
+    university: "Universidade não informada",
+    course: "Curso não informado",
+    semester: "—",
+    phone: "Não informado",
+    location: "Não informado",
+    theme: "violeta",
+    createdAt: new Date().toISOString(),
+    lastAccessAt: new Date().toISOString(),
+    stats: {
+      lecturesCreated: 0,
+      flashcardsReviewed: 0,
+      quizzesCompleted: 0,
+      studyHours: 0,
+      favoriteMaterials: 0,
+      lastAccess: "Hoje",
+    },
+    sessions: [],
+  };
+}
+
+function profileStorageKey(userId: string) {
+  return `newstudy_profile_${userId}`;
+}
+
+function readStoredProfile(user: AppUser): UserProfileData {
+  const fallback = createProfileFromUser(user);
+
+  try {
+    const savedProfile = localStorage.getItem(profileStorageKey(user.id));
+    if (!savedProfile) {
+      return fallback;
+    }
+
+    const parsed = JSON.parse(savedProfile) as Partial<UserProfileData>;
+    return {
+      ...fallback,
+      ...parsed,
+      stats: {
+        ...fallback.stats,
+        ...parsed.stats,
+      },
+      sessions: parsed.sessions?.length ? parsed.sessions : fallback.sessions,
+    };
+  } catch {
+    return fallback;
+  }
+}
 interface DashboardPropse {
   lectures: Lecture[];
   onSelectLecture: (id: string) => void;
@@ -299,7 +363,7 @@ const [url, setUrl] = useState("");
   const [isResponding, setIsResponding] = useState(false);
 
   // Authentication states
-  const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(() => {
+  const [user, setUser] = useState<AppUser | null>(() => {
     try {
       const saved = localStorage.getItem("newstudy_user");
       return saved ? JSON.parse(saved) : null;
@@ -333,11 +397,23 @@ const [url, setUrl] = useState("");
     restoreSession();
   }, []);
 
+  const [profile, setProfile] = useState<UserProfileData | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setProfile(null);
+      return;
+    }
+
+    setProfile(readStoredProfile(user));
+  }, [user]);
+
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authTab, setAuthTab] = useState<"login" | "register">("login");
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authName, setAuthName] = useState("");
+  const [authAvatar, setAuthAvatar] = useState("");
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
   const [hasAcceptedLegal, setHasAcceptedLegal] = useState(false);
@@ -364,6 +440,55 @@ const filteredLectures = lectures.filter((l) =>
     l.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     l.summaryShort.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const ownedLectures = user ? lectures.filter((lecture) => lecture.userId === user.id) : [];
+
+  useEffect(() => {
+    if (!profile) return;
+
+    const lecturesCreated = ownedLectures.length;
+    if ((profile.stats?.lecturesCreated ?? 0) === lecturesCreated) return;
+
+    setProfile((prev) =>
+      prev
+        ? {
+            ...prev,
+            stats: {
+              ...(prev.stats ?? {
+                lecturesCreated: 0,
+                flashcardsReviewed: 0,
+                quizzesCompleted: 0,
+                studyHours: 0,
+                favoriteMaterials: 0,
+                lastAccess: "Hoje",
+              }),
+              lecturesCreated,
+            },
+          }
+        : prev
+    );
+  }, [ownedLectures.length, profile]);
+
+  const handleAuthAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setAuthError("Selecione uma imagem válida para a foto de perfil.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setAuthError("A foto precisa ter no máximo 5 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAuthAvatar(String(reader.result || ""));
+    };
+    reader.readAsDataURL(file);
+  };
+
   // Fetch all monographs (optionally scoped by current logged in user)
   const fetchLectures = async () => {
     try {
@@ -519,8 +644,20 @@ const filteredLectures = lectures.filter((l) =>
       }
 
       if (data.user) {
+        const storedProfile = readStoredProfile(data.user);
         setUser(data.user);
         localStorage.setItem("newstudy_user", JSON.stringify(data.user));
+
+        const nextProfile = {
+          ...storedProfile,
+          avatar: authTab === "register" ? (authAvatar || storedProfile.avatar || "") : (storedProfile.avatar || ""),
+          name: authName || data.user.name,
+          email: authEmail.toLowerCase().trim(),
+        };
+
+        setProfile(nextProfile);
+        localStorage.setItem(profileStorageKey(data.user.id), JSON.stringify(nextProfile));
+
         if (authTab === "register") {
           localStorage.setItem(
             "newstudy_legal_acceptance",
@@ -536,6 +673,7 @@ const filteredLectures = lectures.filter((l) =>
         setAuthEmail("");
         setAuthPassword("");
         setAuthName("");
+        setAuthAvatar("");
         setHasAcceptedLegal(false);
       }
     } catch (err: any) {
@@ -552,12 +690,71 @@ const filteredLectures = lectures.filter((l) =>
       console.warn("Falha ao invalidar cookies no logout:", err);
     }
     setUser(null);
+    setProfile(null);
     localStorage.removeItem("newstudy_user");
     setSelectedLectureId(null);
     setCurrentView("dashboard");
   };
 
+  const handleProfileSave = async (nextProfile: UserProfileData) => {
+    setProfile(nextProfile);
+
+    if (!user) return;
+
+    try {
+      const res = await fetch("/api/users/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: nextProfile.name,
+          email: nextProfile.email,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Não foi possível salvar os dados da conta.");
+      }
+
+      if (data.user) {
+        const updatedUser = data.user;
+        setUser(updatedUser);
+        localStorage.setItem("newstudy_user", JSON.stringify(updatedUser));
+      }
+
+      localStorage.setItem(profileStorageKey(user.id), JSON.stringify(nextProfile));
+    } catch (err) {
+      console.error("Erro ao salvar perfil:", err);
+      alert("Não foi possível salvar o perfil agora.");
+    }
+  };
+
+  const handleChangePassword = async (_currentPassword: string, newPassword: string) => {
+    try {
+      const res = await fetch("/api/users/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newPassword }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Não foi possível alterar a senha.");
+      }
+
+      if (data.user) {
+        const updatedUser = data.user;
+        setUser(updatedUser);
+        localStorage.setItem("newstudy_user", JSON.stringify(updatedUser));
+      }
+    } catch (err) {
+      console.error("Erro ao alterar a senha:", err);
+      throw err;
+    }
+  };
+
   const activeLecture = lectures.find((l) => l.id === selectedLectureId);
+  const activeProfile = profile ?? (user ? readStoredProfile(user) : null);
   const activeLegalDocument = LEGAL_DOCUMENTS[legalSection];
   
 
@@ -626,14 +823,18 @@ const filteredLectures = lectures.filter((l) =>
             {/* Widget de Informações / Sessão do Estudante */}
             {user ? (
   <div className="relative">
-    <div className="flex items-center gap-3 bg-white/10 hover:bg-gray/15 border border-black/15 py-1 px-4 rounded-full transition-all">
+    <div className="flex items-center gap-3 rounded-full border border-black/15 bg-white/10 px-4 py-1 transition-all hover:bg-white/15 dark:border-white/10 dark:bg-neutral-800/80 dark:hover:bg-neutral-700/80">
       
       <button
         onClick={() => setCurrentView("profile")}
         className="flex items-center gap-3 cursor-pointer"
       >
-        <div className="h-7 w-7 rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none">
-          {user.name.charAt(0)}
+        <div className="h-7 w-7 overflow-hidden rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none ring-1 ring-black/10">
+          {activeProfile?.avatar ? (
+            <img src={activeProfile.avatar} alt={user.name} className="h-full w-full object-cover" />
+          ) : (
+            user.name.charAt(0)
+          )}
         </div>
 
         <div className="flex flex-col items-start leading-none gap-0.5">
@@ -649,6 +850,8 @@ const filteredLectures = lectures.filter((l) =>
       <button
         onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
         className="p-1 hover:bg-white/10 rounded-lg transition-all cursor-pointer"
+        aria-label="Abrir menu do usuário"
+        title="Abrir menu do usuário"
       >
         <ChevronDown
           className={`h-4 w-4 text-brand-black dark:text-mint-400 transition-transform ${
@@ -739,15 +942,17 @@ const filteredLectures = lectures.filter((l) =>
             isResponding={isResponding}
           />
         )}
-{currentView === "profile" && user && (
-  <UserProfile
-    user={{
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    }}
-  />
-)}
+        {currentView === "profile" && activeProfile && (
+          <UserProfile
+            user={activeProfile}
+            lectures={ownedLectures}
+            onBack={() => setCurrentView("dashboard")}
+            onSave={handleProfileSave}
+            onSelectLecture={handleSelectLecture}
+            onChangePassword={handleChangePassword}
+            onLogoutAll={handleLogout}
+          />
+        )}
 
         {currentView === "recall" && activeLecture && (
           <RecallStage
@@ -779,7 +984,7 @@ const filteredLectures = lectures.filter((l) =>
       {/* Sleek, Center-Popup Modal de Autenticação Dual-Tab */}
       <AnimatePresence>
         {isAuthOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 sm:items-center">
             {/* Backdrop com blur sofisticado */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -798,12 +1003,15 @@ const filteredLectures = lectures.filter((l) =>
              rounded-3xl p-4 sm:p-6 lg:p-8 
              w-full max-w-sm sm:max-w-md 
              mx-4 sm:mx-auto 
-             shadow-2xl relative z-10 flex flex-col gap-6"
+             shadow-2xl relative z-10 flex max-h-[calc(100dvh-2rem)] flex-col gap-6 overflow-y-auto overscroll-contain"
   id="form-all"
 >
               <button
+                type="button"
                 onClick={() => setIsAuthOpen(false)}
                 className="absolute right-4 top-4 p-1 rounded-full text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+                aria-label="Fechar janela de autenticação"
+                title="Fechar janela de autenticação"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -826,7 +1034,7 @@ const filteredLectures = lectures.filter((l) =>
               <div className="grid grid-cols-2 bg-neutral-100 dark:bg-neutral-805/80 p-1 rounded-xl">
                 <button
                   type="button"
-                  onClick={() => { setAuthTab("login"); setAuthError(null); }}
+                  onClick={() => { setAuthTab("login"); setAuthError(null); setAuthAvatar(""); }}
                   className={`py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                     authTab === "login"
                       ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-sm"
@@ -851,6 +1059,39 @@ const filteredLectures = lectures.filter((l) =>
              
 
               <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4" id="auth-form">
+                {authTab === "register" && (
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
+                      Foto de Perfil
+                    </label>
+                    <div className="flex items-center gap-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-805 px-3 py-3">
+                      <div className="h-12 w-12 overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800 ring-1 ring-black/5 flex items-center justify-center">
+                        {authAvatar ? (
+                          <img src={authAvatar} alt="Prévia da foto" className="h-full w-full object-cover" />
+                        ) : (
+                          <UserCircle2 className="h-6 w-6 text-neutral-500" />
+                        )}
+                      </div>
+
+                      <div className="flex min-w-0 flex-1 flex-col gap-1">
+                        <label className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-xl bg-neutral-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-100">
+                          <Camera className="h-3.5 w-3.5" />
+                          Adicionar foto
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAuthAvatarChange}
+                            className="hidden"
+                          />
+                        </label>
+                        <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                          PNG, JPG ou WEBP até 5 MB.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {authTab === "register" && (
                   <div className="flex flex-col gap-1">
                     <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
@@ -971,7 +1212,7 @@ const filteredLectures = lectures.filter((l) =>
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm px-4 py-6 flex items-center justify-center"
+            className="fixed inset-0 z-60 bg-black/60 backdrop-blur-sm px-4 py-6 flex items-center justify-center"
             onClick={() => setIsLegalOpen(false)}
           >
             <motion.div
