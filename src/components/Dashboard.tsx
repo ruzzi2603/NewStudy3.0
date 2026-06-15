@@ -129,18 +129,18 @@ export default function Dashboard({
         id="link-processor-panel"
       >
         <div>
-          <h2 className="text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
+          <h2 className="text-[10px]  font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
             <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
-            <span className=" text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">Importar Aula do YouTube</span>
+            <span className=" text-[10px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">Importar Aula do YouTube</span>
           </h2>
-          <p className=" font-bold  tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
+          <p className=" tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
             Processamento didático em linguagem natural (PT-BR).
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className=" text-[10px] font-bold font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
+            <label className=" text-[10px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
               LINK DO VÍDEO DO YOUTUBE
             </label>
             <input
@@ -148,7 +148,7 @@ export default function Dashboard({
               placeholder="https://www.youtube.com/watch?v=..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className={`tracking-tight border-black dark:border-white  w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all ${
+              className={`tracking-tight   w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all ${
                 url.trim().length > 0 && !urlValidation.valid
                   ? "border-red-400/80 ring-1 ring-red-400/20"
                   : "border-white/25"
@@ -171,7 +171,7 @@ export default function Dashboard({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className=" text-[10px] font-bold font-sans tracking-wide  text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
+            <label className=" text-[10px] font-sans font-semibold tracking-wide  text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
               ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
             </label>
             <input
@@ -179,7 +179,7 @@ export default function Dashboard({
               placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
-              className="tracking-tight border-black dark:border-white  w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all"
+              className="tracking-tight   w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all"
               id="topic-input"
             />
           </div>
@@ -201,7 +201,7 @@ export default function Dashboard({
             className={`w-full text-xs font-semibold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
               isAdding || !urlValidation.valid
                 ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-400 cursor-not-allowed"
-                : "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 font-bold border border-neutral-300 dark:border-neutral-700 shadow-xs hover:scale-[1.01]"
+                : "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700  border border-neutral-300 dark:border-neutral-700 shadow-xs hover:scale-[1.01]"
             }`}
             id="analyze-submit-button"
           >
@@ -221,7 +221,7 @@ export default function Dashboard({
 
         {/* CONTROLE DE COTAS DO SISTEMA */}
         <div className="border-t border-neutral-100 dark:border-neutral-850 pt-4 flex flex-col gap-3 font-sans">
-          <span className=" font-sans  text-neutral-900 dark:text-neutral-100 opacity-90 font-bold text-[10px] tracking-wide uppercase">
+          <span className=" font-sans  text-neutral-900 dark:text-neutral-100 opacity-90  text-[10px] tracking-wide uppercase">
             CONTROLE DE COTAS DO SISTEMA :
           </span>
 
@@ -230,7 +230,7 @@ export default function Dashboard({
               <span className="  text-neutral-900 dark:text-neutral-100 opacity-80">
                 Módulos Ativos no Deck
               </span>
-              <span className="text-neutral-900 dark:text-neutral-100 font-mono font-bold">
+              <span className="text-neutral-900 dark:text-neutral-100 font-mono ">
                 {usageStats ? `${usageStats.lectures.current} / ${usageStats.lectures.limit}` : "0 / 15"}
               </span>
             </div>
@@ -251,7 +251,7 @@ export default function Dashboard({
               <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
                 Gerações por IA (Últimas 24h)
               </span>
-              <span className="text-neutral-900 dark:text-neutral-100 font-mono font-bold">
+              <span className="text-neutral-900 dark:text-neutral-100 font-mono ">
                 {usageStats ? `${usageStats.generations.current} / ${usageStats.generations.limit}` : "0 / 5"}
               </span>
             </div>
@@ -272,7 +272,7 @@ export default function Dashboard({
               <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
                 Perguntas ao Tutor (Últimas 24h)
               </span>
-              <span className=" text-neutral-900 dark:text-neutral-100 font-mono font-bold">
+              <span className=" text-neutral-900 dark:text-neutral-100 font-mono">
                 {usageStats ? `${usageStats.chatQuestions.current} / ${usageStats.chatQuestions.limit}` : "0 / 30"}
               </span>
             </div>
@@ -310,10 +310,10 @@ export default function Dashboard({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-xs font-semibold text-[#0369A1] dark:bg-sky-950/40 dark:text-sky-300 dark:border-sky-900/50 mb-6 shadow-sm"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full  mb-6 shadow-sm"
         >
-          <Sparkles className="h-3.5 w-3.5 text-[#0284C7] animate-pulse" />
-          <span>Estruturador de Estudos Inteligente</span>
+        
+          <span></span>
         </motion.div>
         
 <div className="hole">
@@ -382,9 +382,9 @@ export default function Dashboard({
         >
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  flex items-center font-sans" id="ser">
+              <h2 className="text-lg tracking-tight text-brand-black dark:text-mint-400  flex items-center font-sans" id="ser">
                 <span>Seu Deck de Estudo</span>
-                <span className="text-xs border border-neutral-300 dark:border-neutral-700 h-6 w-6 inline-flex items-center justify-center rounded-full font-mono font-bold text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-850 ml-1.5 select-none font-sans">
+                <span className="text-xs border border-neutral-300 dark:border-neutral-700 h-6 w-6 inline-flex items-center justify-center rounded-full font-mono  text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-850 ml-1.5 select-none font-sans">
                   {lectures.length}
                 </span>
               </h2>
@@ -468,26 +468,13 @@ export default function Dashboard({
                     <motion.div
                       key={lecture.id}
                       layout
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      whileHover={{ 
-                        y: -3, 
-                        scale: 1.005,
-                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05)"
-                      }}
-                      transition={{ 
-                        type: "spring",
-                        stiffness: 280,
-                        damping: 24,
-                        mass: 0.8
-                      }}
+                    
                       className="newstudy-lecture-card group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-850 hover:border-neutral-350 dark:hover:border-neutral-750 rounded-2xl p-6 transition-all flex flex-col gap-3 relative cursor-pointer shadow-xs"
                     >
                       <div className="flex justify-between items-start gap-4" >
                         <div className="flex flex-col gap-1 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-[10px] font-sans font-bold tracking-wider uppercase text-neutral-450 dark:text-neutral-500">
+                            <span className="text-[10px] font-sans  tracking-wider uppercase text-neutral-450 dark:text-neutral-500">
                               {lecture.category || "FÍSICA GERAL"}
                             </span>
                             <span className="text-neutral-200 dark:text-neutral-800 font-sans text-xs">•</span>
@@ -507,7 +494,7 @@ export default function Dashboard({
 
                           <h3
                             onClick={() => !isAnalyzing && !isFailed && onSelectLecture(lecture.id)}
-                            className={`text-base lg:text-lg font-bold tracking-tight text-brand-black dark:text-mint-400  mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
+                            className={`text-base lg:text-lg tracking-tight text-brand-black dark:text-mint-400  mt-1 cursor-pointer transition-colors font-sans hover:opacity-90`}
                           >
                             {lecture.title}
                           </h3>
@@ -524,13 +511,13 @@ export default function Dashboard({
                           </button>
 
                           {isAnalyzing && (
-                            <span className="text-[10px] font-mono font-bold bg-blue-500/10 text-blue-650 dark:text-blue-400 px-2 py-1 rounded border border-blue-500/20 shadow-inner animate-pulse">
+                            <span className="text-[10px] font-mono bg-blue-500/10 text-blue-650 dark:text-blue-400 px-2 py-1 rounded border border-blue-500/20 shadow-inner animate-pulse">
                               {lecture.progress}% COMPLETADO
                             </span>
                           )}
 
                           {isFailed && (
-                            <span className="text-[10px] font-mono font-bold bg-red-500/10 text-red-650 dark:text-red-450 px-2 py-1 rounded border border-red-500/20">
+                            <span className="text-[10px] font-mono bg-red-500/10 text-red-650 dark:text-red-450 px-2 py-1 rounded border border-red-500/20">
                               FALHOU
                             </span>
                           )}
@@ -538,9 +525,9 @@ export default function Dashboard({
                           {lecture.status === "READY" && (
                             <button
                               onClick={() => onSelectLecture(lecture.id)}
-                              className="px-3.5 py-1.5 text-xs font-bold bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#0369A1] hover:text-[#0284C7] border border-[#BAE6FD]/40 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer hover:scale-[1.02]"
+                              className="px-3.5 py-1.5 text-xs bg-[#ffffff] hover:bg-[#bfbfbf] text-[#000000] hover:text-[#ffffff] border border-[#BAE6FD]/40 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer hover:scale-[1.02]"
                             >
-                              <Play className="h-3 w-3 fill-current text-[#0369A1]" />
+                              <Play className="h-3 w-3 fill-current text-[#898989]" />
                               <span>Estudar</span>
                             </button>
                           )}
@@ -559,7 +546,7 @@ export default function Dashboard({
                               initial={{ width: "10%" }}
                               animate={{ width: `${lecture.progress}%` }}
                               transition={{ duration: 0.5 }}
-                              className="h-full rounded-full bg-gradient-to-r from-brand-mint to-sky-400"
+                              className="h-full rounded-full bg-gradient-to-right from-brand-mint to-sky-400"
                             />
                           </div>
                           <span className="text-[10px] text-neutral-400 font-mono flex items-center gap-1 mt-0.5 animate-pulse">

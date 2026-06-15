@@ -38,7 +38,7 @@
 }
 #txtHr{
 
-  font-weight: 700;
+  font-weight: 500;
   
 }
 .newstudy-hero {
@@ -87,8 +87,9 @@ position: relative;
   height: 52px;
   border-radius: 999px;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.96) 0%,  rgba(65, 62, 62, 0.94) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.96) 0%,  rgba(0, 0, 0, 0.94) 100%);
   color: #ffffff;
+  z-index: 52;
   cursor: pointer;
   position: relative;
   transition:
@@ -122,16 +123,17 @@ position: relative;
   position: absolute;
   inset: 1px;
   border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 60%, rgba(255, 255, 255, 0) 100%);
-  pointer-events: none;
+   pointer-events: none;
 }
 
 .scroll-down-btn::after {
   content: "";
   position: absolute;
   inset: -24%;
-  background: radial-gradient(circle at 50% 34%, rgba(59, 130, 246, 0.34), transparent 58%);
+  background: radial-gradient(circle at 50% 34%, rgba(1, 1, 1, 0.445), rgba(129, 129, 129, 0.653), rgba(0, 0, 0, 0.636), transparent 98%);
   opacity: 0.72;
+  z-index: 50;
+ 
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -153,6 +155,7 @@ position: relative;
   z-index: 1;
   margin-left: 4.5rem;
   width: 34px;
+  z-index: 51;
   height: 24px;
   stroke-width: 2.2;
   animation: scrollArrowFloat 1.4s ease-in-out infinite;
@@ -190,9 +193,10 @@ background: linear-gradient(135deg, #242424 0%, #070707 58%, #202020 100%);
 }
 .scroll-down-text{
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 600;
   margin-right: 1.5rem;
-  color: #ffffff;
+  color: rgb(255, 255, 255);
+z-index: 51;
 }
 scroll-down-arrow{
   display: flex;
@@ -282,9 +286,13 @@ i:nth-child(10) {
 }
 
 #topic-input{
-  border: thick solid #5f5f5f;
+ border: thick solid #4f4f4f;
   border-width: 2px;
   
+}
+input::placeholder {
+  color: gray;       /* define a cor */
+ /* opcional: estilo */
 }
 #al{
   background-color: aqua;
@@ -340,8 +348,4 @@ i:nth-child(10) {
   }
  
  
-}
-#topic-input{
-  background-color: #020023;
-  color: white;
 }

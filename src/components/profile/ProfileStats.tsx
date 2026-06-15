@@ -15,10 +15,7 @@ import {
   export default function ProfileStats({ stats }: ProfileStatsProps) {
     const cards = [
       { label: "Módulos criados", value: stats.lecturesCreated, icon: BookOpen },
-      { label: "Flashcards revisados", value: stats.flashcardsReviewed, icon: StickyNote },
-      { label: "Quizzes concluídos", value: stats.quizzesCompleted, icon: CircleCheckBig },
-      { label: "Horas estudadas", value: stats.studyHours, icon: Clock3 },
-      { label: "Favoritos", value: stats.favoriteMaterials, icon: Star },
+    
       {
         label: "Último acesso",
         value: stats.lastAccess ?? "—",

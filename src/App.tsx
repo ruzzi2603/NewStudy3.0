@@ -130,7 +130,7 @@ const LEGAL_DOCUMENTS: Record<LegalSectionKey, LegalDocument> = {
       {
         title: "11. Contato jurídico e suporte",
         body:
-          "Para questões sobre termos, privacidade, remoção de dados ou dúvidas legais, o canal recomendado é legal@newstudy.app. Antes da publicação comercial, substitua esse endereço por um canal realmente monitorado pela operação do projeto.",
+          "Para questões sobre termos, privacidade, remoção de dados ou dúvidas legais, o canal recomendado é newstudyCompany@gmail.com.",
       },
     ],
   },
@@ -188,7 +188,7 @@ const LEGAL_DOCUMENTS: Record<LegalSectionKey, LegalDocument> = {
       {
         title: "7. Base jurídica e aviso prudencial",
         body:
-          "As bases legais variam conforme a jurisdição e a finalidade. Este texto é uma minuta operacional para o produto e deve ser revisado por advogado local antes da publicação pública, especialmente se o serviço atender usuários no Brasil, na União Europeia, no Reino Unido ou em estados norte-americanos com regras próprias.",
+          "As bases legais variam conforme a jurisdição e a finalidade.",
       },
     ],
   },
@@ -785,7 +785,7 @@ const filteredLectures = lectures.filter((l) =>
               <BookOpen className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-bold tracking-tight text-brand-black dark:text-mint-400  font-sans leading-none">
+              <span className="text-base  tracking-tight text-brand-black dark:text-mint-400  font-sans leading-none">
                 NewStudy
               </span>
               <span className="text-[10px] tracking-tight text-brand-black dark:text-mint-400  font-medium font-sans mt-0.5">
@@ -829,7 +829,7 @@ const filteredLectures = lectures.filter((l) =>
         onClick={() => setCurrentView("profile")}
         className="flex items-center gap-3 cursor-pointer"
       >
-        <div className="h-7 w-7 overflow-hidden rounded-full bg-[#3B82F6] text-gray text-xs font-bold flex items-center justify-center uppercase shadow-inner select-none ring-1 ring-black/10">
+        <div className="h-7 w-7 overflow-hidden rounded-full bg-[#3B82F6] text-gray text-xs  flex items-center justify-center uppercase shadow-inner select-none ring-1 ring-black/10">
           {activeProfile?.avatar ? (
             <img src={activeProfile.avatar} alt={user.name} className="h-full w-full object-cover" />
           ) : (
@@ -838,7 +838,7 @@ const filteredLectures = lectures.filter((l) =>
         </div>
 
         <div className="flex flex-col items-start leading-none gap-0.5">
-          <span className="text-xs font-bold text-gray text-left">
+          <span className="text-xs  text-gray text-left">
             {user.name}
           </span>
           <span className="text-[9px] text-[#A78BFA] font-mono font-medium">
@@ -908,7 +908,7 @@ const filteredLectures = lectures.filter((l) =>
       setAuthError(null);
       setIsAuthOpen(true);
     }}
-    className="inline-flex items-center gap-1.5 text-xs font-bold tracking-tight text-brand-black dark:text-mint-400 hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
+    className="inline-flex items-center gap-1.5 text-xs  tracking-tight text-brand-black dark:text-mint-400 hover:bg-black/15 bg-black/5 border border-black/20 px-4 py-2 rounded-full transition-colors cursor-pointer"
   >
     <User className="h-3.5 w-3.5 tracking-tight text-brand-black dark:text-mint-400" />
     <span>Entrar / Cadastrar</span>
@@ -1061,7 +1061,7 @@ const filteredLectures = lectures.filter((l) =>
               <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4" id="auth-form">
                 {authTab === "register" && (
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
+                    <label className="text-[10px]  text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
                       Foto de Perfil
                     </label>
                     <div className="flex items-center gap-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-805 px-3 py-3">
@@ -1094,7 +1094,7 @@ const filteredLectures = lectures.filter((l) =>
 
                 {authTab === "register" && (
                   <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
+                    <label className="text-[10px] text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
                       Nome de Estudante
                     </label>
                     <div className="relative">
@@ -1112,7 +1112,7 @@ const filteredLectures = lectures.filter((l) =>
                 )}
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
+                  <label className="text-[10px] text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
                     E-mail Institucional ou Pessoal
                   </label>
                   <div className="relative">
@@ -1129,7 +1129,7 @@ const filteredLectures = lectures.filter((l) =>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-bold text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
+                  <label className="text-[10px]  text-neutral-450 dark:text-neutral-500 font-mono tracking-wider uppercase">
                     Senha de Segurança
                   </label>
                   <div className="relative">
@@ -1184,7 +1184,7 @@ const filteredLectures = lectures.filter((l) =>
                 <button
                   type="submit"
                   disabled={authLoading || (authTab === "register" && !hasAcceptedLegal)}
-                  className="w-full py-3 mt-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 font-bold text-xs rounded-xl shadow-md cursor-pointer transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 mt-2 bg-neutral-900 hover:bg-neutral-800 dark:bg-white dark:hover:bg-neutral-100 text-white dark:text-neutral-900 text-xs rounded-xl shadow-md cursor-pointer transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {authLoading ? (
                     <div className="h-4 w-4 border-2 border-neutral-300 dark:border-neutral-600 border-t-white dark:border-t-black rounded-full animate-spin" />
@@ -1225,12 +1225,12 @@ const filteredLectures = lectures.filter((l) =>
             >
               <div className="border-b border-neutral-200 dark:border-neutral-800 px-6 py-5 flex items-start justify-between gap-4">
                 <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-neutral-100 dark:bg-neutral-900 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-neutral-100 dark:bg-neutral-900 px-3 py-1 text-[10px]  uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
                     <Scale className="h-3.5 w-3.5" />
                     <span>{activeLegalDocument.badge}</span>
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
+                    <h2 className="text-2xl  text-neutral-900 dark:text-neutral-50 tracking-tight">
                       {activeLegalDocument.title}
                     </h2>
                     <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400 max-w-3xl">
@@ -1287,7 +1287,7 @@ const filteredLectures = lectures.filter((l) =>
                       key={block.title}
                       className="border-b border-neutral-200/70 dark:border-neutral-800/70 pb-5 last:border-b-0 last:pb-0"
                     >
-                      <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-50">
+                      <h3 className="text-sm  text-neutral-900 dark:text-neutral-50">
                         {block.title}
                       </h3>
                       {block.body && (
