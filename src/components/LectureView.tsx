@@ -5,6 +5,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import {
   ArrowLeft,
   BookOpen,
@@ -25,12 +27,15 @@ import {
   Award,
   ChevronRight,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  Download,
 } from "lucide-react";
 import { Lecture, ChatMessage, Formula } from "../types";
 
 interface LectureViewProps {
   lecture: Lecture;
+  userName?: string;
+  userEmail?: string;
   onBack: () => void;
   onLaunchRecall: (mode: "flashcards" | "quiz") => void;
   onAskQuestion: (question: string) => Promise<void>;
@@ -41,6 +46,8 @@ type ActiveTab = "summary" | "transcription" | "formulas" | "quiz";
 
 export default function LectureView({
   lecture,
+  userName,
+  userEmail,
   onBack,
   onLaunchRecall,
   onAskQuestion,
@@ -56,6 +63,327 @@ export default function LectureView({
   const [submittedQuiz, setSubmittedQuiz] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const cleanText = (value: string) => value.replace(/\s+/g, " ").trim();
+
+  const addWrappedText = (
+    doc: jsPDF,
+    text: string,
+    x: number,
+    y: number,
+    maxWidth: number,
+    lineHeight = 6,
+  ) => {
+    const lines = doc.splitTextToSize(cleanText(text), maxWidth);
+    doc.text(lines, x, y);
+    return y + lines.length * lineHeight;
+  };
+
+  const addFooter = (doc: jsPDF, pageNumber: number) => {
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setDrawColor(229, 231, 235);
+    doc.line(18, pageHeight - 16, pageWidth - 18, pageHeight - 16);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(107, 114, 128);
+    doc.text("NewStudy", 18, pageHeight - 10);
+    doc.text(`Página ${pageNumber}`, pageWidth - 18, pageHeight - 10, { align: "right" });
+  };
+
+  const addCoverBand = (doc: jsPDF, color: [number, number, number], y: number, height: number) => {
+    doc.setFillColor(color[0], color[1], color[2]);
+    doc.rect(0, y, doc.internal.pageSize.getWidth(), height, "F");
+  };
+
+  const exportPdf = () => {
+    const doc = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const marginX = 18;
+    const contentWidth = pageWidth - marginX * 2;
+    const cardGap = 4;
+    const dateText = new Date().toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+    const creatorName = cleanText(userName || "Usuário NewStudy");
+    const creatorEmail = cleanText(userEmail || "Conta autenticada");
+
+    doc.setDocumentProperties({
+      title: `${lecture.title} - NewStudy`,
+      subject: `Exportação do estudo de ${lecture.title}`,
+      author: creatorName,
+      creator: "NewStudy",
+    });
+
+    addCoverBand(doc, [17, 24, 39], 0, 52);
+    addCoverBand(doc, [59, 130, 246], 42, 12);
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text("NewStudy", marginX, 22);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Exportação completa do estudo", marginX, 30);
+
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(marginX, 62, contentWidth, 110, 6, 6, "F");
+    doc.setDrawColor(226, 232, 240);
+    doc.roundedRect(marginX, 62, contentWidth, 110, 6, 6, "S");
+
+    doc.setFillColor(243, 244, 246);
+    doc.roundedRect(marginX + 8, 74, 24, 24, 5, 5, "F");
+    doc.setTextColor(59, 130, 246);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("NS", marginX + 20, 88, { align: "center" });
+
+    doc.setTextColor(17, 24, 39);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    let y = 78;
+    y = addWrappedText(doc, lecture.title, marginX + 40, y, contentWidth - 48, 8);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(75, 85, 99);
+    y += 4;
+    y = addWrappedText(doc, lecture.moduleName, marginX + 40, y, contentWidth - 48, 5);
+
+    const firstRowY = 108;
+    const secondRowY = 136;
+    const coverInnerWidth = contentWidth - 16;
+    const cardWidth = (coverInnerWidth - cardGap * 2) / 3;
+    const leftX = marginX + 8;
+    const middleX = leftX + cardWidth + cardGap;
+    const rightX = middleX + cardWidth + cardGap;
+
+    const drawCoverCard = (x: number, yPos: number, width: number, label: string, value: string, secondary?: string) => {
+      doc.setFillColor(243, 244, 246);
+      doc.roundedRect(x, yPos, width, 26, 4, 4, "F");
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(107, 114, 128);
+      doc.text(label, x + 3, yPos + 8);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.5);
+      doc.setTextColor(17, 24, 39);
+      const valueLines = doc.splitTextToSize(value, width - 6);
+      doc.text(valueLines, x + 3, yPos + 16);
+      if (secondary) {
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(75, 85, 99);
+        doc.text(secondary, x + 3, yPos + 22);
+      }
+    };
+
+    drawCoverCard(leftX, firstRowY, cardWidth, "Estudante", creatorName, creatorEmail);
+    drawCoverCard(middleX, firstRowY, cardWidth, "Tema / categoria", lecture.category, `Duração: ${lecture.duration}`);
+    drawCoverCard(rightX, firstRowY, cardWidth, "Data", dateText, `Nível: ${lecture.status}`);
+
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(marginX + 8, secondRowY, contentWidth - 16, 28, 4, 4, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.setTextColor(107, 114, 128);
+    doc.text("Resumo curto", marginX + 12, secondRowY + 8);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(55, 65, 81);
+    addWrappedText(doc, lecture.summaryShort, marginX + 12, secondRowY + 16, contentWidth - 24, 4.8);
+
+    let cursorY = 182;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(17, 24, 39);
+    doc.text("Sumário do Estudo", marginX, cursorY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(107, 114, 128);
+    doc.text("Conteúdo consolidado sem flashcards, quizzes ou material de revisão.", marginX, cursorY + 6);
+
+    cursorY += 14;
+    const sections = [
+      {
+        title: "Resumo executivo completo",
+        body: lecture.summaryFull,
+      },
+      {
+        title: "Objetivos de aprendizado",
+        bullets: lecture.learningObjectives,
+      },
+      {
+        title: "Conceito-chave",
+        body: `${lecture.keyConcept.title}: ${lecture.keyConcept.body}`,
+      },
+    ];
+
+    for (const section of sections) {
+      if (cursorY > pageHeight - 30) {
+        addFooter(doc, doc.getNumberOfPages());
+        doc.addPage();
+        cursorY = 20;
+      }
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.setTextColor(17, 24, 39);
+      doc.text(section.title, marginX, cursorY);
+      cursorY += 6;
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(55, 65, 81);
+
+      if ("body" in section && section.body) {
+        cursorY = addWrappedText(doc, section.body, marginX, cursorY, contentWidth, 5.5) + 4;
+      }
+
+      if ("bullets" in section && section.bullets?.length) {
+        for (const bullet of section.bullets) {
+          const bulletLines = doc.splitTextToSize(`• ${bullet}`, contentWidth);
+          doc.text(bulletLines, marginX, cursorY);
+          cursorY += bulletLines.length * 5 + 1;
+        }
+        cursorY += 3;
+      }
+    }
+
+    const transcriptChunks: Array<{ time: string; text: string }> = lecture.transcriptionSegments.map((segment) => ({
+      time: segment.time,
+      text: segment.text,
+    }));
+
+    if (transcriptChunks.length > 0) {
+      if (cursorY > pageHeight - 30) {
+        addFooter(doc, doc.getNumberOfPages());
+        doc.addPage();
+        cursorY = 20;
+      }
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.setTextColor(17, 24, 39);
+      doc.text("Transcrição temática consolidada", marginX, cursorY);
+      cursorY += 6;
+
+      autoTable(doc, {
+        startY: cursorY,
+        margin: { left: marginX, right: marginX },
+        head: [["Tempo", "Trecho"]],
+        body: transcriptChunks.map((segment) => [segment.time, segment.text]),
+        styles: {
+          font: "helvetica",
+          fontSize: 8.5,
+          cellPadding: 2.5,
+          lineColor: [226, 232, 240],
+          textColor: [55, 65, 81],
+        },
+        headStyles: {
+          fillColor: [17, 24, 39],
+          textColor: [255, 255, 255],
+          fontStyle: "bold",
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252],
+        },
+        columnStyles: {
+          0: { cellWidth: 24 },
+          1: { cellWidth: contentWidth - 24 },
+        },
+        theme: "grid",
+      });
+
+      cursorY = (doc as unknown as { lastAutoTable?: { finalY?: number } }).lastAutoTable?.finalY ?? cursorY;
+      cursorY += 8;
+    }
+
+    if (lecture.formulas.length > 0) {
+      if (cursorY > pageHeight - 50) {
+        addFooter(doc, doc.getNumberOfPages());
+        doc.addPage();
+        cursorY = 20;
+      }
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.setTextColor(17, 24, 39);
+      doc.text("Fórmulas e aplicações", marginX, cursorY);
+      cursorY += 8;
+
+      lecture.formulas.forEach((formula, index) => {
+        if (cursorY > pageHeight - 55) {
+          addFooter(doc, doc.getNumberOfPages());
+          doc.addPage();
+          cursorY = 20;
+        }
+
+        doc.setFillColor(248, 250, 252);
+        doc.setDrawColor(226, 232, 240);
+        doc.roundedRect(marginX, cursorY, contentWidth, 0, 3, 3, "S");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.setTextColor(17, 24, 39);
+        doc.text(`${index + 1}. ${formula.title}`, marginX + 3, cursorY + 7);
+
+        cursorY += 12;
+        doc.setFont("courier", "bold");
+        doc.setFontSize(10);
+        doc.setTextColor(8, 145, 178);
+        cursorY = addWrappedText(doc, formula.latex, marginX + 3, cursorY, contentWidth - 6, 5) + 2;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(55, 65, 81);
+        cursorY = addWrappedText(doc, formula.description, marginX + 3, cursorY, contentWidth - 6, 5) + 2;
+
+        if (formula.variables?.length) {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(8.5);
+          doc.setTextColor(75, 85, 99);
+          doc.text("Variáveis", marginX + 3, cursorY);
+          cursorY += 5;
+
+          formula.variables.forEach((variable) => {
+            const line = `${variable.name}: ${variable.explanation}`;
+            cursorY = addWrappedText(doc, line, marginX + 6, cursorY, contentWidth - 12, 4.5) + 1;
+          });
+        }
+
+        if (formula.application) {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(8.5);
+          doc.setTextColor(75, 85, 99);
+          doc.text("Aplicação prática", marginX + 3, cursorY);
+          cursorY += 5;
+          cursorY = addWrappedText(doc, formula.application, marginX + 6, cursorY, contentWidth - 12, 4.5) + 2;
+        }
+
+        cursorY += 3;
+      });
+    }
+
+    if (lecture.transcriptionSegments.length === 0 && lecture.formulas.length === 0) {
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(107, 114, 128);
+      doc.text("Sem conteúdo adicional estruturado para exportação nesta aula.", marginX, cursorY);
+    }
+
+    const totalPages = doc.getNumberOfPages();
+    for (let page = 1; page <= totalPages; page += 1) {
+      doc.setPage(page);
+      addFooter(doc, page);
+    }
+
+    doc.save(`${lecture.title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}-newstudy.pdf`);
+  };
 
   // Auto-scroll chat to bottom when messages arrive
   useEffect(() => {
@@ -110,6 +438,8 @@ ${formulas}
             onClick={onBack}
             className="p-2 border border-neutral-200 dark:border-neutral-750 hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-lg text-neutral-600 dark:text-neutral-300 transition-all cursor-pointer"
             id="back-button"
+            aria-label="Voltar"
+            title="Voltar"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
@@ -146,6 +476,15 @@ ${formulas}
                 <span>Copiar Guia em Markdown</span>
               </>
             )}
+          </button>
+
+          <button
+            onClick={exportPdf}
+            className="px-3 py-2 text-xs font-semibold bg-neutral-900 dark:bg-white border border-neutral-900 dark:border-white text-white dark:text-neutral-900 rounded-lg flex items-center gap-1.5 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all cursor-pointer"
+            id="export-pdf-btn"
+          >
+            <Download className="h-4 w-4" />
+            <span>Exportar PDF</span>
           </button>
         </div>
       </div>
@@ -268,7 +607,7 @@ ${formulas}
           </div>
 
           {/* Bloco Dinâmico da Aba Selecionada */}
-          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 min-h-[450px]">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 min-h-112.5">
             <AnimatePresence mode="wait">
               {activeTab === "summary" && (
                 <motion.div
@@ -341,7 +680,7 @@ ${formulas}
                     />
                   </div>
 
-                  <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-4 max-h-75 overflow-y-auto pr-1">
                     {filteredSegments.length === 0 ? (
                       <p className="text-xs text-neutral-400 text-center py-8">
                         Nenhum parágrafo encontrado para o termo pesquisado.
@@ -562,7 +901,7 @@ ${formulas}
         </div>
 
         {/* Sidebar Direita - Chat de Conversação Inteligente Conectado */}
-        <div className="lg:col-span-3 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 flex flex-col gap-4 shadow-sm min-h-[450px]" id="qa-chatter-panel">
+        <div className="lg:col-span-3 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 flex flex-col gap-4 shadow-sm min-h-112.5" id="qa-chatter-panel">
           <div className="flex flex-col gap-1 border-b border-neutral-100 dark:border-neutral-850 pb-3">
             <span className="text-[10px] font-mono tracking-wider text-brand-blue dark:text-brand-mint uppercase font-semibold">
               ASSISTENTE INTELIGENTE
@@ -577,7 +916,7 @@ ${formulas}
           </div>
 
           {/* Histórico das conversas */}
-          <div className="flex-1 flex flex-col gap-3 overflow-y-auto max-h-[300px] text-xs pr-1">
+          <div className="flex-1 flex flex-col gap-3 overflow-y-auto max-h-75 text-xs pr-1">
             {(!lecture.chatHistory || lecture.chatHistory.length === 0) ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center text-neutral-400 dark:text-neutral-500 gap-2 h-full py-16">
                 <Sparkles className="h-5 w-5 text-neutral-350 dark:text-neutral-800 animate-pulse" />
@@ -643,6 +982,8 @@ ${formulas}
                   : "bg-brand-blue text-white hover:bg-brand-blue-hover"
               }`}
               id="send-chat-btn"
+              aria-label="Enviar pergunta"
+              title="Enviar pergunta"
             >
               <Send className="h-3.5 w-3.5" />
             </button>

@@ -8,7 +8,7 @@ import { Lecture } from "./types";
 import Dashboard from "./components/Dashboard";
 import LectureView from "./components/LectureView";
 import UserProfile from "./components/profile/UserProfile";
-import type { UserProfileData } from "./components/profile/profileTypes";
+import type { ProfileStats, UserProfileData } from "./components/profile/profileTypes";
 import Sidebar from "./components/sidebar";
 import RecallStage from "./components/RecallStage";
 import {
@@ -291,13 +291,19 @@ function readStoredProfile(user: AppUser): UserProfileData {
     }
 
     const parsed = JSON.parse(savedProfile) as Partial<UserProfileData>;
+    const stats: ProfileStats = {
+      lecturesCreated: parsed.stats?.lecturesCreated ?? fallback.stats?.lecturesCreated ?? 0,
+      flashcardsReviewed: parsed.stats?.flashcardsReviewed ?? fallback.stats?.flashcardsReviewed ?? 0,
+      quizzesCompleted: parsed.stats?.quizzesCompleted ?? fallback.stats?.quizzesCompleted ?? 0,
+      studyHours: parsed.stats?.studyHours ?? fallback.stats?.studyHours ?? 0,
+      favoriteMaterials: parsed.stats?.favoriteMaterials ?? fallback.stats?.favoriteMaterials ?? 0,
+      lastAccess: parsed.stats?.lastAccess ?? fallback.stats?.lastAccess ?? "Hoje",
+    };
+
     return {
       ...fallback,
       ...parsed,
-      stats: {
-        ...fallback.stats,
-        ...parsed.stats,
-      },
+      stats,
       sessions: parsed.sessions?.length ? parsed.sessions : fallback.sessions,
     };
   } catch {
@@ -453,15 +459,12 @@ const filteredLectures = lectures.filter((l) =>
         ? {
             ...prev,
             stats: {
-              ...(prev.stats ?? {
-                lecturesCreated: 0,
-                flashcardsReviewed: 0,
-                quizzesCompleted: 0,
-                studyHours: 0,
-                favoriteMaterials: 0,
-                lastAccess: "Hoje",
-              }),
               lecturesCreated,
+              flashcardsReviewed: prev.stats?.flashcardsReviewed ?? 0,
+              quizzesCompleted: prev.stats?.quizzesCompleted ?? 0,
+              studyHours: prev.stats?.studyHours ?? 0,
+              favoriteMaterials: prev.stats?.favoriteMaterials ?? 0,
+              lastAccess: prev.stats?.lastAccess ?? "Hoje",
             },
           }
         : prev
@@ -933,6 +936,8 @@ const filteredLectures = lectures.filter((l) =>
         {currentView === "lecture" && activeLecture && (
           <LectureView
             lecture={activeLecture}
+            userName={activeProfile?.name ?? user?.name}
+            userEmail={activeProfile?.email ?? user?.email}
             onBack={() => setCurrentView("dashboard")}
             onLaunchRecall={(mode) => {
               setRecallMode(mode);
