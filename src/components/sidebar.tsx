@@ -51,7 +51,7 @@ export default function Sidebar({
       <button
         onClick={() => setOpen(true)}
         className="fixed top-4 left-4 z-[60] lg:hidden bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl p-2 shadow-lg"
-      >
+   id="openBarra"   >
         <Menu size={20} />
       </button>
 
@@ -60,7 +60,7 @@ export default function Sidebar({
         <button
           onClick={() => setCollapsed(false)}
           className="hidden lg:flex fixed top-4 left-4 z-[60] h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-lg"
-        >
+         id="openBarra"   >
           <Menu size={18} />
         </button>
       )}
@@ -88,7 +88,7 @@ export default function Sidebar({
       >
         {/* HEADER MOBILE */}
         <div className="h-16 border-b border-neutral-200 dark:border-neutral-800 px-5 flex items-center justify-between">
-          <div>
+          <div id="algo2">
             <h2 className="font-bold text-lg">NewStudy</h2>
             <p className="text-xs text-neutral-500">
               Plataforma Inteligente
@@ -249,7 +249,7 @@ function SidebarContent({
       <div className="border-t border-neutral-200 dark:border-neutral-800 p-4">
         <button
           onClick={() => setShowLogoutModal(true)}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500 text-white"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500 text-white"   id="btnsairBarra"
         >
           <LogOut size={16} />
           Sair
@@ -281,6 +281,7 @@ function SidebarContent({
             onLogout();
           }}
           className="px-4 py-2 rounded-xl bg-red-500 text-white"
+          id="btnsairBarra"
         >
           Sair
         </button>

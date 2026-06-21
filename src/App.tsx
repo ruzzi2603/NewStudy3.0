@@ -778,16 +778,17 @@ const filteredLectures = lectures.filter((l) =>
   onLogout={handleLogout}
 />
            
-        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center" id="algo">
           
           <div
             onClick={() => setCurrentView("dashboard")}
             className="flex items-center gap-3 cursor-pointer group select-none" 
           >
-            <div className="h-9 w-9 bg-neutral-950 text-white rounded-xl flex items-center justify-center font-black shadow-sm group-hover:scale-105 transition-transform">
-              <BookOpen className="h-5 w-5" />
+            <div className="">
+              <img src="/src/assets/images/logoPRC.png" alt="Logo" className="lgl" />
             </div>
             <div className="flex flex-col">
+             
               <span className="text-base  tracking-tight text-brand-black dark:text-mint-400  font-sans leading-none">
                 NewStudy
               </span>

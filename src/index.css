@@ -15,6 +15,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+     overscroll-behavior: none;
   }
 
   body {
@@ -161,7 +162,65 @@ position: relative;
   animation: scrollArrowFloat 1.4s ease-in-out infinite;
   transition: transform 0.25s ease;
 }
+#analyze-submit-button{
+background: linear-gradient(135deg, #242424 0%, #121557 58%, #202020 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  height: 60px;
+    transition: transform 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+#analyze-submit-button:hover{
+  background: linear-gradient(135deg, #242424 0%, #2229b4 58%, #202020 100%);
+    transform: scale(1.02);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.lgl{
+  width: 60px;
+}
+#algo{
 
+  margin-left: 8%;
+}
+#algo2{
+  margin-left: 8%;
+}
+#qa-chatter-panel{
+     background: linear-gradient(135deg, #242424 0%, #0b1146 58%, #202020 100%);
+     color: #ffffff;
+}
+#chat-input{
+  background-color: #ffffff;
+  width: 80%;
+}
+#cardAlgo{
+  background: linear-gradient(135deg, #242424 0%, #0b1146 58%, #202020 100%);
+}
+#openBarra{
+  cursor: pointer;
+height: 62px;
+box-shadow: none;
+border-radius: 0px;
+border: none  ;
+margin:-15px;
+}
+#btnsairBarra{
+
+  cursor: pointer;
+  
+}
+#btnsairBarra:hover{
+  background: linear-gradient(135deg, #ff2c2c 0%, #fa0e0e 58%, #ff3636 100%);
+    transform: scale(1.02);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+}
 @keyframes scrollArrowFloat {
   0% {
     transform: translateY(-1px);

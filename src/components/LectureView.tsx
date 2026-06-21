@@ -495,7 +495,7 @@ ${formulas}
         <div className="lg:col-span-3 flex flex-col gap-6">
           
           {/* Caixa de Retenção Mental */}
-          <div className="bg-neutral-900 dark:bg-neutral-950 border border-neutral-800 rounded-xl p-5 text-white flex flex-col gap-4 relative overflow-hidden shadow-sm">
+          <div className="bg-neutral-900 dark:bg-neutral-950 border border-neutral-800 rounded-xl p-5 text-white flex flex-col gap-4 relative overflow-hidden shadow-sm" id="cardAlgo">
             <div className="absolute right-0 bottom-0 opacity-20 transform translate-x-3 translate-y-3 pointer-events-none">
               <Zap className="h-28 w-28 text-white stroke-[0.5]" />
             </div>
@@ -824,7 +824,7 @@ ${formulas}
                               const showSuccess = submittedQuiz && optIdx === q.correctAnswerIndex;
                               const showFailure = submittedQuiz && isSelected && !isCorrect;
 
-                              let btnStyle = "border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-850 text-neutral-700 dark:text-neutral-350";
+                              let btnStyle = "border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-850  text-neutral-700 dark:text-neutral-100 dark:hover:text-neutral-900";
                               if (isSelected && !submittedQuiz) {
                                 btnStyle = "border-neutral-900 dark:border-white bg-neutral-900 text-white dark:bg-white dark:text-neutral-900";
                               } else if (showSuccess) {
@@ -871,7 +871,7 @@ ${formulas}
                   </div>
 
                   {!submittedQuiz ? (
-                    <button
+                    <button id="analyze-submit-button"
                       onClick={() => setSubmittedQuiz(true)}
                       disabled={Object.keys(userAnswers).length < lecture.quizzes.length}
                       className={`w-full py-3 rounded-lg text-xs font-semibold cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
@@ -906,21 +906,21 @@ ${formulas}
             <span className="text-[10px] font-mono tracking-wider text-brand-blue dark:text-brand-mint uppercase font-semibold">
               ASSISTENTE INTELIGENTE
             </span>
-            <h3 className="text-sm font-bold text-neutral-900 dark:text-neutral-100 flex items-center gap-1">
+            <h3 className="text-sm font-bold text-neutral-100 dark:text-neutral-100 flex items-center gap-1">
               <MessageSquare className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
               <span>Dúvidas com IA</span>
             </h3>
             <p className="text-[11px] text-neutral-450 dark:text-neutral-400">
-              Pergunte qualquer teoria ou cálculo deduzido a partir da aula acima.
+             Tire dúvidas com o nosso chat sobre o seu conteúdo específico (a IA pode cometer erros).
             </p>
           </div>
 
           {/* Histórico das conversas */}
           <div className="flex-1 flex flex-col gap-3 overflow-y-auto max-h-75 text-xs pr-1">
             {(!lecture.chatHistory || lecture.chatHistory.length === 0) ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-center text-neutral-400 dark:text-neutral-500 gap-2 h-full py-16">
-                <Sparkles className="h-5 w-5 text-neutral-350 dark:text-neutral-800 animate-pulse" />
-                <p className="text-[11px] leading-relaxed px-2">Nenhum chat ativo ainda. Digite sua dúvida acadêmica abaixo!</p>
+              <div className="flex-1 flex flex-col items-center justify-center text-center text-neutral-100 dark:text-neutral-500 gap-2 h-full py-16">
+                <Sparkles className="h-5 w-5 text-neutral-350 dark:text-neutral-100 animate-pulse" />
+                <p className="text-[11px] leading-relaxed px-2 text-neutral-100 ">Nenhum chat ativo ainda. Digite sua dúvida acadêmica abaixo!</p>
               </div>
             ) : (
               lecture.chatHistory.map((msg, idx) => (
@@ -934,12 +934,12 @@ ${formulas}
                     className={`p-2.5 rounded-lg leading-relaxed ${
                       msg.sender === "user"
                         ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-tr-none"
-                        : "bg-neutral-50 dark:bg-neutral-805 text-neutral-800 dark:text-neutral-200 rounded-tl-none border dark:border-neutral-750"
+                        : "bg-neutral-50 dark:bg-neutral-805 text-neutral-800 dark:text-neutral-900 rounded-tl-none border dark:border-neutral-750"
                     }`}
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[9px] text-neutral-400 font-mono tracking-wider">
+                  <span className="text-[9px] text-neutral-100 font-mono tracking-wider">
                     {msg.sender === "user" ? "Você" : "Assistente NewStudy"} • {msg.timestamp}
                   </span>
                 </div>
@@ -948,7 +948,7 @@ ${formulas}
 
             {isResponding && (
               <div className="self-start flex flex-col gap-1.5 items-start bg-neutral-50/50 dark:bg-neutral-805/50 p-3 rounded-2xl border border-neutral-100 dark:border-neutral-750 max-w-[85%] relative overflow-hidden animate-pulse">
-                <span className="text-[10px] text-neutral-400 dark:text-neutral-500 font-mono tracking-wider flex items-center gap-1">
+                <span className="text-[10px] text-neutral-100 dark:text-neutral-100 font-mono tracking-wider flex items-center gap-1">
                   <Sparkles className="h-3 w-3 text-brand-mint animate-spin" />
                   Sintetizando explicação acadêmica...
                 </span>
@@ -963,14 +963,14 @@ ${formulas}
           </div>
 
           {/* Campo de input e envio do Chat */}
-          <form onSubmit={handleSendChat} className="flex gap-2 border-t border-neutral-100 dark:border-neutral-850 pt-3">
+          <form onSubmit={handleSendChat} className="flex gap-2 border-t border-neutral-100 dark:border-neutral-850 pt-3" id="chat-input-form">
             <input
               type="text"
-              placeholder="Perguntar sobre fórmulas / teses..."
+              placeholder="Tire dúvidas..."
               value={chatInput}
               disabled={isResponding}
               onChange={(e) => setChatInput(e.target.value)}
-              className="flex-1 text-xs py-2 px-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-neutral-900 transition-all font-sans"
+              className="flex-1 text-xs py-2 px-2.5 rounded-lg border border-neutral-200 dark:border-neutral-100 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:border-neutral-900 transition-all font-sans"
               id="chat-input"
             />
             <button
@@ -978,7 +978,7 @@ ${formulas}
               disabled={!chatInput.trim() || isResponding}
               className={`p-2 rounded-lg cursor-pointer transition-all flex items-center justify-center ${
                 !chatInput.trim() || isResponding
-                  ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-400 cursor-not-allowed"
+                  ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed"
                   : "bg-brand-blue text-white hover:bg-brand-blue-hover"
               }`}
               id="send-chat-btn"
