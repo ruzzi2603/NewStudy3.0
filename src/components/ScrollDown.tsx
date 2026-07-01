@@ -61,7 +61,7 @@ export default function ScrollDown() {
     >
       <div className="scroll-down-arrow">
       <ArrowDownToLine className="scroll-down-icon" aria-hidden="true" />
-      <h1 className="scroll-down-text">Começar</h1>
+      <h1 className="scroll-down-text" >Começar</h1>
 </div>
     </button>
   );

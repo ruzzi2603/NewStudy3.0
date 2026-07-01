@@ -766,7 +766,7 @@ const filteredLectures = lectures.filter((l) =>
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 transition-colors duration-200 flex flex-col justify-between font-sans">
       
       {/* Redesenhado: Header de Alto Padrão em Violeta Sólido com Elementos de Vidro */}
-      <header className="bg-brand-mint sticky  top-0 z-30 transition-all shadow-md select-none  dark:bg-neutral-900 border border-dashed border-neutral-200/80 dark:border-neutral-800">
+      <header className="bg-brand-mint sticky  top-0 z-30 transition-all shadow-md select-none  dark:bg-neutral-900 border border-none ">
           <Sidebar
   user={user}
   lectures={filteredLectures}
@@ -971,13 +971,13 @@ const filteredLectures = lectures.filter((l) =>
       </main>
 
       {/* Footer minimalista em Português */}
-      <footer className="border-t border-neutral-200/60 dark:border-neutral-900 py-6 text-center text-xs text-neutral-450 dark:text-neutral-500 font-mono">
+      <footer className="border-t border-neutral-200/60 dark:border-neutral-900 py-6 text-center text-xs text-neutral-200  font-mono" id="footer">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
           <span>&copy; 2026 Plataforma NewStudy. Todos os direitos reservados.</span>
           <button
                     type="button"
                     onClick={() => openLegalSection("terms")}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl  py-2 text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors">
+                    className="inline-flex items-center justify-center gap-2 rounded-xl  py-2 text-xs font-semibold text-neutral-200 dark:text-neutral-200 transition-colors">
                     <FileText className="h-4 w-4" />
                     <span>Termos</span>
                   </button>

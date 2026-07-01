@@ -130,18 +130,16 @@ export default function Dashboard({
       >
         <div>
           <h2 className="text-[10px]  font-sans tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
-            <Youtube className="h-5 w-5 text-red-500 fill-red-500" />
-            <span className=" text-[10px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">Importar Aula do YouTube</span>
+       
+            <span className=" text-[17px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">DASH DE ESTUDOS</span>
           </h2>
-          <p className=" tracking-tight text-neutral dark:text-neutral-100 text-xs mt-1 font-sans opacity-85">
-            Processamento didático em linguagem natural (PT-BR).
-          </p>
+       
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className=" text-[10px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
-              LINK DO VÍDEO DO YOUTUBE
+            <label className=" text-[17px] font-sans font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
+           Adicione a URL do seu vídeo abaixo.
             </label>
             <input
               type="text"
@@ -164,19 +162,19 @@ export default function Dashboard({
                 {urlValidation.message}
               </p>
             ) : (
-              <p className="text-[11px] tracking-tight text-neutral-900 dark:text-neutral-100 leading-5">
+              <p className="text-[13px] tracking-tight text-neutral-900 dark:text-neutral-100 leading-5">
                 Aceitamos apenas vídeos do YouTube, como watch, youtu.be, shorts, live ou embed.
               </p>
             )}
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className=" text-[10px] font-sans font-semibold tracking-wide  text-neutral-900 dark:text-neutral-100 uppercase opacity-90">
-              ASSUNTO OU CURSO DE ASSOCIAÇÃO (RECOMENDADO)
+            <label className=" text-[17px] font-sans font-semibold tracking-wide  text-neutral-900 dark:text-neutral-100 opacity-90">
+              ASSUNTO OU TEMA:
             </label>
             <input
               type="text"
-              placeholder="Ex: Física II, Eletrodinâmica, Estruturas de Dados MIT"
+              placeholder="Ex: Física II, equações de segundo grau, Estruturas de Dados MIT"
               value={topicHint}
               onChange={(e) => setTopicHint(e.target.value)}
               className="tracking-tight   w-full text-xs py-3 px-3.5 rounded-xl font-sans transition-all"
@@ -212,7 +210,7 @@ export default function Dashboard({
               </>
             ) : (
               <>
-                <span>Estruturar Conteúdo com IA</span>
+                <span id="estia">Estruturar Conteúdo com IA</span>
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -222,13 +220,13 @@ export default function Dashboard({
         {/* CONTROLE DE COTAS DO SISTEMA */}
         <div className="border-t border-neutral-100 dark:border-neutral-850 pt-4 flex flex-col gap-3 font-sans">
           <span className=" font-sans  text-neutral-900 dark:text-neutral-100 opacity-90  text-[10px] tracking-wide uppercase">
-            CONTROLE DE COTAS DO SISTEMA :
+            CONTROLE DE TOKENS DO SISTEMA :
           </span>
 
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
               <span className="  text-neutral-900 dark:text-neutral-100 opacity-80">
-                Módulos Ativos no Deck
+                Estudos Ativos no Deck
               </span>
               <span className="text-neutral-900 dark:text-neutral-100 font-mono ">
                 {usageStats ? `${usageStats.lectures.current} / ${usageStats.lectures.limit}` : "0 / 15"}
@@ -249,7 +247,7 @@ export default function Dashboard({
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
               <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
-                Gerações por IA (Últimas 24h)
+                Estudos Gerados (Últimas 24h)
               </span>
               <span className="text-neutral-900 dark:text-neutral-100 font-mono ">
                 {usageStats ? `${usageStats.generations.current} / ${usageStats.generations.limit}` : "0 / 5"}
@@ -270,7 +268,7 @@ export default function Dashboard({
           <div className="flex flex-col gap-1 text-xs">
             <div className="flex justify-between items-center text-[11px]">
               <span className=" text-neutral-900 dark:text-neutral-100 opacity-80">
-                Perguntas ao Tutor (Últimas 24h)
+                Perguntas ao Chat (Últimas 24h)
               </span>
               <span className=" text-neutral-900 dark:text-neutral-100 font-mono">
                 {usageStats ? `${usageStats.chatQuestions.current} / ${usageStats.chatQuestions.limit}` : "0 / 30"}
@@ -307,16 +305,9 @@ export default function Dashboard({
       
       {/* SEÇÃO HERO CONSTANTE NO TOPO (Padrão Estético Elevado) */}
       <div className="newstudy-hero text-center flex flex-col justify-center items-center">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full  mb-6 shadow-sm"
-        >
+   
         
-          <span></span>
-        </motion.div>
-        
-<div className="hole">
+{/* <div className="hole">
   <i></i>
   <i></i>
   <i></i>
@@ -327,7 +318,7 @@ export default function Dashboard({
   <i></i>
   <i></i>
   <i></i>
-</div>
+</div> */}
 
         <div className="relative inline-block px-10 py-5 mb-5 max-w-full overflow-visible">
           {/* Animated concentric rounded outline rings */}
