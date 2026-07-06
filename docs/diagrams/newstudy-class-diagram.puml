@@ -1,0 +1,197 @@
+@startuml
+title Diagrama de Classes - NewStudy
+left to right direction
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classBackgroundColor #FBF8FD
+skinparam classBorderColor #8B7A9E
+skinparam classFontColor #222222
+skinparam ArrowColor #7A6B8F
+skinparam defaultFontName Arial
+hide methods
+hide empty members
+
+package "pacote NewStudy" {
+  class Usuario {
+    - id: Autoincremento
+    - nome: TextoCurto
+    - email: Email
+    - senha_hash: TextoLongo
+    - criado_em: DataHora
+    - esta_ativo: Booleano
+  }
+
+  class Aula {
+    - id: Autoincremento
+    - usuario: ChaveEstrangeira(Usuario)
+    - titulo: TextoCurto
+    - resumo: TextoLongo
+    - fonte: CampoURL
+    - dados: CampoJSON
+    - criado_em: DataHora
+    - atualizado_em: DataHora
+    - eh_favorito: Booleano
+    - porcentagem_de_progresso: Inteiro
+  }
+
+  class CategoriaDeEstudo {
+    - id: Autoincremento
+    - nome: TextoCurto
+    - descricao: TextoLongo
+    - icone: TextoCurto
+    - esta_ativo: Booleano
+    - criado_em: DataHora
+  }
+
+  class FlashcardManual {
+    - id: Autoincremento
+    - categoria: ChaveEstrangeira(CategoriaDeEstudo)
+    - frente: TextoLongo
+    - verso: TextoLongo
+    - avaliacao_de_dificuldade: Inteiro
+    - criado_por: ChaveEstrangeira(Usuario)
+    - criado_em: DataHora
+    - esta_ativo: Booleano
+  }
+
+  class SegmentoTranscricao {
+    - id: Autoincremento
+    - aula: ChaveEstrangeira(Aula)
+    - horario: TextoCurto
+    - texto: TextoLongo
+    - criado_em: DataHora
+  }
+
+  class Flashcard {
+    - id: Autoincremento
+    - aula: ChaveEstrangeira(Aula)
+    - pergunta: TextoLongo
+    - resposta: TextoLongo
+    - dificuldade: TextoCurto
+    - estado_de_revisao: Booleano
+    - criado_em: DataHora
+  }
+
+  class QuestaoQuiz {
+    - id: Autoincremento
+    - aula: ChaveEstrangeira(Aula)
+    - enunciado: TextoLongo
+    - alternativas: TextoLongo
+    - indice_resposta_correta: Inteiro
+    - justificativa: TextoLongo
+    - criado_em: DataHora
+  }
+
+  class MensagemChat {
+    - id: Autoincremento
+    - aula: ChaveEstrangeira(Aula)
+    - usuario: ChaveEstrangeira(Usuario)
+    - conteudo: TextoLongo
+    - criado_em: DataHora
+  }
+
+  class SessaoDeEstudoDoEstudante {
+    - id: Autoincremento
+    - usuario: ChaveEstrangeira(Usuario)
+    - aula: ChaveEstrangeira(Aula)
+    - tipo_de_atividade: TextoCurto
+    - cartoes_de_memoria: Inteiro
+    - questionario: Inteiro
+    - chat: Inteiro
+    - hora_de_inicio: DataHora
+    - hora_de_termino: DataHora
+    - duracao_segundos: Inteiro
+  }
+
+  class ConfiguracaoSistema {
+    - id: Autoincremento
+    - nome_da_configuracao: TextoCurto
+    - alvo_do_modelo: TextoCurto
+    - temperatura: PontoFlutuante
+    - esta_em_manutencao: Booleano
+    - atualizado_em: DataHora
+  }
+
+  class FeedbackDoEstudante {
+    - id: Autoincremento
+    - email_do_usuario: Email
+    - assunto: TextoCurto
+    - mensagem: TextoLongo
+    - avaliacao: Inteiro
+    - esta_resolvido: Booleano
+    - criado_em: DataHora
+  }
+
+  class AvisoSistema {
+    - id: Autoincremento
+    - titulo: TextoCurto
+    - mensagem: TextoLongo
+    - url_da_imagem: CampoURL
+    - url_do_link: CampoURL
+    - cor_de_fundo: TextoCurto
+    - esta_ativo: Booleano
+    - criado_em: DataHora
+  }
+
+  class CupomAcademico {
+    - id: Autoincremento
+    - codigo: TextoCurto
+    - desconto: Inteiro
+    - tipo_de_desconto: TextoCurto
+    - valor_do_desconto: Decimal
+    - valido_de: DataHora
+    - valido_ate: DataHora
+    - usos_maximos: Inteiro
+    - contagem_de_uso: Inteiro
+    - esta_ativo: Booleano
+  }
+
+  class ItemDeFAQ {
+    - id: Autoincremento
+    - pergunta: TextoLongo
+    - resposta: TextoLongo
+    - ordem: Inteiro
+    - esta_ativo: Booleano
+    - criado_em: DataHora
+  }
+
+  class ModeloDePromptIA {
+    - id: Autoincremento
+    - nome: TextoCurto
+    - descricao: TextoLongo
+    - prompt_do_sistema: TextoLongo
+    - esta_ativo: Booleano
+    - atualizado_em: DataHora
+  }
+}
+
+Usuario "1" -- "0..*" Aula : cria
+Usuario "1" -- "0..*" MensagemChat : envia
+Usuario "1" -- "0..*" SessaoDeEstudoDoEstudante : registra
+
+Aula "1" *-- "0..*" SegmentoTranscricao
+Aula "1" *-- "0..*" Flashcard
+Aula "1" *-- "0..*" QuestaoQuiz
+Aula "1" *-- "0..*" MensagemChat
+
+CategoriaDeEstudo "1" -- "0..*" FlashcardManual : agrupa
+
+Aula --> Usuario : pertence a
+FlashcardManual --> CategoriaDeEstudo : classifica
+FlashcardManual --> Usuario : criado por
+SessaoDeEstudoDoEstudante --> Aula : acompanha
+ConfiguracaoSistema ..> ModeloDePromptIA : ajusta
+
+note right of Aula
+  Entidade central do sistema.
+  Representa o estudo gerado a
+  partir de um video do YouTube.
+end note
+
+note bottom of SessaoDeEstudoDoEstudante
+  Registra a atividade do estudante
+  durante o uso da plataforma.
+end note
+
+@enduml

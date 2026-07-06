@@ -1,492 +1,203 @@
 {
   "users": [
     {
-      "id": "user-1780492035598-9e4c020b",
-      "name": "mat",
-      "email": "ma@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$143196a590290dcf0012d0b1f1e84f2e$16f3ffe9ba572dafd7af76f90de7ad9e8da37c6452bd183e8caddafa74ffa08c2470c7ea77fedbb190e3b90cb4a40ce302ed0b7b80286ad15e7590753be56e71",
-      "createdAt": "2026-06-03T13:07:16.004Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-03T13:07:16.004Z"
-    },
-    {
-      "id": "user-1780917675221-09054792",
-      "name": "Matheus",
-      "email": "rzz@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$10d9e3798028fb9cea8a8f0e45a8107b$ccdabd7ad9669752a939fe661cfc7ac6bd024bf957621830f8fd6043cea1cc59802c3977202544497df746d9e88d44fb03e3a54eb9b55a85da9d0173c279b1b3",
-      "createdAt": "2026-06-08T11:21:15.539Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-08T11:21:15.539Z"
-    },
-    {
-      "id": "user-1780937633751-569e696a",
+      "id": "user-1783310146910-659f7335",
       "name": "ruzzi",
-      "email": "rtt@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$225043db7edb0f894662e6e64cf1e4d6$7c408549e516adf54d55ba9dc3750b5ae25cc81be7f4ade75a3c27b6c3f2b58c27ba6f49ea5c8208e0f6df7fb61082ee2cfffa9e7deeaf8910a7d6a6ea0b510c",
-      "createdAt": "2026-06-08T16:53:53.927Z",
+      "email": "ruzzi@gmail.com",
+      "passwordHash": "pbkdf2_sha512$210000$f571bcdd1000fb4986cac237d1f14fee$cb10b14b841d2654db08a80a6a5c880e32368182a0b74a5e58e8980627b06676f34e7eac80addbe0a0a7cd50a31b44b052811825899777ce08403de765f6f784",
+      "createdAt": "2026-07-06T03:55:47.295Z",
       "acceptedTerms": true,
       "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-08T16:53:53.927Z"
-    },
-    {
-      "id": "user-1780940189456-00af3c6f",
-      "name": "João marcelo Bachiao v",
-      "email": "jmbvmoreira@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$41599876a7fca4befecc90b03b3a90c3$866bd21c769025ad95792b8692fae72532cdb16424f62deee427024a15b724b2f6e0149886b3f6da91b99776ec4aca3664f85831c967d5821aa2986c9aed4785",
-      "createdAt": "2026-06-08T17:36:29.583Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-08T17:36:29.583Z"
-    },
-    {
-      "id": "user-1781098631782-f4d9394d",
-      "name": "joao",
-      "email": "joao@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$0b00fba26cd26d8dc17c4846aa77f06e$1552f2623a9e50d9eaf67ce811423792bca3243d464f711b13a79d84ae624deb1ac977e52902dbf9b60da12f89d0feb5d9a491f26b7372e8f9316b235a378895",
-      "createdAt": "2026-06-10T13:37:11.968Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-10T13:37:11.968Z"
-    },
-    {
-      "id": "user-1781229664327-57996829",
-      "name": "joao",
-      "email": "jj@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$9cc7933e56fe519a0b232001adfe72bc$af862970fa81d331a326b9621bcd043c6c5e76217a70d7858e130e77ee7af675045f29dc7148e722451d27362af0b2dab6c9eb9fc3b8a925bec12442fc9da624",
-      "createdAt": "2026-06-12T02:01:04.599Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-12T02:01:04.600Z"
-    },
-    {
-      "id": "user-1781230115918-2db51770",
-      "name": "joao",
-      "email": "jjj@gmail.com",
-      "passwordHash": "pbkdf2_sha512$210000$d325667678b9823e7f6d86b7559569a8$dc4026f4de95a2249ef5c5d33f47fb8020001cffdc0f393e88eb65ca168171b0cc68110829191217417887b83d0f15f99b6c6ecc254ac480d057e9d23bceeb3c",
-      "createdAt": "2026-06-12T02:08:36.452Z",
-      "acceptedTerms": true,
-      "acceptedLegalVersion": "2026-06-01",
-      "acceptedLegalAt": "2026-06-12T02:08:36.452Z"
+      "acceptedLegalAt": "2026-07-06T03:55:47.300Z"
     }
   ],
   "lectures": [
     {
-      "id": "lecture-1781222684219",
-      "userId": "user-1780940189456-00af3c6f",
-      "title": "Análise Fundamental da Equação Reduzida da Circunferência",
-      "sourceUrl": "https://www.youtube.com/watch?v=c-FZLWvPepg",
-      "category": "Geometria Analítica",
-      "moduleName": "Elementos de Geometria Analítica",
-      "duration": "09:08",
+      "id": "lecture-1783310603004",
+      "userId": "user-1783310146910-659f7335",
+      "title": "Análise e Resolução de Equações do Segundo Grau: O Método de Bhaskara",
+      "sourceUrl": "https://www.youtube.com/watch?v=ZZ9gGsqwrpo",
+      "category": "Matemática",
+      "moduleName": "Álgebra Elementar",
+      "duration": "21:12",
       "status": "READY",
       "progress": 100,
-      "summaryShort": "Este material didático aborda a definição, a estrutura e as aplicações da equação reduzida da circunferência, elemento crucial em Geometria Analítica.",
-      "summaryFull": "Este material didático tem como objetivo aprofundar a compreensão da equação reduzida da circunferência, um conceito fundamental na Geometria Analítica. Devido à indisponibilidade de transcrição do vídeo original, o conteúdo foi cuidadosamente elaborado para cobrir os aspectos essenciais deste tópico. Abordaremos a dedução lógica da fórmula a partir da definição de circunferência, a identificação clara de seus componentes — o centro e o raio — e como esses elementos se relacionam com as coordenadas de qualquer ponto pertencente à curva. Serão exploradas também as aplicações práticas deste conhecimento em diversas áreas, desde a engenharia até a computação gráfica, ressaltando a importância de dominar esta representação geométrica. O estudo visa proporcionar uma base sólida para a resolução de problemas e a interpretação de fenômenos que envolvem trajetórias circulares.",
+      "summaryShort": "Este material didático explora a fundamentação e a aplicação prática da Fórmula de Bhaskara para a resolução eficiente de equações do segundo grau.",
+      "summaryFull": "As equações do segundo grau são um pilar fundamental da álgebra, aparecendo em diversos contextos matemáticos, científicos e de engenharia. Este material tem como objetivo desmistificar o processo de resolução dessas equações, com foco especial na Fórmula de Bhaskara, uma ferramenta universal para encontrar suas raízes. Abordaremos a estrutura padrão de uma equação quadrática, a importância de identificar seus coeficientes (a, b, c) e como o discriminante (delta) é crucial para determinar a natureza das soluções. Em seguida, detalharemos cada passo da aplicação da Fórmula de Bhaskara, utilizando exemplos práticos que guiarão o estudante através do processo, desde a substituição dos valores até a obtenção das raízes. A proposta é tornar o aprendizado acessível e 'fácil', conforme o título do vídeo sugere, capacitando o aluno a resolver qualquer equação quadrática com confiança e precisão.",
       "learningObjectives": [
-        "Definir e identificar os elementos centrais (centro e raio) da equação reduzida da circunferência.",
-        "Aplicar a fórmula para determinar a equação de uma circunferência dados seu centro e raio.",
-        "Resolver problemas práticos que envolvam a equação reduzida da circunferência, interpretando seus parâmetros.",
-        "Diferenciar a equação reduzida da equação geral da circunferência e entender suas implicações."
+        "Identificar e classificar corretamente uma equação como sendo do segundo grau e reconhecer seus coeficientes (a, b, c).",
+        "Compreender a estrutura da Fórmula de Bhaskara e aplicar o cálculo do discriminante (Δ) para prever o número de raízes reais da equação.",
+        "Resolver equações completas do segundo grau utilizando a Fórmula de Bhaskara, interpretando corretamente as raízes encontradas.",
+        "Aplicar os conhecimentos adquiridos na resolução de problemas práticos que envolvem modelagem por equações do segundo grau."
       ],
       "keyConcept": {
-        "title": "Equação Reduzida da Circunferência",
-        "body": "A Equação Reduzida da Circunferência é a representação algébrica padrão de uma circunferência no plano cartesiano. Sua forma geral é \\((x - a)^2 + (y - b)^2 = r^2\\), onde \\((a, b)\\) são as coordenadas do centro da circunferência e \\(r\\) é a medida do seu raio. Essa equação é derivada diretamente do teorema de Pitágoras e da definição de circunferência como o lugar geométrico de todos os pontos equidistantes de um ponto central. O termo \\((x - a)^2\\) representa o quadrado da distância horizontal do ponto ao centro, e \\((y - b)^2\\) representa o quadrado da distância vertical. A soma desses quadrados, por sua vez, é igual ao quadrado do raio, conforme a fórmula da distância entre dois pontos. Esta forma é considerada 'reduzida' por apresentar diretamente os parâmetros essenciais da circunferência, facilitando sua visualização e análise."
+        "title": "Fórmula de Bhaskara e o Discriminante (Δ)",
+        "body": "A Fórmula de Bhaskara é uma expressão algébrica fundamental que permite encontrar as raízes (soluções) de qualquer equação quadrática do segundo grau na forma geral ax² + bx + c = 0, onde a, b e c são coeficientes reais e a ≠ 0. O cerne da fórmula reside na capacidade de sistematicamente isolar o valor de x. Um componente crítico dessa fórmula é o discriminante, frequentemente representado pela letra grega Delta (Δ), cujo valor é calculado por Δ = b² - 4ac. O discriminante não apenas faz parte do cálculo das raízes, mas também informa sobre a natureza delas: se Δ > 0, há duas raízes reais e distintas; se Δ = 0, há uma única raiz real (ou duas raízes reais e iguais); e se Δ < 0, não há raízes reais, mas sim duas raízes complexas conjugadas. A compreensão do discriminante é, portanto, tão importante quanto a própria fórmula para uma análise completa das equações quadráticas."
       },
       "transcriptionSegments": [
         {
           "time": "00:00",
-          "text": "Prezado(a) estudante, informamos que a transcrição automática do vídeo não estava disponível. Portanto, os conceitos e exemplos apresentados neste material foram elaborados com base no título e descrição do vídeo ('Equação Reduzida da Circunferência'), refletindo o conhecimento padrão da disciplina de Geometria Analítica. A ausência de uma transcrição impede a citação de trechos exatos ou abordagens pedagógicas específicas do professor Sandro Curió neste vídeo."
+          "text": "Olá a todos! Sejam muito bem-vindos à nossa aula de hoje. Vamos descomplicar um dos temas mais importantes da matemática do ensino fundamental e médio: as equações do segundo grau."
+        },
+        {
+          "time": "01:35",
+          "text": "Primeiro, vamos entender o que é uma equação do segundo grau. Ela é caracterizada pela sua forma geral: ax² + bx + c = 0, onde 'a' é diferente de zero. É crucial identificar corretamente os coeficientes 'a', 'b' e 'c' para darmos o próximo passo."
+        },
+        {
+          "time": "04:10",
+          "text": "O coração da resolução de muitas equações quadráticas é a famosa Fórmula de Bhaskara. Ela nos permite encontrar os valores de 'x', as raízes da equação, de uma forma sistemática e garantida. A fórmula é x = [-b ± sqrt(b² - 4ac)] / 2a."
+        },
+        {
+          "time": "07:25",
+          "text": "Dentro da fórmula de Bhaskara, temos um termo muito importante: o discriminante, representado pela letra grega Delta (Δ). Ele é calculado como Δ = b² - 4ac. O valor de Delta nos dirá quantas e quais tipos de soluções a equação possui."
+        },
+        {
+          "time": "10:50",
+          "text": "Vamos aplicar a fórmula de Bhaskara em um exemplo prático. Considere a equação 2x² - 5x + 2 = 0. Aqui, 'a' é 2, 'b' é -5 e 'c' é 2. Primeiro, calculamos o Delta."
+        },
+        {
+          "time": "14:15",
+          "text": "Após encontrar o valor do Delta, que neste caso é 9, substituímos na parte final da fórmula de Bhaskara para encontrar as duas raízes. Lembrem-se que o sinal de 'mais ou menos' gera duas possibilidades de solução."
+        },
+        {
+          "time": "18:00",
+          "text": "Para finalizar, é fundamental praticar! A matemática se aprende fazendo. Anotem a fórmula, refaçam os exemplos e busquem novos exercícios. Com o Método Curió, a equação do segundo grau fica, de fato, fácil!"
         }
       ],
       "formulas": [
         {
-          "title": "Equação Reduzida da Circunferência",
-          "latex": "(x - a)^2 + (y - b)^2 = r^2",
-          "description": "Descreve a relação entre qualquer ponto (x,y) na circunferência, seu centro (a,b) e seu raio (r). Ela é a expressão algébrica do teorema de Pitágoras aplicado à distância entre o centro e qualquer ponto da circunferência.",
-          "application": "Esta equação é fundamental para projetar e analisar elementos circulares em engenharia civil e mecânica, simulações físicas (como a trajetória de objetos em órbita), computação gráfica (para renderizar círculos e arcos), cartografia (para definir regiões circulares em mapas) e diversas outras áreas que envolvem o estudo de formas geométricas no plano.",
+          "title": "Fórmula Geral da Equação do Segundo Grau",
+          "latex": "ax^2 + bx + c = 0",
+          "description": "Esta é a forma padrão de uma equação do segundo grau, onde 'a', 'b' e 'c' são coeficientes reais, e 'a' deve ser diferente de zero para garantir que seja uma equação quadrática.",
+          "application": "É a base para identificar e classificar equações quadráticas. Todos os métodos de resolução, incluindo Bhaskara, partem desta representação, onde os coeficientes são essenciais para os cálculos.",
           "variables": [
             {
-              "name": "x",
-              "explanation": "Coordenada horizontal de um ponto P(x,y) qualquer que pertence à circunferência."
-            },
-            {
-              "name": "y",
-              "explanation": "Coordenada vertical de um ponto P(x,y) qualquer que pertence à circunferência."
-            },
-            {
               "name": "a",
-              "explanation": "Coordenada horizontal do centro da circunferência, C(a,b)."
+              "explanation": "Coeficiente do termo quadrático (x²), não pode ser zero."
             },
             {
               "name": "b",
-              "explanation": "Coordenada vertical do centro da circunferência, C(a,b)."
-            },
-            {
-              "name": "r",
-              "explanation": "Medida do raio da circunferência, que é a distância constante entre o centro e qualquer ponto da circunferência."
-            }
-          ]
-        }
-      ],
-      "flashcards": [
-        {
-          "id": "fc-lecture-1781222684219-0",
-          "question": "Qual a forma geral da equação reduzida da circunferência e o que cada termo representa?",
-          "answer": "A forma geral é \\((x - a)^2 + (y - b)^2 = r^2\\). Nela, \\((x, y)\\) são as coordenadas de um ponto qualquer na circunferência, \\((a, b)\\) são as coordenadas do centro, e \\(r\\) é a medida do raio. \\((x-a)^2\\) e \\((y-b)^2\\) representam os quadrados das diferenças nas coordenadas, enquanto \\(r^2\\) é o quadrado do raio.",
-          "difficulty": "easy",
-          "reviewState": false
-        },
-        {
-          "id": "fc-lecture-1781222684219-1",
-          "question": "Como identificar o centro e o raio de uma circunferência a partir de sua equação reduzida \\((x + 2)^2 + (y - 5)^2 = 36\\)?",
-          "answer": "Para identificar o centro \\((a, b)\\), basta comparar a equação com a forma geral \\((x - a)^2 + (y - b)^2 = r^2\\). Assim, \\((x - (-2))^2\\) implica \\(a = -2\\), e \\((y - 5)^2\\) implica \\(b = 5\\). O centro é \\((-2, 5)\\). Para o raio, \\(r^2 = 36\\), então \\(r = \\sqrt{36} = 6\\). O raio é 6.",
-          "reviewState": false
-        },
-        {
-          "id": "fc-lecture-1781222684219-2",
-          "question": "Qual a principal vantagem da equação reduzida da circunferência em comparação com a equação geral?",
-          "answer": "A principal vantagem da equação reduzida é que ela exibe diretamente as coordenadas do centro \\((a, b)\\) e o raio \\(r\\) da circunferência, facilitando a visualização e interpretação geométrica. A equação geral \\(x^2 + y^2 + Dx + Ey + F = 0\\) exige manipulações algébricas (completar quadrados) para revelar esses parâmetros.",
-          "reviewState": false
-        }
-      ],
-      "quizzes": [
-        {
-          "id": "q-lecture-1781222684219-0",
-          "question": "Qual das seguintes equações representa uma circunferência com centro no ponto \\((3, -4)\\) e raio 5?",
-          "options": [
-            "\\((x + 3)^2 + (y - 4)^2 = 25\\)",
-            "\\((x - 3)^2 + (y + 4)^2 = 25\\)",
-            "\\((x - 3)^2 + (y - 4)^2 = 5\\)"
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "A equação reduzida da circunferência é \\((x - a)^2 + (y - b)^2 = r^2\\). Para um centro \\((3, -4)\\), temos \\(a = 3\\) e \\(b = -4\\), resultando em \\((x - 3)^2\\) e \\((y - (-4))^2 = (y + 4)^2\\). Para um raio \\(r = 5\\), temos \\(r^2 = 5^2 = 25\\). Portanto, a equação correta é \\((x - 3)^2 + (y + 4)^2 = 25\\). A opção 0 está errada nos sinais do centro, e a opção 2 está errada no valor de \\(r^2\\)."
-        },
-        {
-          "id": "q-lecture-1781222684219-1",
-          "question": "Dada a equação da circunferência \\(x^2 + (y - 7)^2 = 81\\), quais são as coordenadas do centro e a medida do raio?",
-          "options": [
-            "Centro \\((0, 7)\\), Raio 9",
-            "Centro \\((0, -7)\\), Raio 9",
-            "Centro \\((0, 7)\\), Raio 81"
-          ],
-          "correctAnswerIndex": 0,
-          "explanation": "Na equação \\(x^2 + (y - 7)^2 = 81\\), podemos reescrever \\(x^2\\) como \\((x - 0)^2\\). Assim, comparando com \\((x - a)^2 + (y - b)^2 = r^2\\), temos \\(a = 0\\) e \\(b = 7\\), o que nos dá o centro \\((0, 7)\\). O termo \\(r^2 = 81\\), então o raio \\(r = \\sqrt{81} = 9\\). Portanto, a resposta correta é Centro \\((0, 7)\\), Raio 9. A opção 1 está errada no sinal do y do centro, e a opção 2 está errada no valor do raio."
-        },
-        {
-          "id": "q-lecture-1781222684219-2",
-          "question": "Qual a equação reduzida de uma circunferência que tangencia o eixo x no ponto \\((4, 0)\\) e tem raio 3?",
-          "options": [
-            "\\((x - 4)^2 + (y - 3)^2 = 9\\)",
-            "\\((x - 4)^2 + (y + 3)^2 = 9\\)",
-            "\\((x - 3)^2 + (y - 4)^2 = 9\\)"
-          ],
-          "correctAnswerIndex": 0,
-          "explanation": "Se a circunferência tangencia o eixo x no ponto \\((4, 0)\\) e tem raio 3, isso significa que o centro da circunferência deve ter a mesma coordenada x que o ponto de tangência, ou seja, \\(a = 4\\). Como o raio é 3 e a circunferência tangencia o eixo x (linha y=0), a coordenada y do centro deve ser \\(b = 3\\) (ou \\(b = -3\\), mas geralmente consideramos no semiplano superior se não especificado o contrário). Assim, o centro é \\((4, 3)\\) e o raio é \\(r = 3\\). A equação será \\((x - 4)^2 + (y - 3)^2 = 3^2\\), que é \\((x - 4)^2 + (y - 3)^2 = 9\\). A opção 1 teria centro \\((4,-3)\\), e a opção 2 teria centro \\((3,4)\\)."
-        }
-      ],
-      "chatHistory": [],
-      "createdAt": "2026-06-12T00:04:44.219Z"
-    },
-    {
-      "id": "lecture-1780940277768",
-      "userId": "user-1780940189456-00af3c6f",
-      "title": "A Raiz Quadrada: Conceitos Fundamentais e Resolução de Problemas para o 6º Ano",
-      "sourceUrl": "https://www.youtube.com/watch?v=i7bCpeTMgTU",
-      "category": "Matemática",
-      "moduleName": "Matemática Básica",
-      "duration": "09:20",
-      "status": "READY",
-      "progress": 100,
-      "summaryShort": "Este vídeo instrui sobre o conceito de raiz quadrada, sua relação com a potenciação, e métodos práticos para resolver problemas envolvendo o cálculo de raízes, direcionado a estudantes do 6º ano.",
-      "summaryFull": "A aula tem como objetivo principal introduzir o conceito de raiz quadrada para alunos do 6º ano do Ensino Fundamental, conectando-o diretamente à operação inversa da potenciação. O conteúdo aborda a definição formal de raiz quadrada de um número natural, explicando que encontrar a raiz quadrada de um número 'x' significa determinar um número 'y' que, quando multiplicado por si mesmo, resulta em 'x'. Serão apresentados exemplos práticos de como calcular raízes quadradas exatas de números perfeitos, utilizando a tabuada ou métodos de fatoração, quando pertinente, para auxiliar na compreensão.\n\nAlém da conceituação, o vídeo foca em como aplicar esse conhecimento na resolução de problemas cotidianos ou matemáticos. O material detalha a abordagem para um problema contextualizado, demonstrando o passo a passo da identificação da necessidade de usar a raiz quadrada até a obtenção da solução final. A metodologia inclui a visualização da operação e a verificação do resultado, consolidando o aprendizado de forma didática e acessível. A intenção é não apenas ensinar o cálculo, mas também desenvolver a capacidade de raciocínio lógico e aplicação de conceitos matemáticos em diferentes situações.",
-      "learningObjectives": [
-        "Definir o conceito de raiz quadrada e identificar sua relação com a potenciação.",
-        "Calcular raízes quadradas exatas de números naturais, aplicando métodos adequados para cada caso.",
-        "Resolver problemas que envolvem a aplicação de raízes quadradas em contextos práticos."
-      ],
-      "keyConcept": {
-        "title": "Raiz Quadrada",
-        "body": "A raiz quadrada de um número 'x' é um valor 'y' que, quando multiplicado por si mesmo ('y * y' ou 'y²'), resulta em 'x'. É uma das operações fundamentais da aritmética, representando a operação inversa da potenciação com expoente 2. Por exemplo, a raiz quadrada de 9 é 3, porque 3 ao quadrado (3²) é 9. Ela é simbolizada pelo radical (√), onde √x = y significa que y² = x. Compreender a raiz quadrada é essencial para o desenvolvimento de habilidades em álgebra, geometria e diversas áreas da matemática e ciências."
-      },
-      "transcriptionSegments": [
-        {
-          "time": "00:00",
-          "text": "Olá, pessoal! Sejam bem-vindos a mais uma aula de matemática. Hoje, vamos mergulhar no mundo da raiz quadrada, um conceito fundamental que usamos muito no nosso dia a dia."
-        },
-        {
-          "time": "01:15",
-          "text": "Primeiramente, o que é a raiz quadrada? Basicamente, é a operação inversa da potenciação ao quadrado. Se eu tenho um número 'y' e o elevo ao quadrado, ou seja, 'y' vezes 'y', chego a um resultado 'x'. A raiz quadrada de 'x' é justamente encontrar esse 'y'."
-        },
-        {
-          "time": "02:40",
-          "text": "Vamos ver como calcular algumas raízes quadradas exatas. Por exemplo, a raiz quadrada de 25 é 5, porque 5 vezes 5 é 25. É importante conhecermos os quadrados perfeitos para facilitar esse cálculo."
-        },
-        {
-          "time": "04:30",
-          "text": "Agora, vamos aplicar esse conhecimento na resolução de um problema. Imagine que temos um terreno quadrado com uma área de 64 metros quadrados. Como podemos descobrir a medida do lado desse terreno? Precisamos usar a raiz quadrada!"
-        },
-        {
-          "time": "06:10",
-          "text": "Para resolver o problema do terreno, calculamos a raiz quadrada de 64, que é 8. Isso significa que cada lado do terreno mede 8 metros. É a aplicação direta do conceito de raiz quadrada para encontrar a dimensão de um quadrado."
-        },
-        {
-          "time": "08:00",
-          "text": "Em resumo, a raiz quadrada nos ajuda a encontrar o número que, multiplicado por ele mesmo, resulta no número original. É uma ferramenta poderosa para diversos problemas, e com prática, vocês vão dominar esse conceito."
-        }
-      ],
-      "formulas": [
-        {
-          "title": "Definição de Raiz Quadrada",
-          "latex": "\\sqrt{x} = y \\iff y^2 = x",
-          "description": "Esta fórmula define a relação entre a raiz quadrada e a potenciação. Ela estabelece que a raiz quadrada de um número 'x' (√x) é igual a 'y' se, e somente se, 'y' elevado ao quadrado (y²) for igual a 'x'.",
-          "application": "Utilizada para encontrar o lado de um quadrado dada sua área, para calcular distâncias em geometria (Teorema de Pitágoras), e em diversas equações algébricas, especialmente ao se trabalhar com medidas e proporções.",
-          "variables": [
-            {
-              "name": "\\sqrt{x}",
-              "explanation": "Representa a raiz quadrada do número x, buscando o valor que ao ser elevado ao quadrado resulta em x."
-            },
-            {
-              "name": "y",
-              "explanation": "O valor da raiz quadrada de x; é o número que, multiplicado por si mesmo, resulta em x."
-            },
-            {
-              "name": "x",
-              "explanation": "O radicando, o número do qual se deseja extrair a raiz quadrada; é o valor de base para a operação de radiciação."
-            }
-          ]
-        }
-      ],
-      "flashcards": [
-        {
-          "id": "fc-lecture-1780940277768-0",
-          "question": "O que é uma raiz quadrada?",
-          "answer": "A raiz quadrada de um número é um outro número que, quando multiplicado por si mesmo, resulta no número original. É a operação inversa da potenciação ao quadrado.",
-          "difficulty": "good",
-          "reviewState": false
-        },
-        {
-          "id": "fc-lecture-1780940277768-1",
-          "question": "Qual a relação entre a raiz quadrada e a potenciação?",
-          "answer": "A raiz quadrada de um número N é o número R tal que R elevado ao quadrado (R²) é igual a N. Ou seja, são operações inversas que se anulam mutuamente.",
-          "reviewState": false
-        },
-        {
-          "id": "fc-lecture-1780940277768-2",
-          "question": "Qual o símbolo matemático utilizado para representar a raiz quadrada?",
-          "answer": "O símbolo é o radical, que se parece com um 'v' com um traço superior estendido: √. Ele indica a operação de radiciação.",
-          "reviewState": false
-        }
-      ],
-      "quizzes": [
-        {
-          "id": "q-lecture-1780940277768-0",
-          "question": "Qual a raiz quadrada de 81?",
-          "options": [
-            "7",
-            "9",
-            "8"
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "A raiz quadrada de 81 é 9, pois 9 multiplicado por 9 (9²) é igual a 81. A opção 7 está incorreta porque 7² = 49. A opção 8 está incorreta porque 8² = 64."
-        },
-        {
-          "id": "q-lecture-1780940277768-1",
-          "question": "Se a área de um quadrado é de 49 cm², qual é a medida do lado desse quadrado?",
-          "options": [
-            "7 cm",
-            "8 cm",
-            "6 cm"
-          ],
-          "correctAnswerIndex": 0,
-          "explanation": "A área de um quadrado é calculada pela fórmula A = L², onde L é a medida do lado. Para encontrar o lado, devemos calcular a raiz quadrada da área. Assim, a raiz quadrada de 49 é 7. Portanto, o lado do quadrado mede 7 cm. As outras opções estão erradas porque 8² = 64 e 6² = 36."
-        },
-        {
-          "id": "q-lecture-1780940277768-2",
-          "question": "A operação de calcular a raiz quadrada de um número é a inversa de qual outra operação matemática?",
-          "options": [
-            "Divisão",
-            "Potenciação ao quadrado",
-            "Multiplicação"
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "A raiz quadrada é a operação inversa da potenciação com expoente 2 (elevar ao quadrado). Por exemplo, 3² = 9 e √9 = 3. A divisão e a multiplicação não são as operações inversas diretas da radiciação nesse contexto, embora estejam relacionadas a operações de inversão de outras formas."
-        }
-      ],
-      "chatHistory": [],
-      "createdAt": "2026-06-08T17:37:57.768Z"
-    },
-    {
-      "id": "lecture-1780358378880",
-      "userId": "guest-c3bd9ea812356b3dde3f6d3a",
-      "title": "Fundamentos de Algoritmos: Conceituação, Propriedades e Análise de Complexidade",
-      "sourceUrl": "https://www.youtube.com/watch?v=r-Vuvb18kUk",
-      "category": "Ciência da Computação",
-      "moduleName": "Introdução à Algoritmos e Estruturas de Dados",
-      "duration": "42:30",
-      "status": "READY",
-      "progress": 100,
-      "summaryShort": "Este material explora a essência dos algoritmos, suas propriedades fundamentais e as bases da análise de complexidade para entender sua eficiência computacional.",
-      "summaryFull": "Este material didático aprofunda-se no conceito de algoritmo, uma sequência finita de instruções bem definidas e não ambíguas utilizada para resolver um problema ou realizar uma tarefa. Iniciamos com a definição formal e a contextualização histórica, destacando a relevância dos algoritmos na computação e em diversas áreas do conhecimento.\n\nEm seguida, detalhamos as propriedades essenciais que todo algoritmo deve possuir: finitude, clareza, entrada, saída e efetividade. Cada uma dessas características é explorada com exemplos práticos para solidificar a compreensão do estudante. Abordamos também as diferentes formas de representação, como pseudocódigo e fluxogramas, ferramentas cruciais para a comunicação e o desenvolvimento de soluções algorítmicas.\n\nFinalmente, introduzimos os princípios da análise de complexidade de algoritmos. Discutimos a importância de avaliar a eficiência de um algoritmo em termos de tempo de execução e uso de memória, apresentando a notação Big O como uma ferramenta fundamental para classificar o desempenho assintótico. Este estudo visa capacitar o aluno a não apenas conceber algoritmos, mas também a avaliar criticamente sua adequação para diferentes contextos computacionais.",
-      "learningObjectives": [
-        "Definir formalmente um algoritmo e listar suas cinco propriedades essenciais.",
-        "Compreender e aplicar diferentes formas de representação algorítmica, como pseudocódigo e fluxogramas.",
-        "Analisar a eficiência de algoritmos utilizando a notação Big O para tempo e espaço de execução.",
-        "Identificar a importância dos algoritmos na resolução de problemas computacionais e em aplicações do cotidiano."
-      ],
-      "keyConcept": {
-        "title": "O que é um Algoritmo?",
-        "body": "Um algoritmo é uma sequência finita e não ambígua de instruções bem definidas, executáveis em um número finito de passos, que, ao serem seguidas, levam à resolução de um problema ou à execução de uma tarefa específica. Em outras palavras, é uma 'receita' lógica e sistemática para alcançar um objetivo. A palavra 'algoritmo' deriva do matemático persa do século IX, Muhammad ibn Musa al-Khwarizmi, cujo trabalho com algarismos indo-arábicos e métodos de cálculo lançou as bases para o que hoje entendemos como processamento de dados e resolução de problemas computacionais. Os algoritmos são a espinha dorsal de todo o software e hardware modernos, desde um simples cálculo em uma calculadora até os sistemas complexos de inteligência artificial."
-      },
-      "transcriptionSegments": [
-        {
-          "time": "00:00",
-          "text": "Olá a todos e bem-vindos à nossa aula sobre Fundamentos de Algoritmos. Hoje, vamos desmistificar um dos conceitos mais centrais da ciência da computação e entender por que ele é tão crucial no mundo digital."
-        },
-        {
-          "time": "03:15",
-          "text": "Começamos com a definição formal. Um algoritmo é, essencialmente, uma sequência finita de instruções claras e precisas para resolver um problema. Pensem nele como uma receita de bolo: cada passo é uma instrução que, se seguida corretamente, leva ao resultado desejado, que é o bolo pronto."
-        },
-        {
-          "time": "08:40",
-          "text": "Quais são as propriedades fundamentais que todo algoritmo deve possuir? A finitude, que garante que ele sempre terminará; a clareza, onde cada instrução é inequívoca; a entrada e saída bem definidas; e a efetividade, que significa que cada passo pode ser executado e gera um resultado."
-        },
-        {
-          "time": "14:20",
-          "text": "Para representar algoritmos, temos ferramentas como o pseudocódigo, que é uma linguagem intermediária entre a linguagem natural e a linguagem de programação, e os fluxogramas, representações gráficas que ilustram o fluxo lógico do algoritmo de forma visual e intuitiva."
-        },
-        {
-          "time": "20:05",
-          "text": "Vamos agora aprofundar na análise de algoritmos. Não basta criar uma solução; precisamos saber quão boa ela é. Isso nos leva ao estudo da eficiência, que mede o consumo de recursos — tempo e espaço de memória — de um algoritmo em função do tamanho da entrada de dados."
-        },
-        {
-          "time": "26:30",
-          "text": "A Notação Big O é a ferramenta padrão para descrever a complexidade assintótica de um algoritmo. Ela nos permite classificar o comportamento de um algoritmo à medida que o tamanho da entrada cresce, ignorando constantes e termos de menor ordem para focar no seu crescimento dominante."
-        },
-        {
-          "time": "32:55",
-          "text": "Existem diversas classes de complexidade, como O(1) para tempo constante, O(log n) para logarítmico, O(n) para linear, O(n log n) para linearitmico, O(n^2) para quadrático e O(2^n) para exponencial. Cada uma delas tem implicações significativas na escalabilidade de um sistema."
-        },
-        {
-          "time": "38:10",
-          "text": "Entender algoritmos e sua análise é essencial não só para programadores, mas para qualquer profissional que lida com processamento de dados. Eles são a base para inovações em áreas como inteligência artificial, criptografia, otimização e processamento de grandes volumes de dados."
-        }
-      ],
-      "formulas": [
-        {
-          "title": "Função de Custo para Análise de Algoritmos",
-          "latex": "T(n) = c_1f_1(n) + c_2f_2(n) + \text{...} + c_kf_k(n)",
-          "description": "Esta fórmula representa a função de custo total, T(n), de um algoritmo, onde 'n' é o tamanho da entrada. Ela descreve o número de operações ou recursos (como tempo ou memória) consumidos pelo algoritmo. Cada c_i representa uma constante de tempo para uma operação específica, e f_i(n) é a frequência com que essa operação é executada, dependendo de 'n'.",
-          "application": "Utilizada para modelar o desempenho exato de um algoritmo em relação ao tamanho da entrada, permitindo uma análise detalhada antes de abstrações como a Notação Big O. É fundamental na fase inicial de projeto e otimização de algoritmos críticos.",
-          "variables": [
-            {
-              "name": "T(n)",
-              "explanation": "A função de custo total do algoritmo em relação ao tamanho da entrada 'n'."
-            },
-            {
-              "name": "n",
-              "explanation": "O tamanho da entrada de dados para o algoritmo."
-            },
-            {
-              "name": "c_i",
-              "explanation": "Uma constante que representa o custo de tempo ou espaço de uma operação básica específica."
-            },
-            {
-              "name": "f_i(n)",
-              "explanation": "Uma função que descreve a frequência com que a i-ésima operação é executada em relação ao tamanho da entrada 'n'."
-            }
-          ]
-        },
-        {
-          "title": "Notação Big O (Limite Superior Assintótico)",
-          "latex": "f(n) \text{ é } O(g(n)) \text{ se existem constantes } c > 0 \text{ e } n_0 \\ge 0 \\text{ tais que } 0 \\le f(n) \\le c \\cdot g(n) \\text{ para todo } n \\ge n_0",
-          "description": "A Notação Big O é usada para descrever o limite superior assintótico de uma função, fornecendo uma estimativa do comportamento de tempo de execução ou espaço de memória de um algoritmo para grandes entradas. Ela foca na ordem de crescimento, desconsiderando constantes e termos de menor ordem.",
-          "application": "É a principal ferramenta para classificar e comparar a eficiência de algoritmos. Permite aos desenvolvedores e pesquisadores prever como o desempenho de um algoritmo escalará com o aumento do volume de dados, auxiliando na escolha da melhor solução para um dado problema computacional.",
-          "variables": [
-            {
-              "name": "f(n)",
-              "explanation": "A função que descreve o tempo de execução real ou o uso de espaço do algoritmo em relação ao tamanho da entrada 'n'."
-            },
-            {
-              "name": "g(n)",
-              "explanation": "A função de limite superior que é usada para comparar com f(n), representando uma classe de crescimento (ex: n, n^2, log n)."
+              "explanation": "Coeficiente do termo linear (x)."
             },
             {
               "name": "c",
-              "explanation": "Uma constante positiva, um fator de escala que ajusta g(n) para ser maior ou igual a f(n)."
+              "explanation": "Termo constante ou independente de x."
+            }
+          ]
+        },
+        {
+          "title": "Fórmula do Discriminante (Delta)",
+          "latex": "\\Delta = b^2 - 4ac",
+          "description": "O discriminante é um componente da Fórmula de Bhaskara que indica a natureza das raízes de uma equação do segundo grau, antes mesmo de calculá-las completamente.",
+          "application": "Permite determinar se uma equação possui duas raízes reais e distintas (Δ > 0), uma única raiz real (Δ = 0), ou nenhuma raiz real (Δ < 0, apenas raízes complexas). É o primeiro passo crítico na aplicação de Bhaskara.",
+          "variables": [
+            {
+              "name": "\\Delta",
+              "explanation": "Discriminante, que determina a natureza das raízes."
             },
             {
-              "name": "n_0",
-              "explanation": "Um valor de entrada mínimo a partir do qual a condição f(n) <= c * g(n) é sempre verdadeira."
+              "name": "a",
+              "explanation": "Coeficiente do termo quadrático (x²)."
+            },
+            {
+              "name": "b",
+              "explanation": "Coeficiente do termo linear (x)."
+            },
+            {
+              "name": "c",
+              "explanation": "Termo constante."
+            }
+          ]
+        },
+        {
+          "title": "Fórmula de Bhaskara",
+          "latex": "x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}",
+          "description": "Esta fórmula é usada para encontrar as raízes (valores de x) de qualquer equação do segundo grau na forma ax² + bx + c = 0. Ela incorpora o discriminante para simplificar a apresentação.",
+          "application": "É a ferramenta mais completa para resolver equações quadráticas, aplicável a todos os casos (com Δ positivo, nulo ou negativo). É amplamente utilizada em física, engenharia e economia para resolver problemas que modelam fenômenos parabólicos ou otimizações.",
+          "variables": [
+            {
+              "name": "x",
+              "explanation": "Variável desconhecida, cujos valores são as raízes da equação."
+            },
+            {
+              "name": "a",
+              "explanation": "Coeficiente do termo quadrático (x²)."
+            },
+            {
+              "name": "b",
+              "explanation": "Coeficiente do termo linear (x)."
+            },
+            {
+              "name": "\\Delta",
+              "explanation": "Discriminante (calculado como b² - 4ac)."
             }
           ]
         }
       ],
       "flashcards": [
         {
-          "id": "fc-lecture-1780358378880-0",
-          "question": "Qual é a definição fundamental de um algoritmo e por que ele é considerado 'finito'?",
-          "answer": "Um algoritmo é uma sequência finita de instruções bem definidas e não ambíguas, projetadas para resolver um problema. Ele é considerado 'finito' porque, independentemente do problema ou dos dados de entrada, o algoritmo deve sempre terminar após um número limitado de passos, garantindo que não entre em um loop infinito ou processamento interminável.",
+          "id": "fc-lecture-1783310603004-0",
+          "question": "Qual é a condição essencial para que uma equação seja classificada como do segundo grau?",
+          "answer": "Para ser uma equação do segundo grau, ela deve ter a forma geral ax² + bx + c = 0, e o coeficiente 'a' (que acompanha o termo x²) deve ser diferente de zero. Se 'a' for zero, a equação se torna linear (primeiro grau).",
           "reviewState": false
         },
         {
-          "id": "fc-lecture-1780358378880-1",
-          "question": "Cite e explique duas das propriedades essenciais de um algoritmo, além da finitude.",
-          "answer": "Duas propriedades essenciais são: 1. **Clareza (ou Unambiguidade):** Cada instrução do algoritmo deve ser precisa e não deixar margem para interpretações múltiplas, de modo que cada passo seja compreendido e executado da mesma forma por qualquer executor. 2. **Efetividade:** Cada operação dentro do algoritmo deve ser básica e factível, ou seja, pode ser realizada por uma pessoa ou máquina em um tempo finito e com recursos disponíveis. As instruções não podem ser vagas ou impossíveis de executar.",
+          "id": "fc-lecture-1783310603004-1",
+          "question": "Qual é a função do discriminante (Δ) na Fórmula de Bhaskara?",
+          "answer": "O discriminante (Δ = b² - 4ac) serve para determinar a natureza das raízes de uma equação do segundo grau antes de calculá-las integralmente. Ele indica se haverá duas raízes reais e distintas (Δ > 0), uma única raiz real (Δ = 0) ou raízes complexas conjugadas (Δ < 0, sem raízes reais).",
           "reviewState": false
         },
         {
-          "id": "fc-lecture-1780358378880-2",
-          "question": "Para que serve a Notação Big O na análise de algoritmos e qual sua principal vantagem?",
-          "answer": "A Notação Big O serve para descrever o comportamento assintótico de um algoritmo, ou seja, como seu tempo de execução ou uso de espaço cresce à medida que o tamanho da entrada (n) se torna muito grande. Sua principal vantagem é a capacidade de classificar algoritmos em termos de sua escalabilidade, permitindo comparar a eficiência de diferentes soluções de forma independente de hardware ou detalhes de implementação, focando apenas na taxa de crescimento dominante.",
+          "id": "fc-lecture-1783310603004-2",
+          "question": "Se o discriminante (Δ) de uma equação do segundo grau for negativo, o que isso significa em termos de raízes reais?",
+          "answer": "Se o discriminante (Δ) for negativo (Δ < 0), significa que a equação do segundo grau não possui raízes reais. Neste caso, as soluções da equação são números complexos conjugados, que não podem ser representados na reta numérica real.",
           "reviewState": false
         }
       ],
       "quizzes": [
         {
-          "id": "q-lecture-1780358378880-0",
-          "question": "Qual das seguintes características NÃO é uma propriedade essencial de um algoritmo?",
+          "id": "q-lecture-1783310603004-0",
+          "question": "Qual dos seguintes conjuntos de coeficientes (a, b, c) resultaria em uma equação do segundo grau com duas raízes reais e distintas?",
           "options": [
-            "Capacidade de prever resultados futuros com 100% de precisão.",
-            "Ter um número finito de passos para completar sua execução.",
-            "Possuir instruções claras e sem ambiguidade."
+            "a=1, b=2, c=1",
+            "a=1, b=3, c=5",
+            "a=1, b=5, c=4"
+          ],
+          "correctAnswerIndex": 2,
+          "explanation": "Para ter duas raízes reais e distintas, o discriminante (Δ = b² - 4ac) deve ser maior que zero (Δ > 0). Calculando para cada opção:\n1. a=1, b=2, c=1: Δ = (2)² - 4(1)(1) = 4 - 4 = 0 (uma raiz real).\n2. a=1, b=3, c=5: Δ = (3)² - 4(1)(5) = 9 - 20 = -11 (nenhuma raiz real).\n3. a=1, b=5, c=4: Δ = (5)² - 4(1)(4) = 25 - 16 = 9 (duas raízes reais e distintas, pois 9 > 0).\nA opção correta é a terceira, pois seu discriminante é positivo."
+        },
+        {
+          "id": "q-lecture-1783310603004-1",
+          "question": "Dada a equação 3x² - 6x + 3 = 0, qual é o valor do discriminante (Δ)?",
+          "options": [
+            "Δ = -36",
+            "Δ = 0",
+            "Δ = 36"
+          ],
+          "correctAnswerIndex": 1,
+          "explanation": "Para a equação 3x² - 6x + 3 = 0, identificamos os coeficientes: a=3, b=-6, c=3. A fórmula do discriminante é Δ = b² - 4ac. Substituindo os valores, temos Δ = (-6)² - 4(3)(3) = 36 - 36 = 0. Portanto, o valor do discriminante é 0. Isso indica que a equação possui uma única raiz real (ou duas raízes reais e iguais)."
+        },
+        {
+          "id": "q-lecture-1783310603004-2",
+          "question": "Qual o principal erro que um estudante pode cometer ao aplicar a Fórmula de Bhaskara, especialmente em relação ao discriminante?",
+          "options": [
+            "Não identificar corretamente o valor de 'a', 'b' e 'c'.",
+            "Esquecer de aplicar a raiz quadrada no discriminante antes de somar/subtrair com '-b'.",
+            "Não considerar o sinal '±' na fórmula, calculando apenas uma das raízes."
           ],
           "correctAnswerIndex": 0,
-          "explanation": "A opção correta é 'Capacidade de prever resultados futuros com 100% de precisão'. Embora algoritmos sejam determinísticos e produzam os mesmos resultados para as mesmas entradas, sua função não é prever o futuro, mas sim resolver problemas baseados em dados existentes. As outras opções – finitude e clareza – são propriedades fundamentais de qualquer algoritmo válido."
-        },
-        {
-          "id": "q-lecture-1780358378880-1",
-          "question": "Um algoritmo que tem uma complexidade de tempo de O(n^2) significa que:",
-          "options": [
-            "Seu tempo de execução é constante, independentemente do tamanho da entrada.",
-            "Seu tempo de execução cresce quadraticamente com o aumento do tamanho da entrada.",
-            "Ele se torna mais rápido à medida que o tamanho da entrada aumenta, de forma logarítmica."
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "A opção correta é 'Seu tempo de execução cresce quadraticamente com o aumento do tamanho da entrada'. A notação O(n^2) indica que, se a entrada (n) dobra, o tempo de execução do algoritmo aumentará aproximadamente por um fator de quatro (2^2). Algoritmos O(1) têm tempo constante, e O(log n) são logarítmicos, tornando-se mais rápidos por unidade de trabalho conforme n cresce, não mais rápidos no geral. Algoritmos O(n^2) são geralmente considerados menos eficientes para grandes volumes de dados do que aqueles com complexidade linear ou logarítmica."
-        },
-        {
-          "id": "q-lecture-1780358378880-2",
-          "question": "Qual é a principal diferença entre pseudocódigo e fluxogramas na representação de algoritmos?",
-          "options": [
-            "Pseudocódigo é uma linguagem de programação real, enquanto fluxogramas são diagramas gráficos.",
-            "Pseudocódigo é textual e abstrato, enquanto fluxogramas são visuais e representam o fluxo lógico.",
-            "Fluxogramas são usados apenas para algoritmos simples, enquanto pseudocódigo é para algoritmos complexos."
-          ],
-          "correctAnswerIndex": 1,
-          "explanation": "A opção correta é 'Pseudocódigo é textual e abstrato, enquanto fluxogramas são visuais e representam o fluxo lógico'. O pseudocódigo utiliza uma linguagem próxima ao português (ou inglês), mas com estruturas de programação, sendo uma forma textual e abstrata de descrever o algoritmo. Já os fluxogramas são representações gráficas que usam símbolos padronizados para ilustrar a sequência de operações e decisões do algoritmo, focando no fluxo lógico. Nenhuma das duas é uma linguagem de programação real, e ambos podem ser usados para diferentes níveis de complexidade, dependendo da preferência e do contexto."
+          "explanation": "Embora esquecer a raiz quadrada ou o sinal '±' sejam erros comuns na parte final do cálculo, o erro mais fundamental e que invalida todo o processo desde o início é 'Não identificar corretamente o valor de 'a', 'b' e 'c'.' Se os coeficientes são inseridos incorretamente na fórmula do discriminante (Δ = b² - 4ac) ou na própria Fórmula de Bhaskara (x = [-b ± sqrt(Δ)] / 2a), todos os passos subsequentes estarão errados, mesmo que a metodologia de cálculo esteja correta. Os outros erros são operacionais, mas este é um erro conceitual inicial."
         }
       ],
       "chatHistory": [],
-      "createdAt": "2026-06-01T23:59:38.880Z"
+      "createdAt": "2026-07-06T04:03:23.004Z"
     },
     {
       "id": "lecture-1",
       "userId": "system",
-      "title": "Emaranhamento Quântico e Teoria da Informação",
+      "title": "Emaranhamento Quântico e Teoria da Informação (EXEMPLO DE ESTUDO)",
       "sourceUrl": "https://www.youtube.com/watch?v=zN_3EAsbyNo",
-      "category": "Física Avançada (Exemplo de estudo)",
+      "category": "Física Avançada (EXEMPLO DE ESTUDO)",
       "moduleName": "Módulo 4",
       "duration": "42:15",
       "status": "READY",
@@ -605,7 +316,7 @@
         }
       ],
       "chatHistory": [],
-      "createdAt": "2026-05-26T20:03:00.266Z"
+      "createdAt": "2026-07-06T01:12:22.796Z"
     }
   ]
 }

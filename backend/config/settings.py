@@ -1,12 +1,29 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variable definitions from .env file
-load_dotenv(BASE_DIR.parent / '.env')
+if load_dotenv is not None:
+    load_dotenv(BASE_DIR.parent / '.env')
+else:
+    env_path = BASE_DIR.parent / '.env'
+    if env_path.exists():
+        for line in env_path.read_text(encoding='utf-8').splitlines():
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
 
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-key-for-newstudy-study-plat-2026')
@@ -60,9 +77,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database Setup
-# Using the same remote Supabase/Postgre SQL parameters or a reliable Sqlite alternative
-DATABASE_URL = os.getenv('DATABASE_URL')
+# Prefer the direct Supabase URL for Django/Admin and fall back to the pooled URL if needed.
 import urllib.parse as urlparse
+
+DATABASE_URL = os.getenv('DIRECT_URL') or os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
     try:
@@ -75,23 +93,16 @@ if DATABASE_URL:
                 'PASSWORD': url.password,
                 'HOST': url.hostname,
                 'PORT': url.port or 5432,
+                'CONN_MAX_AGE': 60,
+                'OPTIONS': {
+                    'sslmode': 'require' if url.hostname and not url.hostname.startswith('localhost') else 'prefer',
+                },
             }
         }
     except Exception:
-        # Fallback to standard SQLite if parse fails
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
+        raise RuntimeError("Nao foi possivel configurar o banco de dados do Django a partir de DIRECT_URL/DATABASE_URL.")
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+    raise RuntimeError("DIRECT_URL ou DATABASE_URL precisa estar configurado para usar o mesmo banco do app principal.")
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = []

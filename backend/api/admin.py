@@ -26,18 +26,27 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Lecture)
 class LectureAdmin(admin.ModelAdmin):
-    list_display = ('get_title', 'user_id', 'created_at', 'id')
+    list_display = ('get_title', 'user_id', 'is_active', 'created_at', 'updated_at', 'id')
     search_fields = ('id', 'user_id')  # Se 'user' for ForeignKey, prefira 'user__name'
-    list_filter = ('created_at',)
+    list_filter = ('is_active', 'created_at')
     ordering = ('-created_at',)
+    actions = ('mark_active', 'mark_inactive')
+
+    def mark_active(self, request, queryset):
+        queryset.update(is_active=True)
+    mark_active.short_description = 'Marcar como ativo'
+
+    def mark_inactive(self, request, queryset):
+        queryset.update(is_active=False)
+    mark_inactive.short_description = 'Desativar estudo'
 
     def get_title(self, obj):
         try:
-            # Boa prática: previne quebras caso 'data' seja None ou não seja um dicionário
-            return obj.data.get('title', 'Sem Título') if obj.data else 'Sem Título'
+            # Boa pr?tica: previne quebras caso 'data' seja None ou n?o seja um dicion?rio
+            return obj.data.get('title', 'Sem T?tulo') if obj.data else 'Sem T?tulo'
         except Exception:
-            return "Módulo sem Título"
-    get_title.short_description = "Título do Material"
+            return 'M?dulo sem T?tulo'
+    get_title.short_description = 'T?tulo do Material'
 
 
 @admin.register(StudyCategory)

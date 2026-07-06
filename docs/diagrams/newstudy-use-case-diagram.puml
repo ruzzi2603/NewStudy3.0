@@ -1,0 +1,85 @@
+@startuml
+title NewStudy 3.0 - Diagrama de Casos de Uso
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Estudante" as Estudante
+actor "Administrador" as Administrador
+actor "YouTube" as YouTube
+actor "API Gemini" as Gemini
+actor "Banco de dados\n(Supabase / PostgreSQL)" as Banco
+
+rectangle "Plataforma NewStudy 3.0" {
+  usecase "Cadastrar-se" as UC_Cadastrar
+  usecase "Aceitar termos legais" as UC_Termos
+  usecase "Autenticar-se" as UC_Login
+  usecase "Restaurar sessão" as UC_Sessao
+  usecase "Importar aula por URL" as UC_Importar
+  usecase "Validar URL do YouTube" as UC_Validar
+  usecase "Extrair metadados e transcrição" as UC_Extrair
+  usecase "Gerar material de estudo" as UC_Gerar
+  usecase "Visualizar aula gerada" as UC_Visualizar
+  usecase "Interagir com tutor IA" as UC_Tutor
+  usecase "Revisar flashcards" as UC_Flashcards
+  usecase "Responder quiz" as UC_Quiz
+  usecase "Exportar material" as UC_Exportar
+  usecase "Organizar aula" as UC_Organizar
+  usecase "Excluir aula" as UC_Excluir
+  usecase "Consultar estatísticas" as UC_Estatisticas
+  usecase "Moderar aulas" as UC_Moderar
+  usecase "Ativar ou desativar aula" as UC_Ativar
+  usecase "Registrar observação de moderação" as UC_Observacao
+  usecase "Gerenciar conteúdo institucional" as UC_Conteudo
+}
+
+Estudante --> UC_Cadastrar
+Estudante --> UC_Login
+Estudante --> UC_Sessao
+Estudante --> UC_Importar
+Estudante --> UC_Visualizar
+Estudante --> UC_Tutor
+Estudante --> UC_Flashcards
+Estudante --> UC_Quiz
+Estudante --> UC_Exportar
+Estudante --> UC_Organizar
+Estudante --> UC_Excluir
+Estudante --> UC_Estatisticas
+
+Administrador --> UC_Moderar
+Administrador --> UC_Estatisticas
+Administrador --> UC_Conteudo
+
+UC_Cadastrar .> UC_Termos : <<incluir>>
+UC_Importar .> UC_Validar : <<incluir>>
+UC_Importar .> UC_Extrair : <<incluir>>
+UC_Importar .> UC_Gerar : <<incluir>>
+UC_Moderar .> UC_Ativar : <<incluir>>
+UC_Moderar .> UC_Observacao : <<incluir>>
+
+UC_Importar --> YouTube
+UC_Gerar --> Gemini
+UC_Importar --> Banco
+UC_Visualizar --> Banco
+UC_Tutor --> Gemini
+UC_Flashcards --> Banco
+UC_Quiz --> Banco
+UC_Exportar --> Banco
+UC_Organizar --> Banco
+UC_Excluir --> Banco
+UC_Estatisticas --> Banco
+UC_Moderar --> Banco
+UC_Conteudo --> Banco
+
+note bottom of UC_Importar
+  O sistema aceita a URL do vídeo,
+  verifica sua validade e aciona a
+  geração assíncrona do estudo.
+end note
+
+note right of UC_Moderar
+  O administrador avalia os estudos
+  publicados e remove conteúdos
+  inadequados quando necessário.
+end note
+
+@enduml

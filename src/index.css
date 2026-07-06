@@ -43,12 +43,14 @@
   transform: translateX(-50%);
   width: 80%;
   height: 50%;
-  background: radial-gradient(circle, rgba(255, 0, 150, 0.7) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(255, 0, 150, 0.7) 0%, transparent 100%);
   filter: blur(80px) hue-rotate(0deg);
-  animation: luzGirando 12s infinite linear;
+  animation: luzGirando 6s infinite linear;
   z-index: 0;
 }
-
+#chat-input-form{
+  color: #010101;
+}
 #dashboard-container > * {
   position: relative;
   z-index: 1;
@@ -233,7 +235,7 @@ background: linear-gradient(135deg, #242424 0%, #121557 58%, #202020 100%);
      color: #ffffff;
 }
 #chat-input{
-  background-color: #ffffff;
+
   width: 80%;
 }
 #cardAlgo{

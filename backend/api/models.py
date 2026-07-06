@@ -22,23 +22,26 @@ class User(models.Model):
 
 class Lecture(models.Model):
     """
-    2. Modelo para os Módulos de Estudo, correspondente à tabela 'lectures'.
+    2. Modelo para os Modulos de Estudo, correspondente a tabela 'lectures'.
     """
     id = models.CharField(max_length=100, primary_key=True)
     user_id = models.CharField(max_length=100, verbose_name="ID do Aluno")
-    data = models.JSONField(verbose_name="Conteúdo de Estudo (JSON)")
+    data = models.JSONField(verbose_name="Conteudo de Estudo (JSON)")
+    is_active = models.BooleanField(default=True, verbose_name="Ativo")
+    moderation_note = models.TextField(blank=True, default="", verbose_name="Observacao de Moderacao")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Sintetizado em")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Atualizado em")
 
     class Meta:
         db_table = 'lectures'
-        verbose_name = 'Módulo de Estudo'
-        verbose_name_plural = '2. Módulos de Estudo (AI)'
+        verbose_name = 'Modulo de Estudo'
+        verbose_name_plural = '2. Modulos de Estudo (AI)'
 
     def __str__(self):
         try:
-            return f"{self.data.get('title', 'Sem Título')} - ID: {self.id}"
+            return f"{self.data.get('title', 'Sem Titulo')} - ID: {self.id}"
         except Exception:
-            return f"Módulo {self.id}"
+            return f"Modulo {self.id}"
 
 
 class StudyCategory(models.Model):

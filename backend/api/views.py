@@ -216,7 +216,7 @@ def usage_statistics(request):
     Retorna as cotas de segurança e status do plano atual no backend.
     """
     session_id = request.COOKIES.get('newstudy_session', 'system')
-    saved_count = Lecture.objects.filter(user_id=session_id).count()
+    saved_count = Lecture.objects.filter(user_id=session_id, is_active=True).count()
 
     # Estrutura padrão de cotas e limites enviada ao frontend
     return Response({
@@ -255,9 +255,9 @@ def lecture_list_create(request):
     if request.method == 'GET':
         user_id = request.query_params.get('userId')
         if user_id:
-            lectures = Lecture.objects.filter(user_id=user_id).order_by('-created_at')
+            lectures = Lecture.objects.filter(user_id=user_id, is_active=True).order_by('-created_at')
         else:
-            lectures = Lecture.objects.all().order_by('-created_at')
+            lectures = Lecture.objects.filter(is_active=True).order_by('-created_at')
         
         # Mapeia para retornar o objeto JSON 'data' para compatibilidade com o frontend
         result = []
@@ -285,7 +285,7 @@ def lecture_list_create(request):
         user_id = data.get('userId') or request.COOKIES.get('newstudy_session', 'system')
 
         # Proteção contra inchaço (max 15 módulos por usuário)
-        if user_id != 'system' and Lecture.objects.filter(user_id=user_id).count() >= 15:
+        if user_id != 'system' and Lecture.objects.filter(user_id=user_id, is_active=True).count() >= 15:
             return Response(
                 {"error": "Limite de Seguranca Excedido: Seu deck pessoal possui o limite maximo de 15 módulos de estudo carregados simultaneamente. Exclua um modulo antigo para gerar mais."},
                 status=status.HTTP_403_FORBIDDEN
@@ -332,7 +332,7 @@ def lecture_detail_delete(request, pk):
     Recupera um material de estudos por id ou exclui ele do banco.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response(
             {"error": "Módulo de estudo não encontrado no banco de dados."},
@@ -357,7 +357,7 @@ def flashcard_review(request, pk):
     Altera a dificuldade ou estado de revisão marcados em um flashcard específico.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response(
             {"error": "Módulo de estudo correspondente não encontrado."},
@@ -405,7 +405,7 @@ def ask_question(request, pk):
     Envia uma pergunta sobre as anotações geradas ao tutor assistente via Inteligência Artificial.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response(
             {"error": "Conteúdo acadêmico correspondente não identificado no sistema."},
@@ -466,7 +466,7 @@ def add_custom_slide_note(request, pk):
     1. Adiciona ou atualiza uma anotação de texto personalizada enviada pelo estudante em um slide específico.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
     
@@ -500,7 +500,7 @@ def update_study_progress(request, pk):
     2. Atualiza de forma persistente a porcentagem de progresso de estudo concluída do material.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -529,7 +529,7 @@ def toggle_favorite(request, pk):
     3. Alterna a marcação de favorito ('favorite') do módulo de estudos.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -548,7 +548,7 @@ def register_quiz_score(request, pk):
     4. Registra e computa estatísticas das respostas do quiz realizadas pelo estudante.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -589,7 +589,7 @@ def reset_study_data(request, pk):
     5. Reseta inteiramente o progresso do módulo de estudos (chat, flashcards, progresso).
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -619,7 +619,7 @@ def export_lecture_markdown(request, pk):
     6. Exporta todo o material sintetizado em formato Markdown (.md) para download.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -661,7 +661,7 @@ def add_custom_flashcard(request, pk):
     7. Permite ao estudante criar manualmente novos flashcards de fixação personalizados.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -699,7 +699,7 @@ def delete_flashcard(request, pk):
     8. Exclui um flashcard específico do acervo de revisão do material.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -732,7 +732,7 @@ def assign_collection_folder(request, pk):
     9. Organiza o módulo em coleções temáticas ou pastas virtuais (ex: "Física", "Programação").
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         
@@ -753,7 +753,7 @@ def rename_lecture(request, pk):
     10. Altera o título formal ou descrição do material de estudo gerado.
     """
     try:
-        lecture = Lecture.objects.get(id=pk)
+        lecture = Lecture.objects.get(id=pk, is_active=True)
     except Lecture.DoesNotExist:
         return Response({"error": "Módulo não encontrado"}, status=status.HTTP_404_NOT_FOUND)
         

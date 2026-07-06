@@ -1,0 +1,82 @@
+@startuml
+title NewStudy 3.0 - Diagrama de Atividades
+skinparam packageStyle rectangle
+
+start
+
+partition "Estudante" {
+  :Informar URL do YouTube;
+  :Informar tema complementar, se desejar;
+}
+
+partition "Interface Web" {
+  :Validar formato básico do link;
+  if (URL com aparência válida?) then (sim)
+    :Enviar requisição de criação;
+  else (não)
+    :Exibir mensagem de erro;
+    stop
+  endif
+}
+
+partition "Servidor da aplicação" {
+  :Verificar autenticação e limites de uso;
+  if (Limite excedido?) then (sim)
+    :Retornar erro de quota;
+    stop
+  endif
+
+  :Validar URL do YouTube;
+  if (URL inválida?) then (sim)
+    :Retornar erro de validação;
+    stop
+  endif
+
+  :Criar registro da aula com status de processamento;
+  :Persistir registro no banco compartilhado;
+  :Responder imediatamente ao navegador;
+}
+
+partition "Interface Web" {
+  :Exibir card de processamento;
+  :Atualizar progresso periodicamente;
+}
+
+partition "Servidor da aplicação" {
+  :Extrair metadados do vídeo;
+  :Buscar transcrição disponível;
+
+  if (Transcrição disponível?) then (sim)
+    :Montar contexto principal com transcrição;
+  else (não)
+    :Montar contexto principal com metadados;
+  endif
+
+  :Enviar contexto à API Gemini;
+
+  if (Resposta recebida?) then (sim)
+    :Estruturar resumo, flashcards, quiz e conceitos;
+    :Atualizar aula com status concluído;
+  else (não)
+    :Marcar aula como falha;
+    :Registrar mensagem de erro;
+  endif
+}
+
+partition "Interface Web" {
+  if (Aula concluída?) then (sim)
+    :Exibir material pronto ao estudante;
+  else (não)
+    :Exibir aviso de falha no processamento;
+  endif
+}
+
+stop
+
+note bottom
+  O fluxo é assíncrono: a interface recebe
+  a confirmação inicial antes da conclusão
+  do processamento inteligente.
+end note
+
+@enduml

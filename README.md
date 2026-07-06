@@ -16,7 +16,7 @@ NewStudy e uma plataforma de estudo com IA que transforma aulas, links e materia
 
 - Frontend: React, TypeScript, Vite, Tailwind CSS e Motion
 - Backend principal: Node.js, Express e TypeScript
-- Persistencia: `db.json` com suporte opcional a PostgreSQL
+- Persistencia: PostgreSQL/Supabase compartilhado entre o app principal e o Django
 - IA: Google GenAI SDK
 - Admin legado/apoio: Django em `backend/`
 
@@ -85,7 +85,7 @@ http://127.0.0.1:8000/admin/
 - `npm run build` - gera o build de producao
 - `npm run start` - executa o build gerado
 - `npm run lint` - valida tipos TypeScript
-- `npm run clean` - remove `dist` e `db.json`
+- `npm run clean` - remove `dist`
 
 ## Estrutura principal
 
@@ -93,7 +93,7 @@ http://127.0.0.1:8000/admin/
 server.ts              # Servidor Express e rotas principais
 src/App.tsx            # Interface principal
 src/components/        # Telas e blocos reutilizaveis
-src/server/db.ts       # Persistencia local e Postgres
+src/server/db.ts       # Persistencia em PostgreSQL/Supabase
 src/server/ai.ts       # Integracao com o modelo de IA
 backend/               # Ambiente Django de apoio
 ```
