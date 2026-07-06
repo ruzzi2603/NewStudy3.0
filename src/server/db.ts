@@ -104,7 +104,7 @@ let pgPool: pg.Pool | null = null;
 function getPool(): pg.Pool | null {
   if (pgPool) return pgPool;
 
-  const pgConnectionString = process.env.DIRECT_URL || process.env.DATABASE_URL || process.env.PG_DATABASE_URL;
+  const pgConnectionString = process.env.DATABASE_URL || process.env.DIRECT_URL || process.env.PG_DATABASE_URL;
   const pgHost = process.env.PGHOST || process.env.DB_HOST;
 
   if (!pgConnectionString && !pgHost) {
@@ -134,8 +134,14 @@ function getPool(): pg.Pool | null {
     pgPool = new pg.Pool({
       ...config,
       max: 10,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000,
+      idleTimeoutMillis: 60000,
+      connectionTimeoutMillis: 10000,
+      allowExitOnIdle: true,
+    });
+
+    pgPool.on("error", (error: Error) => {
+      console.error("[Postgres] Erro no pool de conexões:", error);
+      isPgConnected = false;
     });
 
     console.log("[Postgres] Tentando conexao com o banco de dados remoto...");
@@ -179,12 +185,17 @@ export async function initializeDatabase() {
         password_hash TEXT NOT NULL,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         accepted_legal_version VARCHAR(50),
-        accepted_legal_at TIMESTAMP WITH TIME ZONE
+        accepted_legal_at TIMESTAMP WITH TIME ZONE,
+        is_active BOOLEAN NOT NULL DEFAULT TRUE
       );
     `);
 
     await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS accepted_legal_version VARCHAR(50);`);
     await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS accepted_legal_at TIMESTAMP WITH TIME ZONE;`);
+    await client.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT TRUE;`);
+    await client.query(`ALTER TABLE users ALTER COLUMN is_active SET DEFAULT TRUE;`);
+    await client.query(`UPDATE users SET is_active = TRUE WHERE is_active IS NULL;`);
+    await client.query(`ALTER TABLE users ALTER COLUMN is_active SET NOT NULL;`);
 
     await client.query(`
       CREATE TABLE IF NOT EXISTS lectures (
@@ -293,7 +304,7 @@ export async function getUserById(id: string): Promise<User | null> {
 export async function createNewUser(user: User): Promise<void> {
   const pool = await requirePool();
   await pool.query(
-    "INSERT INTO users (id, name, email, password_hash, created_at, accepted_legal_version, accepted_legal_at) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+    "INSERT INTO users (id, name, email, password_hash, created_at, accepted_legal_version, accepted_legal_at, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8::boolean, TRUE))",
     [
       user.id,
       user.name,
@@ -302,6 +313,7 @@ export async function createNewUser(user: User): Promise<void> {
       user.createdAt,
       user.acceptedLegalVersion ?? null,
       user.acceptedLegalAt ?? null,
+      user.isActive !== false,
     ]
   );
 }

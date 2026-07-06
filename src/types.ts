@@ -13,6 +13,7 @@ export interface User {
   acceptedTerms?: boolean;
   acceptedLegalVersion?: string;
   acceptedLegalAt?: string;
+  isActive?: boolean;
 }
 
 export interface TranscriptSegment {

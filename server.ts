@@ -369,6 +369,7 @@ async function startServer() {
         acceptedTerms: true,
         acceptedLegalVersion: acceptedLegalVersion.trim(),
         acceptedLegalAt: new Date().toISOString(),
+        isActive: true,
       };
 
       await createNewUser(newUser);
@@ -621,6 +622,8 @@ async function startServer() {
         return res.status(400).json({ error: youtubeValidation.message });
       }
 
+      const normalizedUrl = youtubeValidation.normalizedUrl;
+
       // Register generation click
       incrementGeneration(actor.identifier);
 
@@ -630,7 +633,7 @@ async function startServer() {
         id: newId,
         userId,
         title: topicHint || "Analisando Novo Conteúdo com Inteligência Artificial...",
-        sourceUrl: youtubeValidation.normalizedUrl,
+        sourceUrl: normalizedUrl,
         category: "Processando...",
         moduleName: "Módulo Dinâmico",
         duration: "00:00",
@@ -675,7 +678,7 @@ async function startServer() {
           }
 
           // Trigger powerful AI translation & summary generation safely using @google/genai SDK
-          const generatedData = await generateLectureStudyMaterial(youtubeValidation.normalizedUrl, topicHint);
+          const generatedData = await generateLectureStudyMaterial(normalizedUrl, topicHint);
 
           currentLecture = await getLecture(newId);
           if (currentLecture && currentLecture.status === "ANALYZING") {
